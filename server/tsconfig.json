@@ -4,6 +4,8 @@
         "outDir": "./build",
         "strict": false,
         "module": "CommonJS",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
     }
 }

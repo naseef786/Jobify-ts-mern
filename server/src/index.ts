@@ -1,16 +1,31 @@
-import express , {Request,Response} from 'express'
-import { jobs} from './data';
+import express  from 'express'
+import bodyParser from 'body-parser';
 import cors from 'cors'
-const app = express()
- 
+const  db = require('./Config/config')
+ import dotenv from 'dotenv'
+import { jobRouter } from './routers/jobRouter';
+import { seedRouter } from './routers/seedRouter';
+
+ dotenv.config()
+
+
+
+ const app = express()
+
+
 app.use(cors({
     credentials:true,
     origin:['http://localhost:5173']
 }))
 
-app.get('/api/jobs',(req:Request,res:Response) => {
-    res.json(jobs)
-})
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+
+app.use('/api/jobs',jobRouter)
+app.use('/api/seed',seedRouter)
 
 const PORT = 4000 
 app.listen(PORT,()=>{

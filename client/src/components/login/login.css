@@ -1,0 +1,48 @@
+.pageWrapper{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    background-color: #020A35;
+    ;
+}
+.main{  
+         width: 951.852px;
+    margin-bottom: 140px;
+    margin-top: 140px;
+    height: 609px;
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    background-color: #ebecf3;
+    align-content: center;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;}
+
+    .Rectangle22{
+    
+        width: 18rem;
+        height: 10rem;
+        margin-right: 57rem;
+        background: rgb(80, 100, 207);
+        border-radius: 15px;
+        margin-bottom: 20rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .form{
+        display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    flex-direction: column;
+  
+  
+    margin-top: -12rem;
+    width: 10rem;
+    height: 0rem;
+    }
+    

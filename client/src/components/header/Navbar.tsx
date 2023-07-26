@@ -21,12 +21,12 @@ function NavBar(): JSX.Element {
     dispatch({ type: 'SWITCH_MODE' })
   }
   return (
-    <header>
+    <header className='header'>
           <Navbar expand="lg" className="navbar">
       <Container>
         <Navbar.Brand>
           
-        <div className="Jobify" style={{width: '100%', height: '100%', textAlign: 'right', color: '#F8EDED', fontSize: 40, fontFamily: 'Patua One', fontWeight: '400', textTransform: 'uppercase', wordWrap: 'break-word'}}>JOBIFY</div>
+        <h5 className="Jobify" style={{width: '100%', height: '100%', textAlign: 'right', color: '020A35', fontSize: 40, fontFamily: 'Patua One', fontWeight: '400', textTransform: 'uppercase', wordWrap: 'break-word'}}>JOBIFY</h5>
         </Navbar.Brand>
       </Container>
       <Nav>

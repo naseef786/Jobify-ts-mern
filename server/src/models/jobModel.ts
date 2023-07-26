@@ -5,34 +5,25 @@ export class Job {
   public _id?: string
 
   @prop({ required: true })
-  public name!: string
-
-  @prop({ required: true, unique: true })
-  public slug!: string
+  title!: string;
 
   @prop({ required: true })
-  public image!: string
+  description!: string;
 
   @prop({ required: true })
-  public brand!: string
+  company!: string;
 
   @prop({ required: true })
-  public category!: string
+  location!: string;
 
   @prop({ required: true })
-  public description!: string
+  salary!: number;
 
-  @prop({ required: true, default: 0 })
-  public price!: number
+  @prop({ required: true })
+  requirements!: string;
 
-  @prop({ required: true, default: 0 })
-  public countInStock!: number
-
-  @prop({ required: true, default: 0 })
-  public rating!: number
-
-  @prop({ required: true, default: 0 })
-  public numReviews!: number
+  @prop({ required: true })
+  datePosted!: string;
 }
 
 export const JobModel = getModelForClass(Job)

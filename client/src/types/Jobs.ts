@@ -1,11 +1,11 @@
 export type Jobs = {
     id:number
-    name : String
+    title : String
     qualification : String
-    comapanyName : String
+    comapany : String
     location : String
     salary : number
-    jobDescsription : String
+    description : String
     shifts : String
     benefits  :String
     countOfStaffNeeded: number

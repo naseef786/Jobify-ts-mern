@@ -1,10 +1,15 @@
 import React from 'react'
+import { UserInfo } from '../types/UserInfo'
 
 type AppState = {
   mode: string
+  userInfo:UserInfo
 }
 
 const initialState: AppState = {
+
+  userInfo:localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')!):null,
+
   mode: localStorage.getItem('mode')
     ? localStorage.getItem('mode')!
     : window.matchMedia &&
@@ -12,13 +17,17 @@ const initialState: AppState = {
       ? 'dark'
       : 'light',
 }
-type Action = { type: 'SWITCH_MODE' }
+type Action = { type: 'SWITCH_MODE'} |
+              { type: 'USER_SIGNIN'; payload:UserInfo }
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case 'SWITCH_MODE':
       localStorage.setItem('mode', state.mode == 'dark' ? 'light' : 'dark')
       return { ...state, mode: state.mode == 'dark' ? 'light' : 'dark' }
+  
+  case 'USER_SIGNIN':
+    return {...state,userInfo:action.payload}
   }
 }
 

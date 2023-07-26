@@ -5,7 +5,7 @@ const  db = require('./Config/config')
  import dotenv from 'dotenv'
 import { jobRouter } from './routers/jobRouter';
 import { seedRouter } from './routers/seedRouter';
-
+import {userRouter} from './routers/candidate/userRouter'
  dotenv.config()
 
 
@@ -26,6 +26,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/jobs',jobRouter)
 app.use('/api/seed',seedRouter)
+app.use('/api/users',userRouter)
 
 const PORT = 4000 
 app.listen(PORT,()=>{

@@ -27,7 +27,7 @@ console.log(jobs);
   return (
     <>
       <NavBar />
-      <Container className='mt-3'>
+      <Container className='mt-3' style={{paddingTop: '150px'}}>
         <Row>
           <Helmet>
             <title>jobify - Jobs</title>
@@ -35,10 +35,10 @@ console.log(jobs);
           {jobs && jobs.length > 0 ? ( /* Add a check for 'jobs' and its length before mapping */
             jobs.map((job) => (
               <Col key={job.id} sm={6} md={4} lg={3}>
-                <h1>{job.name}</h1>
+                <h1>{job.title}</h1>
                 <li>{job.salary}</li>
-                <li>{job.comapanyName}</li>
-                <p>{job.jobDescsription}</p>
+                <li>{job.comapany}</li>
+                <p>{job.description}</p>
               </Col>
             ))
           ) : (

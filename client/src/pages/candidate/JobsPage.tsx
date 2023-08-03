@@ -1,14 +1,16 @@
 import React from 'react'
-import Login from '../../components/login/Login'
 import NavBar from '../../components/header/Navbar'
+import Jobs from '../../components/jobs/Jobs'
 import Footer from '../../components/footer/Footer'
 
-export default function Loginpage() {
+function JobsPage() {
   return (
     <>
-      <NavBar /> 
-      <Login />
-      <Footer /></>
+    <NavBar/>
+    <Jobs/>
+    <Footer/>
+    </>
   )
 }
 
+export default JobsPage

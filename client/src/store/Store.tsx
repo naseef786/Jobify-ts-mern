@@ -13,12 +13,13 @@ const initialState: AppState = {
   mode: localStorage.getItem('mode')
     ? localStorage.getItem('mode')!
     : window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
+      window.matchMedia('(prefers-color-scheme: light)').matches
       ? 'dark'
       : 'light',
 }
 type Action = { type: 'SWITCH_MODE'} |
-              { type: 'USER_SIGNIN'; payload:UserInfo }
+              { type: 'USER_SIGNIN'; payload:UserInfo }|
+              { type:'USER_SIGNOUT'}
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -28,7 +29,10 @@ function reducer(state: AppState, action: Action): AppState {
   
   case 'USER_SIGNIN':
     return {...state,userInfo:action.payload}
+  case 'USER_SIGNOUT': 
+  return {...state}
   }
+  
 }
 
 const defaultDispatch: React.Dispatch<Action> = () => initialState

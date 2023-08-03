@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    background: linear-gradient(172deg, #6644ff 50%, #ff99dd 300%);
+   padding: 0;
     font-family: "Euclid Circular A", "Poppins";
     color: #f7f7f7;
   }
@@ -15,7 +15,7 @@ body {
     left: 0;
     bottom: 12px;
     width: 100%;
-    background: #172940;
+    background: #906541;
     padding-top: 60px;
   }
   

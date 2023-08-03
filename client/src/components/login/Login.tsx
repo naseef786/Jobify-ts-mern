@@ -91,7 +91,7 @@ export default function SigninPage() {
   }, [navigate, redirect, userInfo])
 
   return (
-    <Container className="small-container" style={{width:'500px' ,marginTop: '150px',borderRadius:'6px', backgroundColor: '#020A35'}}>
+    <Container className="small-container" style={{width:'500px' ,marginTop: '150px',borderRadius:'6px', backgroundColor: '#a1a15f'}}>
       <Helmet>
         <title>Sign In</title>
       </Helmet>

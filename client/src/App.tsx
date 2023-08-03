@@ -6,28 +6,30 @@ import AdminRouter from './routes/adminRouter/AdminRouter';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
 
   return (
     <HelmetProvider>
-     
-    <BrowserRouter>
 
-    <Routes>
-    <Route path={'/*'} element={<CandidteRouter/>} />
+      <BrowserRouter>
+        <ToastContainer position="bottom-center" limit={1} />
 
-{/* Hirer Router */}
-{/* <Route path={'/Hirer/*'} element={<HirerRouter/>} /> */}
+        <Routes>
+          <Route path={'/*'} element={<CandidteRouter />} />
 
-{/* Admin Router */}
-<Route path={'/admin/*'} element={<AdminRouter />} />
-    </Routes>
+          {/* Hirer Router */}
+          {/* <Route path={'/Hirer/*'} element={<HirerRouter/>} /> */}
 
-    </BrowserRouter>
-    <ReactQueryDevtools initialIsOpen={false}/>
-  
+          {/* Admin Router */}
+          <Route path={'/admin/*'} element={<AdminRouter />} />
+        </Routes>
+
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
+
     </HelmetProvider>
   )
 }

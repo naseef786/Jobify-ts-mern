@@ -14,9 +14,7 @@ function AdminPage() {
     <div className='basis-[80%] border ' >
     <DashboardNav/>
     <div>
-    <Outlet>
-      
-    </Outlet>
+    <Outlet/>
     </div>
     </div>
 </div>

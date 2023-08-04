@@ -19,12 +19,8 @@ function App() {
 
         <Routes>
           <Route path={'/*'} element={<CandidteRouter />} />
-
-          {/* Hirer Router */}
-          {/* <Route path={'/Hirer/*'} element={<HirerRouter/>} /> */}
-
-          {/* Admin Router */}
           <Route path={'/admin/*'} element={<AdminRouter />} />
+          <Route path={'/hirer/*'} element={<HirerRouter/>} />
         </Routes>
 
       </BrowserRouter>

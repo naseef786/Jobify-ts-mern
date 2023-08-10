@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HirerRouter from './routes/hirerRouter/HirerRouter';
 import AdminRouter from './routes/adminRouter/AdminRouter';
 import { HelmetProvider } from 'react-helmet-async';
-
+import 'react-toastify/dist/ReactToastify.css';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ToastContainer } from 'react-toastify';
 
@@ -15,7 +15,7 @@ function App() {
     <HelmetProvider>
 
       <BrowserRouter>
-        <ToastContainer position="bottom-center" limit={1} />
+        <ToastContainer className="toast-container" position="top-right" autoClose={3000} />
 
         <Routes>
           <Route path={'/*'} element={<CandidteRouter />} />

@@ -1,11 +1,10 @@
 import React from 'react'
 import { PaperClipIcon } from '@heroicons/react/20/solid'
-import Nav from '../header/Nav'
+
 
 
 const Applyform = ()=> {
   return (<>
-    <Nav/>
     <div>
       <div className="px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">Applicant Information</h3>

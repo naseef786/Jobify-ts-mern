@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer utilities {
     /* Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
@@ -13,8 +14,12 @@
       scrollbar-width: none; /* Firefox */
     }
 }
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap');
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, system-ui, Avenir, Helvetica,'Poppins', Arial, sans-serif;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,6 +32,31 @@
   margin: 0;
   padding: 0;
 }
+body{
+  background-color: white;
+}
+
+li{
+  list-style:none;
+  cursor: pointer;
+  position: relative;
+}
+li:hover::before{
+position: absolute;
+content: '';
+width: 100%;
+background-color: #2a68ff;
+right: 0;
+color:#2a68ff;
+
+}
+
+
+.icon{
+  cursor: pointer;
+
+}
+
 
 main {
   
@@ -56,52 +86,51 @@ overflow: hidden;
   
 }
 /* Basic button styles */
-.buttonapply {
+/* .buttonapply {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #a1a15f; /* Blue color, you can change it to your preferred color */
-  color: #fff; /* White text color */
+  background-color: #a1a15f; 
+  color: #fff;
   border: none;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.3s ease-in-out;
-}
+} */
 
 /* Button hover effect */
-.buttonapply:hover {
-  background-color:  #906541; /* Darker shade of the button color on hover */
-}
+/* .buttonapply:hover {
+  background-color:  #906541; } */
 
 /* Button active effect */
-.buttonapply:active {
-  background-color:#ffff; /* Even darker shade of the button color when clicked */
-}
+/* .buttonapply:active {
+  background-color:#ffff;
+} */
 
 /* Button focus outline */
-.buttonapply:focus {
+/* .buttonapply:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3); /* Light blue shadow when button is focused */
-}
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+} */
 
 
-.small-container {
+/* .small-container {
   margin-top: 100px;
   overflow: hidden;
   max-width: 600px;
   width: 1000px;
-}
-.style {
+} */
+/* .style {
   width: 21rem;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  /* align-content: center; */
+
   justify-content: center;
-  /* align-items: center; */
+
   margin-left: 27rem;
-}
+} */
 
 
 

@@ -7,7 +7,14 @@ export default {
     "./node_modules/tw-elements/dist/js/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        'blueColor':'#2a68ff',
+        'grewIsh' : '#f1f4f8',
+        'CardShasow':'#f7f8f9',
+        'textColor' :'#252b36'
+      }
+    },
   },
   plugins: [
     require("tw-elements/dist/plugin.cjs"),

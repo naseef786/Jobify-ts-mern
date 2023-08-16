@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BiTimeFive } from 'react-icons/bi';
 import { useGetJobsQuery } from '../../hooks/jobHooks';
 import LoadingBox from '../loadingBox/LoadingBox';
@@ -7,8 +7,24 @@ import { getError } from '../../utils';
 import { ApiError } from '../../types/ApiError';
 import { Helmet } from 'react-helmet-async';
 
-const Jobview = () => {
-    const { data: jobs, isLoading, error } = useGetJobsQuery();
+import { Jobs } from '../../types/Jobs';
+import { useQuery } from '@tanstack/react-query';
+interface JobListPageProps {
+    searchQuery: string;
+  }
+
+
+  const fetchJobs = async (query: string) => {
+    const response = await fetch(`/api/jobs/search?query=${query}`);
+    return response.json();
+  };
+
+
+const Jobview: React.FC<JobListPageProps> = ({ searchQuery }) => {
+    // const { data: jobs, isLoading, error } = useGetJobsQuery();
+    const { data, error, isLoading } = useQuery(['jobs', searchQuery], () =>
+    fetchJobs(searchQuery)
+  );
 
     if (isLoading) {
         return <LoadingBox />;
@@ -24,8 +40,8 @@ const Jobview = () => {
             <title>jobify - Jobs</title>
           </Helmet>
             <div className='jobContainer flex gap-10 justify-center flex-wrap items-center py-10'>
-            {jobs && jobs.length > 0 ? (
-                 jobs.map((job) => (
+            {data && data.length > 0 ? (
+                 data.map((job:Jobs) => (
                 <div className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'>
                     <span className='flex justify-between items-center gap-4'>
                         <h1 className='text-[16px] font-semibold text-black group-hover:text-white'>{job.title} </h1>

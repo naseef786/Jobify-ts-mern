@@ -7,19 +7,15 @@ import SearchBox from '../../components/search/Search'
 import Jobview from '../../components/jobs/Jobview'
 
 function JobsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   return (
     <>
     <TileNav/>
 
-    <SearchBox onSearch={handleSearch}/>
+    <SearchBox setSearchTerm={setSearchTerm}/>
    
-    <Jobview searchQuery={searchQuery}/>
+    <Jobview searchTerm={searchTerm}/>
     <Footer/>
     </>
   )

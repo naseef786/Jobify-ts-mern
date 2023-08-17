@@ -1,9 +1,10 @@
 import React from 'react'
 import { UserInfo } from '../types/UserInfo'
-
+import { Jobs } from '../types/Jobs'
 type AppState = {
   mode: string
   userInfo:UserInfo
+  searchTerm: string// Add this field
 }
 
 const initialState: AppState = {
@@ -16,10 +17,12 @@ const initialState: AppState = {
       window.matchMedia('(prefers-color-scheme: light)').matches
       ? 'dark'
       : 'light',
+      searchTerm: '', // Add the initial search term
 }
 type Action = { type: 'SWITCH_MODE'} |
               { type: 'USER_SIGNIN'; payload:UserInfo }|
-              { type:'USER_SIGNOUT'}
+              { type:'USER_SIGNOUT'} |
+              { type: 'UPDATE_SEARCH_TERM'; payload: string };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -31,6 +34,8 @@ function reducer(state: AppState, action: Action): AppState {
     return {...state,userInfo:action.payload}
   case 'USER_SIGNOUT': 
   return {...state}
+  case 'UPDATE_SEARCH_TERM':
+    return { ...state, searchTerm: action.payload };
   }
   
 }

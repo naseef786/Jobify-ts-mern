@@ -3,13 +3,19 @@ import { Jobs } from "../types/Jobs"
 import {useQuery,useMutation} from '@tanstack/react-query'
 
 
-export const useGetJobsQuery = () => {
-   return useQuery({
-        queryKey:['jobs'],
-        queryFn: async ()=>( await apiClient.get<Jobs[]>(`/api/jobs`)).data
+// export const useGetJobsQuery = () => {
+//    return useQuery({
+//         queryKey:['jobs'],
+//         queryFn: async ()=>( await apiClient.get<Jobs[]>(`/api/jobs`)).data
         
-    })
-}
+//     })
+// }
+export const useGetJobsQuery = (searchTerm: string = '') => {
+  return useQuery(['jobs', searchTerm], async () => {
+    const response = await apiClient.get<Jobs[]>(`/api/jobs?search=${searchTerm}`);
+    return response.data;
+  });
+};
 
 // export const useGetJobsQuery = () => {
 //     return useQuery<Jobs[], Error>('jobs', async () => {

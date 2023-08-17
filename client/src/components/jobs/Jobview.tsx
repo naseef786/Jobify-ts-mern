@@ -8,23 +8,23 @@ import { ApiError } from '../../types/ApiError';
 import { Helmet } from 'react-helmet-async';
 
 import { Jobs } from '../../types/Jobs';
-import { useQuery } from '@tanstack/react-query';
-interface JobListPageProps {
-    searchQuery: string;
-  }
+
+interface JobListProps {
+  searchTerm: string;
+}
 
 
-  const fetchJobs = async (query: string) => {
-    const response = await fetch(`/api/jobs/search?query=${query}`);
-    return response.json();
-  };
+  // const fetchJobs = async (query: string) => {
+  //   const response = await fetch(`/api/jobs/search?query=${query}`);
+  //   return response.json();
+  // };
 
 
-const Jobview: React.FC<JobListPageProps> = ({ searchQuery }) => {
-    // const { data: jobs, isLoading, error } = useGetJobsQuery();
-    const { data, error, isLoading } = useQuery(['jobs', searchQuery], () =>
-    fetchJobs(searchQuery)
-  );
+const Jobview:React.FC<JobListProps>= ({ searchTerm }) => {
+  const { data: jobs, isLoading, error } = useGetJobsQuery(searchTerm);
+  //   const { data, error, isLoading } = useQuery(['jobs', searchQuery], () =>
+  //   fetchJobs(searchQuery)
+  // );
 
     if (isLoading) {
         return <LoadingBox />;
@@ -34,14 +34,15 @@ const Jobview: React.FC<JobListPageProps> = ({ searchQuery }) => {
         return <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>;
       }
 
+      
     return (
         <div>
              <Helmet>
             <title>jobify - Jobs</title>
           </Helmet>
             <div className='jobContainer flex gap-10 justify-center flex-wrap items-center py-10'>
-            {data && data.length > 0 ? (
-                 data.map((job:Jobs) => (
+            {jobs && jobs.length > 0 ? (
+                 jobs.map((job:Jobs) => (
                 <div className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'>
                     <span className='flex justify-between items-center gap-4'>
                         <h1 className='text-[16px] font-semibold text-black group-hover:text-white'>{job.title} </h1>
@@ -60,6 +61,7 @@ const Jobview: React.FC<JobListPageProps> = ({ searchQuery }) => {
                     <button className='border-2 rounded-[10px] block p-[10px] text-[14px] font-semibold text-textColor hover:bg-white group-hover:item:text-slate-400 group-hover:text-black'>
                         Apply Now
                     </button>
+                    
                 </div>))):(
                     <MessageBox variant="info">No jobs found.</MessageBox> /* Display a message when 'jobs' is empty or undefined */ 
                 )}

@@ -1,6 +1,8 @@
-import { modelOptions, prop, getModelForClass } from '@typegoose/typegoose'
+import { modelOptions, prop,index, getModelForClass } from '@typegoose/typegoose'
 
 @modelOptions({ schemaOptions: { timestamps: true } })
+@index({ title: 'text', description: 'text', location: 'text', company: 'text' })
+
 export class Job {
   public _id?: string
 

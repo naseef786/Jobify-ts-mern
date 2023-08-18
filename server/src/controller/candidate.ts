@@ -1,6 +1,6 @@
 import express,{Request,Response} from 'express'
 import asyncHandler from 'express-async-handler'
-import { UserModel, User } from '../models/userModel'
+import { User, UserModel } from '../models/userModel'
 import { generateToken } from '../Utils/utils'
 import bcrypt from 'bcryptjs'
 
@@ -10,9 +10,9 @@ export const candidateSignin = asyncHandler(async(req:Request,res:Response)=>{
         if(bcrypt.compareSync(req.body.password,user.password)){
             res.json({
                 _id:user._id,
-                name:user.firstName,
+                name:user.name,
                 email:user.email,
-                isActive:user.isActive,
+                isAdmin:user.isAdmin,
                 token:generateToken(user)
             })
             return
@@ -24,16 +24,15 @@ export const candidateSignin = asyncHandler(async(req:Request,res:Response)=>{
 
     export const candidateSignup =    asyncHandler(async (req: Request, res: Response) => {
         const user = await UserModel.create({
-          firstName: req.body.firstname,
-          lastName:req.body.lastname,
+          name: req.body.name,
           email: req.body.email,
           password: bcrypt.hashSync(req.body.password),
         } as User)
         res.json({
           _id: user._id,
-          name: user.firstName,
+          name: user.name,
           email: user.email,
-          isAdmin: user.isActive,
+          isAdmin: user.isAdmin,
           token: generateToken(user),
         })
       })

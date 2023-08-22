@@ -8,8 +8,7 @@ const Testinomial = ()=> {
           <figure className="mt-10">
             <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
               <p>
-                “Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias
-                molestiae. Numquam corrupti in laborum sed rerum et corporis.”
+                “I've been on the hunt for my next career move for a while now, and I can confidently say that Jobify has been an absolute game-changer. From the moment I signed up, I was impressed by the seamless experience and the wealth of opportunities available.”
               </p>
             </blockquote>
             <figcaption className="mt-10">

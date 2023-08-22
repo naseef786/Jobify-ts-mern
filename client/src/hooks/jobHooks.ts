@@ -12,7 +12,7 @@ import {useQuery,useMutation} from '@tanstack/react-query'
 // }
 export const useGetJobsQuery = (searchTerm: string = '') => {
   return useQuery(['jobs', searchTerm], async () => {
-    const response = await apiClient.get<Jobs[]>(`/api/jobs?search=${searchTerm}`);
+    const response = await apiClient.get<Jobs[]>(`/api/users/jobs?search=${searchTerm}`);
     return response.data;
   });
 };

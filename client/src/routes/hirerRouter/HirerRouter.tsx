@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '../../pages/candidate/HomePage';
 import HirerSidebar from '../../components/hirer_dashboard/HirerSidebar';
-import HirerPage from '../../pages/hirer/HirerPage';
+import HirerPage from '../../pages/recruiter/HirerPage';
 function HirerRouter() {
   return (
     <Routes>

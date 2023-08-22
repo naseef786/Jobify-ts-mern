@@ -5,8 +5,8 @@ const db = require('./Config/config')
 import dotenv from 'dotenv'
 import { jobRouter } from './routers/jobRouter';
 import { seedRouter } from './routers/seedRouter';
-import { userRouter } from './routers/candidate/userRouter'
-
+import  userRouter  from './routers/candidateRouter'
+import path from 'path'
 
 
 dotenv.config()
@@ -14,7 +14,7 @@ dotenv.config()
 
 
 const app = express()
-
+app.use('/',express.static(path.join(__dirname,'./public')))
 
 app.use(cors({
     credentials: true,

@@ -1,6 +1,6 @@
 import React from 'react'
 import Sidebar from '../../components/dashboard/Sidebar'
-import DashboardNav from '../../components/dashboard/Dashboardnav'
+import DashboardNav from '../../components/dashboard/DashboardNav'
 // import NavBar from '../../components/header/Navbar'
 // import Test from '../../components/test/Test'
 // import Footer from '../../components/footer/Footer'

@@ -1,7 +1,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 import { JobModel } from '../models/jobModel'
-import { jobs } from '../data'
+import { jobs } from '../src/data'
 
 
 export const jobRouter = express.Router()

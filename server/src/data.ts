@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
-import { User } from './models/userModel'
-import { Job } from './models/jobModel'
+import { User } from '../models/userModel'
+import { Job } from '../models/jobModel'
 
 export const jobs: Job[] = [
   {

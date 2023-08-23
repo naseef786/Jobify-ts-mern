@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
-import { jobs, sampleUsers } from '../data'
+import { jobs, sampleUsers } from '../src/data'
 import { JobModel } from '../models/jobModel'
 import { UserModel } from '../models/userModel'
 

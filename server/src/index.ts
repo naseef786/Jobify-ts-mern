@@ -1,11 +1,11 @@
 import express from 'express'
 import bodyParser from 'body-parser';
 import cors from 'cors'
-const db = require('./Config/config')
+const db = require('../Config/config')
 import dotenv from 'dotenv'
-import { jobRouter } from './routers/jobRouter';
-import { seedRouter } from './routers/seedRouter';
-import  userRouter  from './routers/candidateRouter'
+import { jobRouter } from '../routers/jobRouter';
+import { seedRouter } from '../routers/seedRouter';
+import  userRouter  from '../routers/candidateRouter'
 import path from 'path'
 
 

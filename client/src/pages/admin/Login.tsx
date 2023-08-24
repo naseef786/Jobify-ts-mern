@@ -1,9 +1,10 @@
 import React from 'react'
-import SignIn from '../../components/login/AdminLogin'
+import AdminSignIn from '../../components/login/AdminLogin'
+
 export default function Login () {
   return (
     <>
-    <SignIn/>
+    <AdminSignIn/>
     </>
   )
 }

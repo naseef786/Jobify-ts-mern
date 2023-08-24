@@ -20,25 +20,7 @@ export const useSigninMutation = () =>
   })
 
 
-  export const useAdminSigninMutation = () =>
-  useMutation({
-    mutationFn: async ({
-      email,
-      password,
-      admin
-    }: {
-      email: string
-      password: string
-      admin :boolean
-    }) =>
-      (
-        await apiClient.post<UserInfo>(`api/admin/signin`, {
-          email,
-          password,
-          admin
-        })
-      ).data,
-  })
+
 
 export const useSignupMutation = () =>
   useMutation({

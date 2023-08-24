@@ -1,20 +1,30 @@
-import express,{Request,Response} from 'express'
+import express,{NextFunction, Request,Response} from 'express'
 import asyncHandler from 'express-async-handler'
 import { User, UserModel } from '../models/userModel'
-import { generateToken } from '../Utils/utils'
+import { generateUserToken } from '../Utils/utils'
 import bcrypt from 'bcryptjs'
 import { JobModel } from '../models/jobModel'
+import zxcvbn from 'zxcvbn';
 
-export const candidateSignin = asyncHandler(async(req:Request,res:Response)=>{
-    const user = await UserModel.findOne({email:req.body.email})
+export const candidateSignin = asyncHandler(async(req:Request,res:Response,next:NextFunction)=>{
+  const{email,password} = req.body;
+  if(!email){
+    next("provide an email")
+  }
+  if(!password){
+    next("please enter your password")
+  }
+
+    const user = await UserModel.findOne({email:email})
+    
     if(user){
-        if(bcrypt.compareSync(req.body.password,user.password)){
+        if(bcrypt.compareSync(password,user.password)){
             res.json({
                 _id:user._id,
                 name:user.name,
                 email:user.email,
                 isAdmin:user.isAdmin,
-                token:generateToken(user)
+                token:generateUserToken(user)
             })
             return
         }
@@ -23,18 +33,27 @@ export const candidateSignin = asyncHandler(async(req:Request,res:Response)=>{
     
     })
 
-    export const candidateSignup =    asyncHandler(async (req: Request, res: Response) => {
+    export const candidateSignup =    asyncHandler(async (req: Request, res: Response,next:NextFunction) => {
+        const {name,email,password} = req.body
+      const existingEmail =   await UserModel.findOne({email:email})
+      if(existingEmail){
+        next("email have been already registered")
+      }
+      // const passwordStrength = zxcvbn(password);
+      // if (passwordStrength.score < 3) {
+      //   next('Password is not strong enough. Please choose a stronger password.');
+      // }
         const user = await UserModel.create({
-          name: req.body.name,
-          email: req.body.email,
-          password: bcrypt.hashSync(req.body.password),
+          name: name,
+          email: email,
+          password: bcrypt.hashSync(password),
         } as User)
         res.json({
           _id: user._id,
           name: user.name,
           email: user.email,
           isAdmin: user.isAdmin,
-          token: generateToken(user),
+          token: generateUserToken(user),
         })
       })
 

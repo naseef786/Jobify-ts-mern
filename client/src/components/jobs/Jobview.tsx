@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { BiTimeFive } from 'react-icons/bi';
 import { useGetJobsQuery } from '../../hooks/jobHooks';
 import LoadingBox from '../loadingBox/LoadingBox';

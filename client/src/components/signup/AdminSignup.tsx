@@ -1,53 +1,60 @@
 import React,{useContext,useState,useEffect} from "react";
 import { useLocation, useNavigate,Link } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
-import { useSigninMutation } from "../../hooks/userHooks";
+import {  useAdminSignupMutation} from "../../hooks/adminHooks.ts";
 import { getError } from "../../utils";
 import { ApiError } from "../../types/ApiError";
 import { Store } from "../../store/Store";
 import { toast } from 'react-toastify'
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../loadingBox/LoadingBox";
-export default function SignIn(): JSX.Element {
+export default function AdminSignUp(): JSX.Element {
 
     const navigate = useNavigate()
     const { search } = useLocation()
     const redirectInUrl = new URLSearchParams(search).get('redirect')
-    const redirect = redirectInUrl ? redirectInUrl : '/'
+    const redirect = redirectInUrl ? redirectInUrl : '/admin'
   
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+
+  const [email, setEmail] = useState('')
+  const[name , setName] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   
     const { state, dispatch } = useContext(Store)
-    const { userInfo } = state
+    const { adminInfo } = state
   
-    const { mutateAsync: signin, isLoading } = useSigninMutation()
+    const { mutateAsync: signup, isLoading } = useAdminSignupMutation()
   
     const submitHandler = async (e: React.SyntheticEvent) => {
-      e.preventDefault()
-      try {
-        const data = await signin({
-          email,
-          password,
-        })
-        dispatch({ type: 'USER_SIGNIN', payload: data })
-        localStorage.setItem('userInfo', JSON.stringify(data))
-        navigate(redirect)
-      } catch (err) {
-        toast.error(getError(err as ApiError))
+        e.preventDefault()
+        if (password !== confirmPassword) {
+            toast.error('Passwords do not match')
+            return
+          }
+          try {
+            const data = await signup({
+              name,
+              email,
+              password,
+            })
+            dispatch({ type: 'ADMIN_SIGNIN', payload: data })
+            localStorage.setItem('adminInfo', JSON.stringify(data))
+            navigate(redirect)
+          } catch (err) {
+            toast.error(getError(err as ApiError))
+          }
       }
-    }
-  
     useEffect(() => {
-      if (userInfo) {
+      if (adminInfo) {
         navigate(redirect)
       }
-    }, [navigate, redirect, userInfo])
+    }, [navigate, redirect, adminInfo])
   
   return (
     <section className="h-full bg-neutral-200 dark:bg-neutral-700">
          <Helmet>
-        <title>Sign In</title>
+        <title>admin Sign Up</title>
       </Helmet>
       <div className="container h-full p-10">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
@@ -65,27 +72,53 @@ export default function SignIn(): JSX.Element {
                         alt="logo"
                       />
                       <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                        We are The Jobify Team
+                        Welcome to jobify....
                       </h4>
                     </div>
 
                     <form onSubmit={submitHandler}>
-                      <p className="mb-4">Please login to your account</p>
+                      <p className="mb-4">Please sign up for a account</p>
                       {/* <!--Username input--> */}
                       <TEInput
                         type="email"
-                        label="Username"
+                        label={
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        }
                         className="mb-4"
                         required
                         onChange={(e) => setEmail(e.target.value)}
                       ></TEInput>
+                       <TEInput
+                        type="text"
+                        label={
+                          <label className="block text-sm font-medium text-gray-700 mb-1">user name</label>
+                        }
+                        className="mb-4"
+                        required
+                        onChange={(e) => setName(e.target.value)}
+                      ></TEInput>
 
+                      
+
+                      
                       {/* <!--Password input--> */}
                       <TEInput
                         type="password"
-                        label="Password"
+                        label={
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        }
                         required
                         onChange={(e) => setPassword(e.target.value)}
+                        className="mb-4"
+                      ></TEInput>
+
+                        <TEInput
+                        type="password"
+                        label={
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                        }
+                        required
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         className="mb-4"
                       ></TEInput>
 
@@ -97,33 +130,33 @@ export default function SignIn(): JSX.Element {
                             type="submit"
                             style={{
                               background:
-                              "linear-gradient(to right, #020620, #020722E6, #22338BCC, #626FB678, #B1B5CC9B, #020A3500)",
+                                "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
                             }}
                           >
-                            Log in
+                            Sign Up
                           </button>
                         
                         </TERipple>
                         {isLoading && <LoadingBox />}
 
-                        {/* <!--Forgot password link--> */}
-                        <a href="#!">Forgot password?</a>
+                       
+                        
                       </div>
 
                       {/* <!--Register button--> */}
                       <div className="flex items-center justify-between pb-6">
-                        <p className="mb-0 mr-2">Don't have an account?</p>
+                        <p className="mb-0 mr-2">already have an account?</p>
                         <TERipple rippleColor="light">
 
-                        New customer?{' '}
+                    
           
                           <button
                             type="button"
                             className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                           
                           >
-                            <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
-                            Register
+                            <Link to={`/admin/signin`}>Log In to your account</Link>
+                            Log In
                           </button>
                         </TERipple>
                       </div>
@@ -135,9 +168,7 @@ export default function SignIn(): JSX.Element {
                 <div
                   className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
                   style={{
-                    background:
-                    
-                      "linear-gradient(to right, #020620, #020722E6, #22338BCC, #626FB678, #B1B5CC9B, #020A3500)",
+                    background: "linear-gradient(to right, #F3E9E9, #D3C0C0, #C0ABB9, #A3C4BC)"
                   }}
                 >
                   <div className="px-4 py-6 text-white md:mx-6 md:p-12">

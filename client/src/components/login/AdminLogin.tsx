@@ -1,14 +1,14 @@
 import React,{useContext,useState,useEffect} from "react";
 import { useLocation, useNavigate,Link } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
-import { useAdminSigninMutation, useSigninMutation } from "../../hooks/userHooks";
+import { useAdminSigninMutation } from "../../hooks/adminHooks";
 import { getError } from "../../utils";
 import { ApiError } from "../../types/ApiError";
 import { Store } from "../../store/Store";
 import { toast } from 'react-toastify'
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../loadingBox/LoadingBox";
-export default function SignIn(): JSX.Element {
+export default function AdminSignIn(): JSX.Element {
 
     const navigate = useNavigate()
     const { search } = useLocation()
@@ -17,9 +17,9 @@ export default function SignIn(): JSX.Element {
   
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [admin , setAdmin] =useState(true)
+ 
     const { state, dispatch } = useContext(Store)
-    const { userInfo } = state
+    const { adminInfo } = state
   
     const { mutateAsync: signin, isLoading } = useAdminSigninMutation()
   
@@ -29,10 +29,10 @@ export default function SignIn(): JSX.Element {
         const data = await signin({
           email,
           password,
-          admin
+          
         })
-        dispatch({ type: 'USER_SIGNIN', payload: data })
-        localStorage.setItem('userInfo', JSON.stringify(data))
+        dispatch({ type: 'ADMIN_SIGNIN', payload: data })
+        localStorage.setItem('adminInfo', JSON.stringify(data))
         navigate(redirect)
       } catch (err) {
         toast.error(getError(err as ApiError))
@@ -40,10 +40,10 @@ export default function SignIn(): JSX.Element {
     }
   
     useEffect(() => {
-      if (userInfo) {
+      if (adminInfo) {
         navigate(redirect)
       }
-    }, [navigate, redirect, userInfo])
+    }, [navigate, redirect, adminInfo])
   
   return (
     <section className="h-full bg-neutral-200 dark:bg-neutral-700">
@@ -123,7 +123,7 @@ export default function SignIn(): JSX.Element {
                             className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                           
                           >
-                            <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+                            <Link to={`/admin/signup`}>Create your account</Link>
                             Register
                           </button>
                         </TERipple>

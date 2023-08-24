@@ -58,13 +58,14 @@ export default function Example() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
+                  {/* <img
                     className="h-8 w-auto"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
-                  />
+                  /> */}
+                   <h3 className="text-3xl font-semibold text-blue-600">jobify</h3>
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
+                {userInfo &&<div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {updatedNavigation.map((item) => (
                       <a
@@ -81,10 +82,10 @@ export default function Example() {
                     ))}
                   </div>
                  
-                </div>
+                </div>}
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
+             {userInfo && <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <button
                   type="button"
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
@@ -208,7 +209,7 @@ export default function Example() {
                   </Transition>
                 </Menu>
                 )}
-              </div>
+              </div>}
             </div>
           </div>
 

@@ -1,27 +1,27 @@
 import React,{useContext,useState,useEffect} from "react";
 import { useLocation, useNavigate,Link } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
-import { useSigninMutation } from "../../hooks/userHooks";
+import { useAdminSigninMutation } from "../../hooks/adminHooks";
 import { getError } from "../../utils";
 import { ApiError } from "../../types/ApiError";
 import { Store } from "../../store/Store";
 import { toast } from 'react-toastify'
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../loadingBox/LoadingBox";
-export default function SignIn(): JSX.Element {
+export default function HirerSignIn(): JSX.Element {
 
     const navigate = useNavigate()
     const { search } = useLocation()
     const redirectInUrl = new URLSearchParams(search).get('redirect')
-    const redirect = redirectInUrl ? redirectInUrl : '/'
+    const redirect = redirectInUrl ? redirectInUrl : '/hirer'
   
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-  
+ 
     const { state, dispatch } = useContext(Store)
-    const { userInfo } = state
+    const { adminInfo } = state
   
-    const { mutateAsync: signin, isLoading } = useSigninMutation()
+    const { mutateAsync: signin, isLoading } = useAdminSigninMutation()
   
     const submitHandler = async (e: React.SyntheticEvent) => {
       e.preventDefault()
@@ -29,9 +29,10 @@ export default function SignIn(): JSX.Element {
         const data = await signin({
           email,
           password,
+          
         })
-        dispatch({ type: 'USER_SIGNIN', payload: data })
-        localStorage.setItem('userInfo', JSON.stringify(data))
+        dispatch({ type: 'ADMIN_SIGNIN', payload: data })
+        localStorage.setItem('adminInfo', JSON.stringify(data))
         navigate(redirect)
       } catch (err) {
         toast.error(getError(err as ApiError))
@@ -39,15 +40,15 @@ export default function SignIn(): JSX.Element {
     }
   
     useEffect(() => {
-      if (userInfo) {
+      if (adminInfo) {
         navigate(redirect)
       }
-    }, [navigate, redirect, userInfo])
+    }, [navigate, redirect, adminInfo])
   
   return (
     <section className="h-full bg-neutral-200 dark:bg-neutral-700">
          <Helmet>
-        <title>Sign In</title>
+        <title> Admin Sign In</title>
       </Helmet>
       <div className="container h-full p-10">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
@@ -65,7 +66,7 @@ export default function SignIn(): JSX.Element {
                         alt="logo"
                       />
                       <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                        We are The Jobify Team
+                        Welcome Back ...
                       </h4>
                     </div>
 
@@ -97,7 +98,7 @@ export default function SignIn(): JSX.Element {
                             type="submit"
                             style={{
                               background:
-                              "linear-gradient(to right, #CA942D, #CA942D00)",
+                              "linear-gradient(to right, #020620, #020722E6, #22338BCC, #626FB678, #B1B5CC9B, #020A3500)",
                             }}
                           >
                             Log in
@@ -119,12 +120,10 @@ export default function SignIn(): JSX.Element {
           
                           <button
                             type="button"
-                            className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600
-                             hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700
-                              active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                            className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
                           
                           >
-                            <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+                            <Link to={`/hirer/signup`}>Create your account</Link>
                             Register
                           </button>
                         </TERipple>
@@ -139,7 +138,7 @@ export default function SignIn(): JSX.Element {
                   style={{
                     background:
                     
-                      "linear-gradient(to right,#CA942D, #CA942D00)",
+                      "linear-gradient(to right, #020620, #020722E6, #22338BCC, #626FB678, #B1B5CC9B, #020A3500)",
                   }}
                 >
                   <div className="px-4 py-6 text-white md:mx-6 md:p-12">

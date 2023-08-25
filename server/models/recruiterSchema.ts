@@ -1,45 +1,46 @@
-import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
+import { prop, getModelForClass, Ref, modelOptions } from '@typegoose/typegoose';
 
+@modelOptions({ schemaOptions: { timestamps: true } })
+export class Recruiter {
 
-class RecruiterSignup {
+  public _id?: string;
+
   @prop({ required: true, trim: true })
-  public userName!: string;
+  name!: string;
 
   @prop({  required: true })
-  public companyName!: string;
+  company!: string;
 
   @prop({ required: true, trim: true })
-  public phoneNumber!: number;
+  phone!: string;
 
   @prop({ required: true, lowercase: true, unique: true, trim: true })
-  public email!: string;
+  email!: string;
 
   @prop({ required: true })
-  public tagLine!: string;
-
-  @prop({ required: true })
-  public discription!: string;
-
-  @prop({ required: true, trim: true })
-  public website!: string;
-
-  @prop({ required: true, minlength: 6, trim: true })
-  public password!: string;
+  tagline!: string;
 
   @prop({ default: true })
-  public isActive!: boolean;
+  discription!: string;
+
+  @prop({ required: true, trim: true })
+     website!: string;
+
+  @prop({ required: true, minlength: 6, trim: true })
+     password!: string;
+
+
+
+
 
   @prop()
-  public location?: string;
-
-  @prop()
-  public image?: string;
+     image?: string;
 
   @prop({ type: Date, default: Date.now })
-  public createdAt?: Date;
+     createdAt?: Date;
 
   @prop({ type: Date, default: Date.now })
-  public updatedAt?: Date;
+     updatedAt?: Date;
 }
 
-export const RecruiterModel = getModelForClass(RecruiterSignup);
+export const RecruiterModel = getModelForClass(Recruiter);

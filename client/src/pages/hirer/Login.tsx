@@ -1,8 +1,11 @@
 import React from 'react'
+import HirerSignIn from '../../components/login/HirerLogin'
 
 const Login = () => {
   return (
-    <div>Login</div>
+    <>
+    <HirerSignIn/>
+    </>
   )
 }
 

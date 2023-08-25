@@ -16,9 +16,9 @@ function CandidteRouter() {
     return(
         <Routes>
              <Route  path='/' element={<HomePage />}  />
-             <Route  path="/login" element={<Loginpage/>} />
+             <Route  path="/signin" element={<Loginpage/>} />
              <Route path="/signup" element={<SignupPage/>} />
-             <Route path='/jobs'  element={userInfo ? <JobsPage/>: <Navigate to='/login'/> } />
+             <Route path='/jobs'  element={userInfo ? <JobsPage/>: <Navigate to='/signin'/> } />
              <Route path='/contact'  element={<Contact/>}/>
              <Route path='/about'  element={<About/>}/>
              <Route path='/help'  element={<Help/>}/>

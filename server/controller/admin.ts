@@ -32,3 +32,30 @@ export const adminSignup =    expressAsyncHandler(async (req: Request, res: Resp
       token: generateAdminToken(admin),
     })
   })
+
+  export const adminSignin =    expressAsyncHandler(async (req: Request, res: Response,next:NextFunction) => {
+    const {email,password,name} = req.body
+  const existingAdmin =   await AdminModel.findOne({email:email})
+  if(!existingAdmin){
+    next("please log in with a registered email")
+  }
+  // const passwordStrength = zxcvbn(password);
+  // if (passwordStrength.score < 3) {
+  //   next('Password is not strong enough. Please choose a stronger password.');
+  // }
+    if(existingAdmin){
+      
+        if(bcrypt.compareSync(password,existingAdmin.password)){
+            res.json({
+                _id:existingAdmin._id,
+                name:existingAdmin.name,
+                email:existingAdmin.email,
+                token:generateAdminToken(existingAdmin)
+            })
+            return
+        }
+    }
+    
+
+
+  })

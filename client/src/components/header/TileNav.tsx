@@ -33,12 +33,12 @@ export default function Example() {
     dispatch({ type: 'USER_SIGNOUT' })
     localStorage.removeItem('userInfo')
     
-    window.location.href = '/login'
+    window.location.href = '/signin'
   }
 
   return (
     <Disclosure as="nav" className="" style={{
-      background:'#020A35'
+      background:'#CA942D'
     }} >
       {({ open }) => (
         <>
@@ -63,7 +63,7 @@ export default function Example() {
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
                   /> */}
-                   <h3 className="text-3xl font-semibold text-blue-600">jobify</h3>
+                   <h3 className="text-3xl  font-bold text-white">jobify</h3>
                 </div>
                 {userInfo &&<div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -178,7 +178,7 @@ export default function Example() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/login"
+                            href="/signin"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                           log in

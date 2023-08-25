@@ -11,9 +11,9 @@ function HirerRouter() {
   const{ hirerInfo} = state 
   return (
     <Routes>
-       <Route element={<Login />} path='/login' />
+       <Route element={<Login />} path='/signin' />
       <Route element={<Signup/>} path='/signup' />
-             <Route element={hirerInfo?<HirerPage/> : <Navigate to={'/hirer/login'} />} path='/' />
+             <Route element={hirerInfo?<HirerPage/> : <Navigate to={'/hirer/signin'} />} path='/' />
       {/* <Route element={<OtpPage />} path='/otp' />
      i */}
         </Routes>

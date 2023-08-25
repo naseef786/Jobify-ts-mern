@@ -7,6 +7,7 @@ import dotenv from 'dotenv'
 import { jobRouter } from '../routers/jobRouter';
 import { seedRouter } from '../routers/seedRouter';
 import adminRouter from '../routers/adminRouter'
+import recruiterRouter from '../routers/recruiterRouter'
 import  userRouter  from '../routers/candidateRouter'
 import path from 'path'
 import errrorMiddleware from '../middlewares/errrorMiddleware';
@@ -24,9 +25,10 @@ app.use(cors({
     origin: ['http://localhost:5173']
 }))
 
-app.use(bodyParser.json());
+
+app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json())
+app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true }))
 
 
@@ -34,6 +36,7 @@ app.use('/api/jobs', jobRouter)
 app.use('/api/seed', seedRouter)
 app.use('/api/users', userRouter)
 app.use('/api/admin',adminRouter)
+app.use('/api/recruiter',recruiterRouter)
 
 //validation miidleware
 app.use(errrorMiddleware)

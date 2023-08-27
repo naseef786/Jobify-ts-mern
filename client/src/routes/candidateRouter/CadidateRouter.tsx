@@ -8,6 +8,7 @@ import About from '../../components/test/About';
 import Help from '../../components/test/Help';
 import Contact from '../../components/test/Contact';
 import Applyform from '../../components/applyform/Applyform';
+import Forgetpass from '../../components/forgetpassword/Forget'
 import {Store}  from '../../store/Store'
 
 function CandidteRouter() {
@@ -20,6 +21,7 @@ function CandidteRouter() {
              <Route path="/signup" element={<SignupPage/>} />
              <Route path='/jobs'  element={userInfo ? <JobsPage/>: <Navigate to='/signin'/> } />
              <Route path='/contact'  element={<Contact/>}/>
+             <Route path='/forgetpassword'  element={<Forgetpass/>}/>
              <Route path='/about'  element={<About/>}/>
              <Route path='/help'  element={<Help/>}/>
              <Route path='/applyform' element={<Applyform/>}/>

@@ -26,3 +26,9 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     res.status(401).json({ message: 'Token is not valid.' });
   }
 };
+export function localVariables(req:Request, res:Response, next:NextFunction){
+  req.app.locals = {
+      OTP : null,
+      resetSession : false
+  }
+  next()}

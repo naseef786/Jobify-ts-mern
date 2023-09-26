@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import apiClient from '../axios/apiClient'
 import { HirerInfo } from '../types/UserInfo'
 
-export const useHirerSignupMutation = () =>
+export const useRecruiterSignupMutation = () =>
   useMutation({
     mutationFn: async ({
     
@@ -43,3 +43,23 @@ export const useHirerSignupMutation = () =>
         })
       ).data,
   })
+
+
+  export const useRecruiterSigninMutation = () =>
+useMutation({
+  mutationFn: async ({
+    email,
+    password,
+    
+  }: {
+    email: string
+    password: string
+  
+  }) =>
+    (
+      await apiClient.post<HirerInfo>(`api/recruiter/signin`, {
+        email,
+        password,
+      })
+    ).data,
+})

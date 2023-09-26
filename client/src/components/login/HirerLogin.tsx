@@ -1,7 +1,7 @@
 import React,{useContext,useState,useEffect} from "react";
 import { useLocation, useNavigate,Link } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
-import { useAdminSigninMutation } from "../../hooks/adminHooks";
+import { useRecruiterSigninMutation } from "../../hooks/hirerHooks";
 import { getError } from "../../utils";
 import { ApiError } from "../../types/ApiError";
 import { Store } from "../../store/Store";
@@ -19,9 +19,9 @@ export default function HirerSignIn(): JSX.Element {
     const [password, setPassword] = useState('')
  
     const { state, dispatch } = useContext(Store)
-    const { adminInfo } = state
+    const { hirerInfo} = state
   
-    const { mutateAsync: signin, isLoading } = useAdminSigninMutation()
+    const { mutateAsync: signin, isLoading } = useRecruiterSigninMutation()
   
     const submitHandler = async (e: React.SyntheticEvent) => {
       e.preventDefault()
@@ -31,8 +31,8 @@ export default function HirerSignIn(): JSX.Element {
           password,
           
         })
-        dispatch({ type: 'ADMIN_SIGNIN', payload: data })
-        localStorage.setItem('adminInfo', JSON.stringify(data))
+        dispatch({ type: 'HIRER_SIGNIN', payload: data })
+        localStorage.setItem('hirerInfo', JSON.stringify(data))
         navigate(redirect)
       } catch (err) {
         toast.error(getError(err as ApiError))
@@ -40,15 +40,15 @@ export default function HirerSignIn(): JSX.Element {
     }
   
     useEffect(() => {
-      if (adminInfo) {
+      if (hirerInfo) {
         navigate(redirect)
       }
-    }, [navigate, redirect, adminInfo])
+    }, [navigate, redirect, hirerInfo])
   
   return (
     <section className="h-full bg-neutral-200 dark:bg-neutral-700">
          <Helmet>
-        <title> Admin Sign In</title>
+        <title> Recruter Sign In</title>
       </Helmet>
       <div className="container h-full p-10">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">

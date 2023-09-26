@@ -1,7 +1,7 @@
 import { NextFunction, Request,Response } from "express"
 import expressAsyncHandler from "express-async-handler"
 import { Admin, AdminModel } from "../models/adminSchema"
-
+import otpGenerater from 'otp-generator'
 import { User, UserModel } from '../models/userModel'
 import { generateAdminToken } from '../Utils/utils'
 import bcrypt from 'bcryptjs'

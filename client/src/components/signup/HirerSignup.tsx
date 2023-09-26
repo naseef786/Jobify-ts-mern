@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
-import { useHirerSignupMutation } from "../../hooks/hirerHooks.ts";
+import { useRecruiterSignupMutation } from "../../hooks/hirerHooks.ts";
 import { getError } from "../../utils";
 import { ApiError } from "../../types/ApiError";
 import { Store } from "../../store/Store";
@@ -37,7 +37,7 @@ export default function HirerSignUp(): JSX.Element {
     const { state, dispatch } = useContext(Store)
     const { hirerInfo } = state
 
-    const { mutateAsync: signup, isLoading } = useHirerSignupMutation()
+    const { mutateAsync: signup, isLoading } = useRecruiterSignupMutation()
 
     function handleImageUpload(e:React.ChangeEvent<HTMLInputElement>) {
         const selectedImage = e.target.files && e.target.files[0]; // Get the selected image file
@@ -281,7 +281,7 @@ export default function HirerSignUp(): JSX.Element {
                                 <div
                                     className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
                                     style={{
-                                        background: "linear-gradient(to right, #F3E9E9, #D3C0C0, #C0ABB9, #A3C4BC)"
+                                        background: "linear-gradient(to right, #020a35, #D3C0C0, #C0ABB9, #A3C4BC)"
                                     }}
                                 >
                                     <div className="px-4 py-6 text-white md:mx-6 md:p-12">

@@ -49,3 +49,30 @@ export const recruiterSignUpPost = expressAsyncHandler( async (req:Request, res:
       next(error);
     }
   })
+
+  export const recruiterSignin =    expressAsyncHandler(async (req: Request, res: Response,next:NextFunction) => {
+    const {email,password} = req.body
+  const existingRecruiter =   await RecruiterModel.findOne({email:email})
+  if(!existingRecruiter){
+    next("please log in with a registered email")
+  }
+  // const passwordStrength = zxcvbn(password);
+  // if (passwordStrength.score < 3) {
+  //   next('Password is not strong enough. Please choose a stronger password.');
+  // }
+    if(existingRecruiter){
+      
+        if(bcrypt.compareSync(password,existingRecruiter.password)){
+            res.json({
+                _id:existingRecruiter._id,
+                name:existingRecruiter.name,
+                email:existingRecruiter.email,
+                token:generateRecruiterToken(existingRecruiter)
+            })
+            return
+        }
+    }
+    
+
+
+  })

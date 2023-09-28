@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useContext} from 'react';
 import { BiTimeFive } from 'react-icons/bi';
 import { useGetJobsQuery } from '../../hooks/jobHooks';
 import LoadingBox from '../loadingBox/LoadingBox';
@@ -8,9 +8,11 @@ import { ApiError } from '../../types/ApiError';
 import { Helmet } from 'react-helmet-async';
 
 import { Jobs } from '../../types/Jobs';
+import { Store } from '../../store/Store';
 
 interface JobListProps {
   searchTerm: string;
+  token:string;
 }
 
 
@@ -20,8 +22,13 @@ interface JobListProps {
   // };
 
 
-const Jobview:React.FC<JobListProps>= ({ searchTerm }) => {
-  const { data: jobs, isLoading, error } = useGetJobsQuery(searchTerm);
+const Jobview:React.FC<JobListProps>= ({ searchTerm}) => {
+  const { state, dispatch } = useContext(Store)
+  const { userInfo } = state
+  const token = userInfo.token
+  const { data: jobs, isLoading, error } = useGetJobsQuery(searchTerm,token);
+  console.log(token);
+  
   //   const { data, error, isLoading } = useQuery(['jobs', searchQuery], () =>
   //   fetchJobs(searchQuery)
   // );

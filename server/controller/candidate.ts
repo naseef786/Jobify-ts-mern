@@ -59,7 +59,7 @@ export const candidateSignin = asyncHandler(async(req:Request,res:Response,next:
       })
 
 
-      export const getJobs = asyncHandler(async (req: Request, res: Response ,next:NextFunction) => {
+      export const getJobs = async (req: Request, res: Response ,next:NextFunction) => {
         try {
           console.log(req.query);
           console.log(req.body);
@@ -79,30 +79,30 @@ export const candidateSignin = asyncHandler(async(req:Request,res:Response,next:
           console.error('Error:', error);
           res.status(500).json({ message: 'Server error' });
         }
-      });
-
-      export const getUser = asyncHandler(async (req: Request, res: Response,next:NextFunction) => {
-       const {user} = req.params
-       try{
-        if(!user)  next("user not find")
-
-        UserModel.findOne({ user }, function(err, user){
-            if(err) return res.status(500).send({ err });
-            if(!user) next("user not find")
-
-            /** remove password from user */
-            // mongoose return unnecessary data with object so convert it into json
-            const { password, ...rest } = Object.assign({}, user.toJSON());
-
-            return res.status(201).send(rest);
-        })
-
-       }
-       catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ message: 'Server error' });
       }
-      })
+
+      // export const getUser = asyncHandler(async (req: Request, res: Response,next:NextFunction) => {
+      //  const {user} = req.params
+      //  try{
+      //   if(!user)  next("user not find")
+
+      //   UserModel.findOne({ user }, function(err, user){
+      //       if(err) return res.status(500).send({ err });
+      //       if(!user) next("user not find")
+
+      //       /** remove password from user */
+      //       // mongoose return unnecessary data with object so convert it into json
+      //       const { password, ...rest } = Object.assign({}, user.toJSON());
+
+      //       return res.status(201).send(rest);
+      //   })
+
+      //  }
+      //  catch (error) {
+      //   console.error('Error:', error);
+      //   res.status(500).json({ message: 'Server error' });
+      // }
+      // })
       
 
 
@@ -157,7 +157,7 @@ export const candidateSignin = asyncHandler(async(req:Request,res:Response,next:
                   .then(user => {
                       bcrypt.hash(password, 10)
                           .then(hashedPassword => {
-                              UserModel.updateOne({ username : user.username },
+                              UserModel.updateOne({ username : user.id },
                               { password: hashedPassword}, function(err, data){
                                   if(err) throw err;
                                   req.app.locals.resetSession = false; // reset session

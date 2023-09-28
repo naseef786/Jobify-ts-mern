@@ -1,7 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser';
 import cors from 'cors'
-const db = require('../Config/config')
+import run from '../Config/config';
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import { jobRouter } from '../routers/jobRouter';
@@ -20,6 +20,17 @@ dotenv.config()
 const app = express()
 app.use('/',express.static(path.join(__dirname,'./public')))
 
+
+const PORT = 4000;
+run().then(() => {
+    try {
+        app.listen(PORT, () => {
+            console.log(`Server connected to http://localhost:${PORT}`);
+        })
+    } catch (error) {
+        console.log('Cannot connect to the server')
+    }
+}).catch(console.dir);
 app.use(cors({
     credentials: true,
     origin: ['http://localhost:5173']
@@ -38,11 +49,12 @@ app.use('/api/users', userRouter)
 app.use('/api/admin',adminRouter)
 app.use('/api/recruiter',recruiterRouter)
 
+
+
 //validation miidleware
 app.use(errrorMiddleware)
 
-const PORT = 4000
-app.listen(PORT, () => {
-    console.log(`server started at http://localhost:${PORT}`)
-})
+
+
+
 

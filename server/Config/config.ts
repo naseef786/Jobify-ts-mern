@@ -1,12 +1,18 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
+
+import { MongoMemoryServer } from "mongodb-memory-server";
 
 
-mongoose.set('strictQuery', false);
-mongoose.connect("mongodb://127.0.0.1:27017/JOBIFY",{useNewUrlParser: true , useUnifiedTopology:true});
-var db = mongoose.connection;
-db.on("error", function(error){ console.log(error);});
-db.once('open',()=>{console.log("connected to database"); });
+async function connect(){
 
+    const mongod = await MongoMemoryServer.create();
+    const getUri = mongod.getUri();
 
+    mongoose.set('strictQuery', true)
+    // const db = await mongoose.connect(getUri);
+    const db = await mongoose.connect(process.env.ATLAS_URI);
+    console.log("Database Connected")
+    return db;
+}
 
-
+export default connect;

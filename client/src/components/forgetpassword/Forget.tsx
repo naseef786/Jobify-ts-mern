@@ -1,7 +1,7 @@
 import React,{useContext,useState,useEffect} from "react";
 import { useLocation, useNavigate,Link } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
-import { useSigninMutation } from "../../hooks/userHooks";
+import { useRecoveryMutation } from "../../hooks/userHooks";
 import { getError } from "../../utils";
 import { ApiError } from "../../types/ApiError";
 import { Store } from "../../store/Store";
@@ -9,30 +9,29 @@ import { toast } from 'react-toastify'
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../loadingBox/LoadingBox";
 import profile from "../../assets/profile.png"
-export default function SignIn(): JSX.Element {
+export default function Recovery(): JSX.Element {
 
     const navigate = useNavigate()
     const { search } = useLocation()
     const redirectInUrl = new URLSearchParams(search).get('redirect')
-    const redirect = redirectInUrl ? redirectInUrl : '/'
+    const redirect = redirectInUrl ? redirectInUrl : '/otp'
   
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    
   
     const { state, dispatch } = useContext(Store)
     const { userInfo } = state
   
-    const { mutateAsync: signin, isLoading } = useSigninMutation()
+    const { mutateAsync: recover, isLoading } = useRecoveryMutation()
   
     const submitHandler = async (e: React.SyntheticEvent) => {
       e.preventDefault()
       try {
-        const data = await signin({
-          email,
-          password,
+        const data = await recover({
+          email
         })
-        dispatch({ type: 'USER_SIGNIN', payload: data })
-        localStorage.setItem('userInfo', JSON.stringify(data))
+        // dispatch({ type: 'USER_SIGNIN', payload: data })
+        // localStorage.setItem('userInfo', JSON.stringify(data))
         navigate(redirect)
       } catch (err) {
         toast.error(getError(err as ApiError))
@@ -48,7 +47,7 @@ export default function SignIn(): JSX.Element {
   return (
     <section className="h-full bg-neutral-200 dark:bg-neutral-700">
          <Helmet>
-        <title>Sign In</title>
+        <title>password recovery</title>
       </Helmet>
       <div className="container h-full p-10 flex justify-center items-center">
   <div className="g-6 flex flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
@@ -71,37 +70,38 @@ export default function SignIn(): JSX.Element {
                     </div>
 
                     <form onSubmit={submitHandler}>
-                      <p className="mb-4">Please enter your new password</p>
+                      <p className="mb-4">Please enter your registered email address</p>
                       {/* <!--Username input--> */}
                       <TEInput
                         type="email"
-                        label="Username"
+                        label="email"
                         className="mb-4"
                         required
                         onChange={(e) => setEmail(e.target.value)}
                       ></TEInput>
 
                       {/* <!--Password input--> */}
-                      <TEInput
+                      {/* <TEInput
                         type="password"
                         label="Password"
                         required
                         onChange={(e) => setPassword(e.target.value)}
                         className="mb-4"
-                      ></TEInput>
+                      ></TEInput> */}
 
                       {/* <!--Submit button--> */}
                       <div className="mb-12 pb-1 pt-1 text-center">
                         <TERipple rippleColor="light" className="w-full">
                           <button
-                            className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
+                            className="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]
+                             focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
                             type="submit"
                             style={{
                               background:
                               "linear-gradient(to right, #CA942D, #CA942D00)",
                             }}
                           >
-                            Log in
+                            get otp
                           </button>
                         
                         </TERipple>

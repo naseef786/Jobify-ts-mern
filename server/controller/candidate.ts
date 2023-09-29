@@ -3,9 +3,23 @@ import asyncHandler from 'express-async-handler'
 import { User, UserModel } from '../models/userModel'
 import { generateUserToken } from '../Utils/utils'
 import bcrypt from 'bcryptjs'
+import nodemailer from 'nodemailer'
 import { JobModel } from '../models/jobModel'
 import otpGenerator from 'otp-generator'
 import zxcvbn from 'zxcvbn';
+
+// email config
+const transporter = nodemailer.createTransport({
+  host: "smtp.forwardemail.net",
+  port: 465,
+  secure: true,
+  auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD
+  }
+})
+
+
 
 export const candidateSignin = asyncHandler(async(req:Request,res:Response,next:NextFunction)=>{
   const{email,password} = req.body;
@@ -128,6 +142,51 @@ export const candidateSignin = asyncHandler(async(req:Request,res:Response,next:
           return res.status(500).send({ error: error.message });
         }
       };
+      
+export const verifyUser = async (req: Request, res: Response,next:NextFunction) => {
+  try {
+      
+      const { email } = req.method == "GET" ? req.query : req.body;
+        console.log(email);
+  
+      // check the user existance
+      let exist = await UserModel.findOne({ email:email });
+      console.log(exist);
+      if(exist){
+       req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false})
+       const OTP = req.app.locals.OTP
+       
+       
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: "Sending Eamil For Otp Validation",
+        text: `OTP:- ${OTP}`
+    }
+    console.log(mailOptions);
+    
+
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log("error", error);
+            res.status(400).json({ error: "email not send" })
+        } else {
+            console.log("Email sent", info.response);
+            res.status(200).json({ message: "Email sent Successfully" })
+        }
+    })
+  }
+      else{
+        return res.status(200).json({ error : "Can't find User!"})
+      }
+
+  } catch (error) {
+      return res.status(404).send({ error: "Authentication Error"});
+  }
+}
+
+
 
       export const  generateOTP =  asyncHandler(async (req: Request, res: Response,next:NextFunction) => {
         req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false})

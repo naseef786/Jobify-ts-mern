@@ -107,7 +107,7 @@ export default function SignIn(): JSX.Element {
                         {isLoading && <LoadingBox />}
 
                         {/* <!--Forgot password link--> */}
-                        <a href="/forgetpassword">Forgot password?</a>
+                        <a href="/recovery">Forgot password?</a>
                       </div>
 
                       {/* <!--Register button--> */}
@@ -127,6 +127,7 @@ export default function SignIn(): JSX.Element {
                             <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
                             Register
                           </button>
+                          
                         </TERipple>
                       </div>
                     </form>

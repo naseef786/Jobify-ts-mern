@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import apiClient from '../axios/apiClient'
 import { UserInfo } from '../types/UserInfo'
+import jwt_decode from 'jwt-decode';
 
 export const useSigninMutation = () =>
   useMutation({
@@ -18,6 +19,8 @@ export const useSigninMutation = () =>
         })
       ).data,
   })
+
+
 
 
 
@@ -58,6 +61,23 @@ export const useUpdateProfileMutation = () =>
           name,
           email,
           password,
+        })
+      ).data,
+  })
+
+  export const useRecoveryMutation = () =>
+  useMutation({
+    mutationFn: async ({
+      email,
+      
+    }: {
+      email: string
+    
+    }) =>
+      (
+        await apiClient.post<UserInfo>(`api/users/recovery`, {
+          email,
+        
         })
       ).data,
   })

@@ -10,6 +10,7 @@ import Contact from '../../components/test/Contact';
 import Applyform from '../../components/applyform/Applyform';
 import Forgetpass from '../../components/forgetpassword/Forget'
 import {Store}  from '../../store/Store'
+import Otp from '../../pages/candidate/Otp';
 
 function CandidteRouter() {
     const {state} = useContext(Store)
@@ -19,9 +20,11 @@ function CandidteRouter() {
              <Route  path='/' element={<HomePage />}  />
              <Route  path="/signin" element={<Loginpage/>} />
              <Route path="/signup" element={<SignupPage/>} />
+             <Route path='/otp' element={<Otp/>}/>
              <Route path='/jobs'  element={userInfo ? <JobsPage/>: <Navigate to='/signin'/> } />
              <Route path='/contact'  element={<Contact/>}/>
-             <Route path='/forgetpassword'  element={<Forgetpass/>}/>
+
+             <Route path='/recovery'  element={<Forgetpass/>}/>
              <Route path='/about'  element={<About/>}/>
              <Route path='/help'  element={<Help/>}/>
              <Route path='/applyform' element={<Applyform/>}/>

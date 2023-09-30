@@ -32,6 +32,8 @@ export default function Recovery(): JSX.Element {
         })
         // dispatch({ type: 'USER_SIGNIN', payload: data })
         // localStorage.setItem('userInfo', JSON.stringify(data))
+        console.log(data);
+        
         navigate(redirect)
       } catch (err) {
         toast.error(getError(err as ApiError))

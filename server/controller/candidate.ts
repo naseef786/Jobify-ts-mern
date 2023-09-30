@@ -7,17 +7,10 @@ import nodemailer from 'nodemailer'
 import { JobModel } from '../models/jobModel'
 import otpGenerator from 'otp-generator'
 import zxcvbn from 'zxcvbn';
+import { sendEmail } from '../Utils/nodeMailer'
 
-// email config
-const transporter = nodemailer.createTransport({
-  host: "smtp.forwardemail.net",
-  port: 465,
-  secure: true,
-  auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD
-  }
-})
+
+
 
 
 
@@ -155,27 +148,38 @@ export const verifyUser = async (req: Request, res: Response,next:NextFunction) 
       if(exist){
        req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false})
        const OTP = req.app.locals.OTP
+
+       const transporter = nodemailer.createTransport({
+        service: process.env.NODEMAILER_SERVICE,
+        auth: {
+          user: process.env.NODEMAILER_AUTHER,
+          pass: process.env.NODEMAILER_AUTHER_PASSWORD,
+        },
+      });
        
-       
-      const mailOptions = {
-        from: process.env.EMAIL,
+       const mailOptions = {
+        from: process.env.NODEMAILER_AUTHER,
         to: email,
-        subject: "Sending Eamil For Otp Validation",
+        subject: 'Email with QR code attachment',
         text: `OTP:- ${OTP}`
-    }
-    console.log(mailOptions);
+      };
     
 
-
-    transporter.sendMail(mailOptions, (error, info) => {
+      transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log("error", error);
-            res.status(400).json({ error: "email not send" })
+          console.log("error");
+          res.status(400).json({ error: "email not send" })
+           
         } else {
-            console.log("Email sent", info.response);
-            res.status(200).json({ message: "Email sent Successfully" })
+          console.log("Email sent");
+            res.status(200).json({ message: "Email sent Successfully" ,info})
+         
         }
-    })
+      });
+    
+  
+      
+    
   }
       else{
         return res.status(200).json({ error : "Can't find User!"})

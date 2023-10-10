@@ -1,7 +1,7 @@
 import React,{useContext,useState,useEffect} from "react";
 import { useLocation, useNavigate,Link } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
-import { useRecoveryMutation } from "../../hooks/userHooks";
+import { useResetPasswordMutation } from "../../hooks/userHooks";
 import { getError } from "../../utils";
 import { ApiError } from "../../types/ApiError";
 import { Store } from "../../store/Store";
@@ -9,38 +9,41 @@ import { toast } from 'react-toastify'
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../loadingBox/LoadingBox";
 import profile from "../../assets/profile.png"
-export default function Recovery(): JSX.Element {
+
+export default function ResetPassword(): JSX.Element {
 
     const navigate = useNavigate()
     const { search } = useLocation()
     const redirectInUrl = new URLSearchParams(search).get('redirect')
-    const redirect = redirectInUrl ? redirectInUrl : '/otp'
-  
-    const [email, setEmail] = useState('')
-    
+    const redirect = redirectInUrl ? redirectInUrl : '/login'
+    const location = useLocation()
+    const [pass, setPass] = useState('')
+    const [confirmPass,setconfirmPass] = useState('')
   
     const { state, dispatch } = useContext(Store)
     const { userInfo } = state
-  
-    const { mutateAsync: recover, isLoading } = useRecoveryMutation()
+    const email = location.state;
+    const { mutateAsync: resetPassword, isLoading } = useResetPasswordMutation()
+  console.log(pass);
   
     const submitHandler = async (e: React.SyntheticEvent) => {
       e.preventDefault()
       try {
-        const data = await recover({
-          email
+        const data = await resetPassword({
+          email,
+          password:pass
         })
         console.log(data);
         
         if (data?.status == 200)
         {   
-          toast.success('Otp generated and forwrded successfully')
-          navigate('/otp',{state:{email}})
+          toast.success('new password updated successfully')
+          navigate('/')
         }
         // dispatch({ type: 'USER_SIGNIN', payload: data })
         // localStorage.setItem('userInfo', JSON.stringify(data))
         else{
-          toast.error('email not founded as a registered user')
+          toast.error('something went wrong')
         }
         
        
@@ -58,7 +61,7 @@ export default function Recovery(): JSX.Element {
   return (
     <section className="h-full bg-neutral-200 dark:bg-neutral-700">
          <Helmet>
-        <title>password recovery</title>
+        <title>update your password</title>
       </Helmet>
       <div className="container h-full p-10 flex justify-center items-center">
   <div className="g-6 flex flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
@@ -84,11 +87,18 @@ export default function Recovery(): JSX.Element {
                       <p className="mb-4">Please enter your registered email address</p>
                       {/* <!--Username input--> */}
                       <TEInput
-                        type="email"
-                        label="email"
+                        type="password"
+                        label="New Password"
                         className="mb-4"
                         required
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setPass(e.target.value)}
+                      ></TEInput>
+                       <TEInput
+                        type="password"
+                        label="Confirm Password"
+                        className="mb-4"
+                        required
+                        onChange={(e) => setconfirmPass(e.target.value)}
                       ></TEInput>
 
                       {/* <!--Password input--> */}

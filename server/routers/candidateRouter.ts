@@ -11,6 +11,8 @@ userRouter.post('/signin', candidateSignin)
 userRouter.post('/signup', candidateSignup)
 
 userRouter.post('/recovery',localVariables,verifyUser)
+userRouter.post('/verify',controller.verifyOTP)
+userRouter.post('/resetPass',controller.resetPassword)
 userRouter.get('/generateOTP',localVariables,generateOTP)
 userRouter.get('/verifyOTP')
 userRouter.get('/createResetSession',authMiddleware)

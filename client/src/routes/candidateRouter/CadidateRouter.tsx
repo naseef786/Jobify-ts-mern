@@ -11,6 +11,7 @@ import Applyform from '../../components/applyform/Applyform';
 import Forgetpass from '../../components/forgetpassword/Forget'
 import {Store}  from '../../store/Store'
 import Otp from '../../pages/candidate/Otp';
+import ResetPassword from '../../components/reset/ResetPassword';
 
 function CandidteRouter() {
     const {state} = useContext(Store)
@@ -25,6 +26,7 @@ function CandidteRouter() {
              <Route path='/contact'  element={<Contact/>}/>
 
              <Route path='/recovery'  element={<Forgetpass/>}/>
+             <Route path='/reset'  element={<ResetPassword/>}/>
              <Route path='/about'  element={<About/>}/>
              <Route path='/help'  element={<Help/>}/>
              <Route path='/applyform' element={<Applyform/>}/>

@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import apiClient from '../axios/apiClient'
 import { UserInfo } from '../types/UserInfo'
 import jwt_decode from 'jwt-decode';
+import { ApiInfo } from '../types/ApiInfo';
 
 export const useSigninMutation = () =>
   useMutation({
@@ -19,12 +20,6 @@ export const useSigninMutation = () =>
         })
       ).data,
   })
-
-
-
-
-
-
 export const useSignupMutation = () =>
   useMutation({
     mutationFn: async ({
@@ -44,7 +39,6 @@ export const useSignupMutation = () =>
         })
       ).data,
   })
-
 export const useUpdateProfileMutation = () =>
   useMutation({
     mutationFn: async ({
@@ -64,20 +58,22 @@ export const useUpdateProfileMutation = () =>
         })
       ).data,
   })
+export const useRecoveryMutation = () =>
+  useMutation({mutationFn: async ({email}:{ email: string}) =>
+{const response = await apiClient.post<ApiInfo>(`api/users/recovery`, { email });
+return {
+  data: response.data,
+  status: response.status, // Add this line to include the status code
+}}})
 
-  export const useRecoveryMutation = () =>
-  useMutation({
-    mutationFn: async ({
-      email,
-      
-    }: {
-      email: string
-    
-    }) =>
-      (
-        await apiClient.post<UserInfo>(`api/users/recovery`, {
-          email,
-        
-        })
-      ).data,
-  })
+export const useResetPasswordMutation = () =>
+  useMutation({mutationFn: async ({email,password}:{ email: string,password:string}) =>
+{const response = await apiClient.post<ApiInfo>(`api/users/resetPass`, { email,password });
+return {
+  data: response.data,
+  status: response.status, // Add this line to include the status code
+}}})
+
+export const useVerifyMutation = () =>
+  useMutation({mutationFn: async ({email,code}: { email: string,code:string}) =>
+  (await apiClient.post<ApiInfo>(`api/users/verify`, {email,code})).data})

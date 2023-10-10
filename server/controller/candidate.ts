@@ -172,8 +172,8 @@ export const verifyUser = async (req: Request, res: Response,next:NextFunction) 
            
         } else {
           console.log("Email sent");
-            res.status(200).json({ message: "Email sent Successfully" ,info})
-         
+            res.status(200).send({ message: "Email sent Successfully" ,info})
+     
         }
       });
     
@@ -182,11 +182,11 @@ export const verifyUser = async (req: Request, res: Response,next:NextFunction) 
     
   }
       else{
-        return res.status(200).json({ error : "Can't find User!"})
+        return res.status(400).send({ message : "Can't find User!"})
       }
 
   } catch (error) {
-      return res.status(404).send({ error: "Authentication Error"});
+      return res.status(404).send({ message : "Authentication Error"});
   }
 }
 
@@ -198,25 +198,31 @@ export const verifyUser = async (req: Request, res: Response,next:NextFunction) 
     })
 
     export const verifyOTP =  (req: Request, res: Response, next: NextFunction) => {
-      const { code } = req.query;
+      const { code } = req.body
+      console.log("hello");
+      console.log(code);
+      
       if (parseInt(req.app.locals.OTP as string, 10) === parseInt(code as string, 10)) {
         req.app.locals.OTP = null; // reset the OTP value
         req.app.locals.resetSession = true; // start session for reset password
-        return res.status(201).send({ msg: 'Verify Successfully!'});
+        return res.status(201).send({ message: 'Verify Successfully!'});
       }
-      return res.status(400).send({ error: "Invalid OTP" });
+      return res.status(400).send({ message: "Invalid OTP" });
     };
 
-    export async function resetPassword(req,res){
+
+
+    export const  resetPassword =  (req:Request,res:Response) =>{
       try {
+          console.log("inside reset password");
           
           if(!req.app.locals.resetSession) return res.status(440).send({error : "Session expired!"});
   
-          const { username, password } = req.body;
+          const { email, password } = req.body;
   
           try {
               
-              UserModel.findOne({ username})
+              UserModel.findOne({ email})
                   .then(user => {
                       bcrypt.hash(password, 10)
                           .then(hashedPassword => {

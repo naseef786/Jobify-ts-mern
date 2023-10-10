@@ -19,7 +19,7 @@ export default function Recovery() {
     })
   }, [username]);
 
-  async function onSubmit(e){
+  async function onSubmit(e:React.SyntheticEvent){
     e.preventDefault();
     try {
       let { status } = await verifyOTP({ username, code : OTP })

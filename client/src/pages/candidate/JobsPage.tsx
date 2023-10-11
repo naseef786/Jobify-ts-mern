@@ -12,9 +12,7 @@ function JobsPage() {
   return (
     <>
     <TileNav/>
-
     <SearchBox setSearchTerm={setSearchTerm}/>
-   
     <Jobview searchTerm={searchTerm}/>
     <Footer/>
     </>

@@ -35,11 +35,15 @@ export default function ResetPassword(): JSX.Element {
         })
         console.log(data);
         
-        if (data?.status == 200)
+        if (data?.status == 201)
         {   
           toast.success('new password updated successfully')
           navigate('/')
         }
+       else if (data?.status == 440){
+        toast.error(data.data.message)
+        navigate('/recovery')
+       }
         // dispatch({ type: 'USER_SIGNIN', payload: data })
         // localStorage.setItem('userInfo', JSON.stringify(data))
         else{

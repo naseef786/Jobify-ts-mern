@@ -26,35 +26,37 @@ const Side: React.FC<SideProps> = ({ openSidebarToggle, OpenSidebar }) => {
           </a>
         </li>
         <li className='sidebar-list-item'>
-          <a href="/admin/users" className="flex items-center no-underline text-gray-500">
+          <a href="/admin/recruiters" className="flex items-center no-underline text-gray-500">
             <BsBuilding className='icon' /> Recruiters
           </a>
         </li>
+      
         <li className='sidebar-list-item'>
-          <a href="/admin/items" className="flex items-center no-underline text-gray-500">
-            <BsFillGrid3X3GapFill className='icon' /> Categories
-          </a>
-        </li>
-        <li className='sidebar-list-item'>
-                <a href="" className="flex items-center no-underline text-gray-500">
+                <a href="/admin/candidates" className="flex items-center no-underline text-gray-500">
                     <BsPeopleFill className='icon'/> candidates
                 </a>
             </li>
+          
             <li className='sidebar-list-item'>
-                <a href="" className="flex items-center no-underline text-gray-500">
-                    <BsListCheck className='icon'/> Inventory
-                </a>
-            </li>
-            <li className='sidebar-list-item'>
-                <a href="" className="flex items-center no-underline text-gray-500">
+                <a href="/admin/reports" className="flex items-center no-underline text-gray-500">
                     <BsMenuButtonWideFill className='icon'/> Reports
                 </a>
             </li>
             <li className='sidebar-list-item'>
-                <a href="" className="flex items-center no-underline text-gray-500">
+                <a href="/admin/profile" className="flex items-center no-underline text-gray-500">
                     <BsFillGearFill className='icon'/> Setting
                 </a>
             </li>
+            <li className='sidebar-list-item'>
+                <a href="/admin/view-blocked" className="flex items-center no-underline text-gray-500">
+                    <BsListCheck className='icon'/> Blocked costomers
+                </a>
+            </li>
+            <li className='sidebar-list-item'>
+          <a href="/admin/view-blocked" className="flex items-center no-underline text-gray-500">
+            <BsFillGrid3X3GapFill className='icon' /> Categories
+          </a>
+        </li>
         {/* Add classes for other list items as needed */}
       </ul>
     </aside>

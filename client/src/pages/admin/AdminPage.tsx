@@ -1,30 +1,21 @@
 import React, { useState } from 'react'
-import Sidebar from '../../components/admin_dash/Sidebar'
 import Side from '../../components/admin_dash/Side'
-import DashboardNav from '../../components/admin_dash/DashboardNav'
-// import NavBar from '../../components/header/Navbar'
-// import Test from '../../components/test/Test'
-// import Footer from '../../components/footer/Footer'
 import { Outlet } from 'react-router-dom'
-import Header from '../../components/admin_dash/header'
-import Home from '../../components/admin_dash/Home'
+import Header from '../../components/admin_dash/Header'
 import '../../components/admin_dash/admin.css'
+
+
 function AdminPage() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false)
-
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle)
   }
-
-
 
   return (
     <div className='grid-container'>
     <Header OpenSidebar={OpenSidebar}/>
     <Side  openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
-   
     <Outlet/>
-   
   </div>
   )
 }

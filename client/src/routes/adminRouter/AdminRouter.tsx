@@ -21,7 +21,7 @@ function AdminRouter() {
       <Route path='/' element={adminInfo ? <AdminPage /> : <Navigate to={'/admin/signin'} />} >
 
 
-        <Route index element={<Home/>} />
+         <Route index element={<Home/>} />
          <Route path='/users' element={<Users/>} />
          <Route path='/items' element={<Main/>} />
 

@@ -12,7 +12,25 @@ import {useQuery,useMutation} from '@tanstack/react-query'
 // }
 
 
-export const useGetJobsQuery = (searchTerm: string = '',token:string) => {
+export const useGetJobsQuery = (token:string) => {
+  return useQuery(['jobs'], async () => {
+  
+  console.log(token);
+  
+    if (!token) {
+      throw new Error('Token not found in local storage'); // Handle case where token is not available
+    }
+
+    const response = await apiClient.get<Jobs[]>(`/api/users/jobs`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    return response.data;
+  });
+};
+export const useSearchJobsQuery = (searchTerm: string = '',token:string) => {
   return useQuery(['jobs', searchTerm], async () => {
   
   console.log(token);
@@ -21,7 +39,7 @@ export const useGetJobsQuery = (searchTerm: string = '',token:string) => {
       throw new Error('Token not found in local storage'); // Handle case where token is not available
     }
 
-    const response = await apiClient.get<Jobs[]>(`/api/users/jobs?search=${searchTerm}`, {
+    const response = await apiClient.get<Jobs[]>(`/api/users/jobs/search?search=${searchTerm}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

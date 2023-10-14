@@ -7,13 +7,13 @@ import SearchBox from '../../components/search/Search'
 import Jobview from '../../components/jobs/Jobview'
 
 function JobsPage() {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+ 
 
   return (
     <>
     <TileNav/>
-    <SearchBox setSearchTerm={setSearchTerm}/>
-    <Jobview searchTerm={searchTerm}/>
+    <SearchBox/>
+    <Jobview />
     <Footer/>
     </>
   )

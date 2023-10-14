@@ -68,12 +68,28 @@ export const candidateSignup = asyncHandler(async (req: Request, res: Response, 
 
 export const getJobs = async (req: Request, res: Response, next: NextFunction) => {
   try {
+
+   
+console.log('inside get jobs');
+
+    
+    const  jobs = await JobModel.find();
+  
+   
+
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+export const searchJobs = async (req: Request, res: Response, next: NextFunction) => {
+  try {
     console.log(req.query);
-    console.log(req.body);
+   
 
     const searchTerm = req.query.search as string || '';
-    console.log('Search Term:', searchTerm);
-
+  
     let jobs;
     if (searchTerm === '') {
       jobs = await JobModel.find();

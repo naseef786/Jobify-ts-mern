@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import LoadingBox from '../../components/loadingBox/LoadingBox';
 import MessageBox from '../../components/messageBox/MessageBox';
@@ -8,13 +8,25 @@ import { useGetJobsQuery } from '../../hooks/jobHooks';
 import { getError } from '../../utils';
 import { ApiError } from '../../types/ApiError';
 import { useNavigate } from 'react-router-dom';
+import { Store } from '../../store/Store';
+import { Job, Jobs } from '../../types/Jobs';
 
 
 const Jobs: React.FC = () => {
 const navigate = useNavigate()
+const {state,dispatch} = useContext(Store)
+const {userInfo,jobs} = state
 
-  const { data: jobs, isLoading, error } = useGetJobsQuery();
-console.log(jobs);
+const token = userInfo.token
+  const { data: fetchedJobs, isLoading, error } = useGetJobsQuery(token);
+
+
+useEffect(() => {
+  // Fetch jobs from your backend server
+  if(fetchedJobs) dispatch({ type: 'STORE_JOBS', payload: fetchedJobs });
+   
+}, [dispatch,jobs]);
+
 
   if (isLoading) {
     return <LoadingBox />;

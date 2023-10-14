@@ -9,6 +9,7 @@ import Help from '../../components/test/Help';
 import Contact from '../../components/test/Contact';
 import Applyform from '../../components/applyform/Applyform';
 import Forgetpass from '../../components/forgetpassword/Forget'
+import JobC from '../../pages/candidate/JobsC'
 import {Store}  from '../../store/Store'
 import Otp from '../../pages/candidate/Otp';
 import ResetPassword from '../../components/reset/ResetPassword';
@@ -23,6 +24,7 @@ function CandidteRouter() {
              <Route path="/signup" element={<SignupPage/>} />
              <Route path='/otp' element={<Otp/>}/>
              <Route path='/jobs'  element={userInfo ? <JobsPage/>: <Navigate to='/signin'/> } />
+             <Route path='/applied'  element={userInfo ? <JobC/>: <Navigate to='/signin'/> } />
              <Route path='/contact'  element={<Contact/>}/>
 
              <Route path='/recovery'  element={<Forgetpass/>}/>

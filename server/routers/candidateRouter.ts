@@ -18,6 +18,7 @@ userRouter.get('/verifyOTP')
 userRouter.get('/createResetSession',authMiddleware)
 // userRouter.get('/:user',authMiddleware,getUser)
 userRouter.get('/jobs' ,authMiddleware, getJobs)
+userRouter.get('/jobs/search' ,authMiddleware,controller.searchJobs )
 userRouter.put('/updateProfile',authMiddleware,updateUser)
 userRouter.put('/updatePassword',authMiddleware)
 

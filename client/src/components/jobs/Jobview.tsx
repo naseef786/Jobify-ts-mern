@@ -1,6 +1,6 @@
 import React, { useState,useEffect,useContext} from 'react';
 import { BiTimeFive } from 'react-icons/bi';
-import { useGetJobsQuery } from '../../hooks/jobHooks';
+import { useGetJobsQuery, useSearchJobsQuery } from '../../hooks/jobHooks';
 import LoadingBox from '../loadingBox/LoadingBox';
 import MessageBox from '../messageBox/MessageBox';
 import { getError } from '../../utils';
@@ -9,29 +9,31 @@ import { Helmet } from 'react-helmet-async';
 
 import { Jobs } from '../../types/Jobs';
 import { Store } from '../../store/Store';
+import { useNavigate } from 'react-router-dom';
 
-interface JobListProps {
-  searchTerm: string;
-  token:string;
-}
-
-
-  // const fetchJobs = async (query: string) => {
-  //   const response = await fetch(`/api/jobs/search?query=${query}`);
-  //   return response.json();
-  // };
+// interface JobListProps {
+//   searchTerm: string;
+//   token:string;
+// }
 
 
-const Jobview:React.FC<JobListProps>= ({ searchTerm}) => {
+
+
+const Jobview:React.FC= () => {
+  const navigate = useNavigate()
   const { state, dispatch } = useContext(Store)
-  const { userInfo } = state
+  const { userInfo,jobs,searchTerm } = state
   const token = userInfo.token
-  const { data: jobs, isLoading, error } = useGetJobsQuery(searchTerm,token);
-  console.log(token);
-  
-  //   const { data, error, isLoading } = useQuery(['jobs', searchQuery], () =>
-  //   fetchJobs(searchQuery)
-  // );
+
+  const { data: fetchedJobs, isLoading, error } = useSearchJobsQuery(searchTerm,token);
+
+useEffect(() => {
+  // Fetch jobs from your backend server
+  if(fetchedJobs) dispatch({ type: 'STORE_JOBS', payload: fetchedJobs });
+   
+}, [jobs,searchTerm]);
+
+ 
 
     if (isLoading) {
         return <LoadingBox />;
@@ -49,7 +51,7 @@ const Jobview:React.FC<JobListProps>= ({ searchTerm}) => {
           </Helmet>
             <div className='jobContainer flex gap-10 justify-center flex-wrap items-center py-10'>
             {jobs && jobs.length > 0 ? (
-                 jobs.map((job:Jobs) => (
+                 jobs.map((job) => (
                 <div className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'>
                     <span className='flex justify-between items-center gap-4'>
                         <h1 className='text-[16px] font-semibold text-black group-hover:text-white'>{job.title} </h1>

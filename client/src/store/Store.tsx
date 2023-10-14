@@ -1,12 +1,13 @@
 import React from 'react'
 import { UserInfo, AdminInfo, HirerInfo } from '../types/UserInfo'
-import { Jobs } from '../types/Jobs'
+import { Job, Jobs } from '../types/Jobs'
 type AppState = {
-
+  jobs: Jobs[] | null 
   userInfo: UserInfo
   adminInfo: AdminInfo
   hirerInfo : HirerInfo
   searchTerm: string// Add this field
+  selectedJob:Job | null
 }
 
 const initialState: AppState = {
@@ -14,14 +15,18 @@ const initialState: AppState = {
   userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')!) : null,
   adminInfo: localStorage.getItem('adminInfo') ? JSON.parse(localStorage.getItem('adminInfo')!) : null,
   hirerInfo: localStorage.getItem('hirerInfo') ? JSON.parse(localStorage.getItem('hirerInfo')!) : null,
-  searchTerm:''
+  searchTerm:'',
+  jobs:[],
+  selectedJob: null
 }
 type Action =
   { type: 'USER_SIGNIN'; payload: UserInfo } |
+  { type: 'STORE_JOBS'; payload: Jobs[] } |
+  { type: 'SELECT_JOBS'; payload: Job } |
   { type: 'ADMIN_SIGNIN'; payload: AdminInfo} |
   { type: 'HIRER_SIGNIN'; payload: HirerInfo } |
   { type: 'USER_SIGNOUT' } | { type: 'ADMIN_SIGNOUT' } | { type: 'HIRER_SIGNOUT' } |
-  { type: 'UPDATE_SEARCH_TERM'; payload: string };
+  { type: 'SEARCH_JOBS'; payload: string };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -31,11 +36,18 @@ function reducer(state: AppState, action: Action): AppState {
       return { ...state, userInfo: action.payload }
     case 'USER_SIGNOUT':
       return { ...state }
+    case 'STORE_JOBS' :
+      return {...state,jobs:action.payload}
+    case 'SELECT_JOBS' :
+      return {...state,selectedJob:action.payload}
+
+
+
     case 'ADMIN_SIGNIN':
       return { ...state, adminInfo: action.payload }
     case 'HIRER_SIGNIN':
       return { ...state, hirerInfo: action.payload }
-    case 'UPDATE_SEARCH_TERM':
+    case 'SEARCH_JOBS':
       return { ...state, searchTerm: action.payload };
     case 'ADMIN_SIGNOUT':
       return { ...state }

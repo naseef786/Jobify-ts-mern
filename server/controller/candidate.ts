@@ -94,8 +94,9 @@ export const searchJobs = async (req: Request, res: Response, next: NextFunction
     if (searchTerm === '') {
       jobs = await JobModel.find();
     } else {
-      jobs = await JobModel.find({ $text: { $search: searchTerm } });
+      jobs = await JobModel.find({title: { $regex: new RegExp(searchTerm, 'i') }} );
     }
+console.log(jobs);
 
     res.status(200).json(jobs);
   } catch (error) {

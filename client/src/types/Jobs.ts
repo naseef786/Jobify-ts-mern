@@ -14,15 +14,15 @@ export type Jobs = {
 
 
 export type Job = {
-    id:number
+    id:number |null
     title : String
     qualification : String
     company : String
     location : String
-    salary : number
+    salary : string
     description : String
     shifts : String
     benefits  :String
-    countOfStaffNeeded: number
+    countOfStaffNeeded: string
 
 }

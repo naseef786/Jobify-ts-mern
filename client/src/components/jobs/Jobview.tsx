@@ -22,16 +22,16 @@ import { useNavigate } from 'react-router-dom';
 const Jobview:React.FC= () => {
   const navigate = useNavigate()
   const { state, dispatch } = useContext(Store)
-  const { userInfo,jobs,searchTerm } = state
+  const { userInfo,searchTerm } = state
   const token = userInfo.token
 
-  const { data: fetchedJobs, isLoading, error } = useSearchJobsQuery(searchTerm,token);
+  const { data: jobs, isLoading, error } = useSearchJobsQuery(searchTerm,token);
 
-useEffect(() => {
-  // Fetch jobs from your backend server
-  if(fetchedJobs) dispatch({ type: 'STORE_JOBS', payload: fetchedJobs });
+// useEffect(() => {
+//   // Fetch jobs from your backend server
+//   if(fetchedJobs) dispatch({ type: 'STORE_JOBS', payload: fetchedJobs });
    
-}, [jobs,searchTerm]);
+// }, [jobs,searchTerm]);
 
  
 

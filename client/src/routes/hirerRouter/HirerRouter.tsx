@@ -14,6 +14,8 @@ import Profile from '../../components/hirer_dash/Profile';
 import JobPosts from '../../components/hirer_dash/JobPosts';
 import JobPostView from '../../components/hirer_dash/JobPostView';
 import Reports from '../../components/hirer_dash/Reports';
+import JobPostForm from '../../components/hirer_dash/jobpostform/JobPostForm';
+import AddJobForm from '../../components/hirer_dash/forms/AddJob';
 function HirerRouter() {
   const { state } = useContext(Store)
   const { hirerInfo } = state
@@ -27,7 +29,7 @@ function HirerRouter() {
         <Route path='/jobposts' element={<JobPosts/>} />
         <Route path='/jobposts/:id' element={<JobPostView/>} />
        
-        <Route path='/create-job' element={<Applyform />} />
+        <Route path='/create-job' element={<AddJobForm />} />
         <Route path='/profile' element={<Profile/>} />
         <Route path='/applied' element={<Applyform />} />
         <Route path='/applied/:id' element={<Applyform />} />

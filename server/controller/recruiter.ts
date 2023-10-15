@@ -67,6 +67,7 @@ export const recruiterSignUpPost = expressAsyncHandler( async (req:Request, res:
                 _id:existingRecruiter._id,
                 name:existingRecruiter.name,
                 email:existingRecruiter.email,
+                image:existingRecruiter.image,
                 token:generateRecruiterToken(existingRecruiter)
             })
             return

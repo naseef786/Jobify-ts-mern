@@ -63,3 +63,22 @@ useMutation({
       })
     ).data,
 })
+
+export const usePostJobMutation = () =>
+useMutation({
+  mutationFn: async ({
+    email,
+    password,
+    
+  }: {
+    email: string
+    password: string
+  
+  }) =>
+    (
+      await apiClient.post<HirerInfo>(`api/recruiter/signin`, {
+        email,
+        password,
+      })
+    ).data,
+})

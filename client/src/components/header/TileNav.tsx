@@ -37,9 +37,7 @@ export default function Example() {
   }
 
   return (
-    <Disclosure as="nav" className="" style={{
-      background:'#CA942D'
-    }} >
+    <Disclosure as="nav" className=" rounded-s-lg  bg-indigo-600'">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

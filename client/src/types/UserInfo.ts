@@ -15,4 +15,5 @@ export type HirerInfo = {
   name:string
   email:string
   token:string
+  image:string
 }

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify } from 'react-icons/bs';
+import { Store } from '../../store/Store';
 
 interface HeaderProps {
   OpenSidebar: () => void;
@@ -7,6 +8,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ OpenSidebar }) => {
   const [searchTerm, setSearchTerm] = useState('');
+const {state,dispatch} = useContext(Store)
+const {hirerInfo} =state
+console.log(hirerInfo.name);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -41,6 +45,7 @@ const Header: React.FC<HeaderProps> = ({ OpenSidebar }) => {
         <BsFillBellFill className='icon' />
         <BsFillEnvelopeFill className='icon' />
         <BsPersonCircle className='icon' />
+        <img src={hirerInfo.image} alt="" />
       </div>
     </header>
   );

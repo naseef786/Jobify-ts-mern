@@ -19,6 +19,7 @@ interface Job {
   requirements:string;
   workPlace:string;
   jobType:string;
+  
 }
 
 const AddJobForm: React.FC = () => {
@@ -28,18 +29,18 @@ const {state} =useContext(Store)
 
    const token = hirerInfo.token
   const [job, setJob] = useState<Job>({
-    title: '', 
-    qualification: '',
-    requirements:'',
-    company: '',
-    location: '',
-    salary: '',
-    description: '',
-    shifts: '',
-    benefits: '',
-    countOfStaffNeeded: '',
-    jobType:'',
-    workPlace:''
+    title: 'Data Analyst',
+    qualification : 'Bachelors degree in Statistics or related field',
+    company: 'DataInsight',
+    location: 'Seattle, WA',
+    salary: '75000',
+    description: 'DataInsight is looking for a Data Analyst to interpret data and turn it into information which can offer ways to improve a business, thus affecting business decisions.',
+    shifts: 'Day Shift',
+    benefits: 'Health and wellness benefits, Stock options',
+    countOfStaffNeeded:"s",
+    workPlace: 'Hybrid',
+    jobType: 'Full-time',
+    requirements: 'SQL, Excel, Data visualization tools (e.g., Tableau)',
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -102,7 +103,7 @@ const {state} =useContext(Store)
   return (
     <div className="main-container">
     <form onSubmit={handleSubmit} className="form max-w-3xl mx-auto p-4 bg-white shadow-lg rounded-md">
-    <div className="mb-4">
+    {/* <div className="mb-4">
       <label htmlFor="company" className=" block text-gray-700 font-bold mb-2">COMPANY</label>
       <input
         type="text"
@@ -243,8 +244,8 @@ const {state} =useContext(Store)
               required
                className="w-full px-3 py-2 border text-black  border-gray-300 rounded focus:outline-none focus:border-indigo-500"
             />
-    </div>
-    <div className="mb-4"></div>
+    </div> */}
+    
     
     <button type="submit" className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
       Add Job

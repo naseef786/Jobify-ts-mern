@@ -16,6 +16,16 @@ export class Job {
   @prop({ required: true })
   public workPlace!: string;
 
+  
+  @prop({ required: true })
+  public qualification!: string;
+
+  @prop({ required: true })
+  public benefits!: string;
+
+  @prop({ required: true })
+  public shifts!: string;
+
   @prop({ required: true })
   title!: string;
 
@@ -32,7 +42,7 @@ export class Job {
   location!: string;
 
   @prop({ required: true })
-  salary!: number;
+  salary!: string;
 
   @prop({ required: true })
   requirements!: string;

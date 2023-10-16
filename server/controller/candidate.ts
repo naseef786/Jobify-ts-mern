@@ -248,6 +248,37 @@ export const resetPassword = (req: Request, res: Response) => {
   }
 }
 
+export const applyJob = async(req: Request, res: Response, next: NextFunction)=>{
+  try {
+    console.log("inside apply job");
+    
+    const { jobId } = req.params;
+    const  userId  = req.user
+
+    
+    const job = JobModel.findById(jobId);
+
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+
+    if (job ) {
+
+(await job).applicants.push(userId.)
+
+
+    job.applicants.push(userId._id);
+    job.save();
+    console.log("yezzzz");
+    
+
+    return res.json({ message: 'Application submitted successfully' });
+  }} catch (error) {
+    next(error); // Pass the error to Express error handling middleware
+  }
+}
+
+
 
 
 

@@ -76,7 +76,7 @@ export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Res
 })
 export const postJob =  async (req: Request, res: Response) => {
   try {
-    console.log();
+    console.log(req.body);
     
     const {
       title,

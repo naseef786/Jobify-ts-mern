@@ -16,7 +16,7 @@ export type Jobs = {
 
 
 export type Job = {
-    id:number |null
+    id:number 
     recruiterId:number
     title : String
     qualification : String

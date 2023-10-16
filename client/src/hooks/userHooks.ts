@@ -77,3 +77,10 @@ return {
 export const useVerifyMutation = () =>
   useMutation({mutationFn: async ({email,code}: { email: string,code:string}) =>
   (await apiClient.post<ApiInfo>(`api/users/verify`, {email,code})).data})
+
+
+  export const useApplyJobMutation = () =>
+  useMutation({mutationFn: async ({jobId,token}: { jobId: number,token:string}) =>
+  (await apiClient.post<ApiInfo>(`api/users/jobs/apply-job`, {jobId,token},{      headers: {
+    Authorization: `Bearer ${token}`
+  }})).data})

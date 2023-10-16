@@ -6,10 +6,15 @@ declare namespace Express {
         _id: string
         name: string
         email: string
-        isAdmin: boolean
         token: string
       },
       admin:{
+        _id: string
+        name: string
+        email: string
+        token: string
+      },
+       recruiter: {
         _id: string
         name: string
         email: string

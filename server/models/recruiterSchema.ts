@@ -29,10 +29,6 @@ export class Recruiter {
   @prop({ required: true, minlength: 6, trim: true })
      password!: string;
 
-
-
-
-
   @prop()
      image?: string;
 

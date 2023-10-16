@@ -1,4 +1,9 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
+import { usePostJobMutation } from '../../../hooks/hirerHooks';
+import { getError } from '../../../utils';
+import { ApiError } from '../../../types/ApiError';
+import { toast } from 'react-toastify';
+import { Store } from '../../../store/Store';
 
 
 interface Job {
@@ -11,12 +16,21 @@ interface Job {
   shifts: string;
   benefits: string;
   countOfStaffNeeded: string;
+  requirements:string;
+  workPlace:string;
+  jobType:string;
 }
 
 const AddJobForm: React.FC = () => {
+const {state} =useContext(Store)
+
+   const {hirerInfo} = state
+
+   const token = hirerInfo.token
   const [job, setJob] = useState<Job>({
-    title: '',
+    title: '', 
     qualification: '',
+    requirements:'',
     company: '',
     location: '',
     salary: '',
@@ -24,6 +38,8 @@ const AddJobForm: React.FC = () => {
     shifts: '',
     benefits: '',
     countOfStaffNeeded: '',
+    jobType:'',
+    workPlace:''
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,8 +49,9 @@ const AddJobForm: React.FC = () => {
       [name]: value,
     });
   };
+  const { mutateAsync: Postjob, isLoading } = usePostJobMutation()
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async(e: FormEvent) => {
     e.preventDefault();
     // Add code to send the job data to your backend (via Axios or similar)
     console.log('Job Data:', job);
@@ -46,11 +63,40 @@ const AddJobForm: React.FC = () => {
       location: '',
       salary: '',
       description: '',
+      requirements:'',
       shifts: '',
       benefits: '',
       countOfStaffNeeded: '',
+      jobType:'',
+      workPlace:'',
     });
-    console.log(job)
+    try {
+      const data = await Postjob({
+        // Add the job data you want to send to the backend here
+        title: job.title,
+        qualification: job.qualification,
+        company: job.company,
+        requirements:job.requirements,
+        location: job.location,
+        salary: job.salary,
+        description: job.description,
+        shifts: job.shifts,
+        benefits: job.benefits,
+        count: job.countOfStaffNeeded,
+        token:token,
+        jobType:job.jobType,
+        workPlace:job.workPlace
+
+
+      });
+
+
+      
+      // navigate(redirect)
+  } catch (err) {
+      toast.error(getError(err as ApiError))
+  }
+ 
   };
 
   return (
@@ -80,12 +126,47 @@ const AddJobForm: React.FC = () => {
       />
     </div>
     <div className="mb-4">
+      <label htmlFor="requirements" className="block text-gray-700 font-bold mb-2">requirements</label>
+      <textarea
+        id="requirements"
+        name="requirements"
+        value={job.requirements}
+        onChange={handleChange}
+        required
+        className="w-full px-3 py-2 border text-black  border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+      />
+    </div>
+    <div className="mb-4">
     <label htmlFor="title" className="block text-gray-700 font-bold mb-2" >Title</label>
             <input
               type="text"
               id="title"
               name="title"
               value={job.title}
+              onChange={handleChange}
+              required
+               className="w-full px-3 py-2 border text-black  border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+            />
+    </div>
+    <div className="mb-4">
+    <label htmlFor="jobType" className="block text-gray-700 font-bold mb-2" >jobType</label>
+            <input
+              type="text"
+              id="jobType"
+              name="jobType"
+              value={job.jobType}
+              onChange={handleChange}
+              required
+               className="w-full px-3 py-2 border text-black  border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+            />
+    </div>
+    <div className="mb-4">
+    <label htmlFor="workPlace" className="block text-gray-700 font-bold mb-2" >workPlace</label>
+            <input
+              type="text"
+              id="workPlace"
+              name="workPlace"
+              value={job.workPlace}
               onChange={handleChange}
               required
                className="w-full px-3 py-2 border text-black  border-gray-300 rounded focus:outline-none focus:border-indigo-500"

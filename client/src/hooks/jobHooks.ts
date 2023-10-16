@@ -15,7 +15,7 @@ import {useQuery,useMutation} from '@tanstack/react-query'
 export const useGetJobsQuery = (token:string) => {
   return useQuery(['jobs'], async () => {
   
-  console.log(token);
+ 
   
     if (!token) {
       throw new Error('Token not found in local storage'); // Handle case where token is not available

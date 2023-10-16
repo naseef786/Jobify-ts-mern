@@ -31,7 +31,6 @@ export const candidateSignin = asyncHandler(async (req: Request, res: Response, 
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
         token: generateUserToken(user)
       })
       return
@@ -40,7 +39,6 @@ export const candidateSignin = asyncHandler(async (req: Request, res: Response, 
   res.status(401).json({ message: 'Invalid email or password' })
 
 })
-
 export const candidateSignup = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { name, email, password } = req.body
   const existingEmail = await UserModel.findOne({ email: email })
@@ -60,22 +58,19 @@ export const candidateSignup = asyncHandler(async (req: Request, res: Response, 
     _id: user._id,
     name: user.name,
     email: user.email,
-    isAdmin: user.isAdmin,
     token: generateUserToken(user),
   })
 })
-
-
 export const getJobs = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
-   
-console.log('inside get jobs');
 
-    
-    const  jobs = await JobModel.find();
-  
-   
+    console.log('inside get jobs');
+
+
+    const jobs = await JobModel.find();
+
+
 
     res.status(200).json(jobs);
   } catch (error) {
@@ -86,17 +81,17 @@ console.log('inside get jobs');
 export const searchJobs = async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log(req.query);
-   
+
 
     const searchTerm = req.query.search as string || '';
-  
+
     let jobs;
     if (searchTerm === '') {
       jobs = await JobModel.find();
     } else {
-      jobs = await JobModel.find({title: { $regex: new RegExp(searchTerm, 'i') }} );
+      jobs = await JobModel.find({ title: { $regex: new RegExp(searchTerm, 'i') } });
     }
-console.log(jobs);
+    console.log(jobs);
 
     res.status(200).json(jobs);
   } catch (error) {
@@ -104,7 +99,6 @@ console.log(jobs);
     res.status(500).json({ message: 'Server error' });
   }
 }
-
 // export const getUser = asyncHandler(async (req: Request, res: Response,next:NextFunction) => {
 //  const {user} = req.params
 //  try{
@@ -127,9 +121,6 @@ console.log(jobs);
 //   res.status(500).json({ message: 'Server error' });
 // }
 // })
-
-
-
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const { _id } = req.user;
@@ -152,7 +143,6 @@ export const updateUser = async (req: Request, res: Response) => {
     return res.status(500).send({ error: error.message });
   }
 };
-
 export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
 
@@ -206,14 +196,10 @@ export const verifyUser = async (req: Request, res: Response, next: NextFunction
     return res.status(404).send({ message: "Authentication Error" });
   }
 }
-
-
-
 export const generateOTP = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   req.app.locals.OTP = await otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false })
   res.status(201).send({ code: req.app.locals.OTP })
 })
-
 export const verifyOTP = (req: Request, res: Response, next: NextFunction) => {
   const { code } = req.body
   console.log("hello");
@@ -226,9 +212,6 @@ export const verifyOTP = (req: Request, res: Response, next: NextFunction) => {
   }
   return res.status(400).send({ message: "Invalid OTP" });
 };
-
-
-
 export const resetPassword = (req: Request, res: Response) => {
   try {
     console.log("inside reset password");

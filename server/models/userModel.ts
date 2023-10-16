@@ -1,5 +1,5 @@
 import { modelOptions, prop, getModelForClass } from '@typegoose/typegoose';
-import { Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class User {
@@ -23,11 +23,16 @@ export class User {
   })
   public email!: string;
 
+
+  @prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Job' })
+  public applicants?: mongoose.Types.ObjectId[];
   @prop({
     required: true,
     minlength: [6, 'Password length should be greater than 6 characters'],
   })
   public password!: string;
+
+
 
   @prop({ required: true, default: false })
   public isAdmin!: boolean;

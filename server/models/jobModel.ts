@@ -1,4 +1,5 @@
 import { modelOptions, prop,index, getModelForClass } from '@typegoose/typegoose'
+import mongoose, { ObjectId } from 'mongoose';
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 @index({ title: 'text', description: 'text', location: 'text', company: 'text' })
@@ -6,14 +7,26 @@ import { modelOptions, prop,index, getModelForClass } from '@typegoose/typegoose
 export class Job {
   public _id?: string
 
+  @prop({ ref: 'Recruiter', required: true })
+  public recruiterId!: ObjectId;
+
+  @prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'User' })
+  public applicants?: mongoose.Types.ObjectId[];
+
+  @prop({ required: true })
+  public workPlace!: string;
+
   @prop({ required: true })
   title!: string;
+
+  @prop({ required: true })
+  public jobType!: string;
 
   @prop({ required: true })
   description!: string;
 
   @prop({ required: true })
-  company!: string;
+  companyName!: string;
 
   @prop({ required: true })
   location!: string;
@@ -24,8 +37,18 @@ export class Job {
   @prop({ required: true })
   requirements!: string;
 
+  @prop({ default: true })
+  public isActive!: boolean;
+
+ @prop({ type: Date, default: Date.now })
+  public createdAt?: Date;
+
+  @prop({ type: Date, default: Date.now })
+  public updatedAt?: Date;
+
   @prop({ required: true })
-  datePosted!: string;
+  public vaccancy!: string;
+
 }
 
 export const JobModel = getModelForClass(Job)

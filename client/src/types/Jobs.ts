@@ -3,6 +3,7 @@ export type Jobs = {
     title: string;
     qualification: string;
     company: string;
+    requirements:string
     location: string;
     salary: number;
     description: string;
@@ -21,6 +22,7 @@ export type Job = {
     location : String
     salary : string
     description : String
+    requirements:string
     shifts : String
     benefits  :String
     countOfStaffNeeded: string

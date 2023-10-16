@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import apiClient from '../axios/apiClient'
 import { HirerInfo } from '../types/UserInfo'
+import { Job, Jobs } from '../types/Jobs'
 
 export const useRecruiterSignupMutation = () =>
   useMutation({
@@ -64,21 +65,59 @@ useMutation({
     ).data,
 })
 
+
+
 export const usePostJobMutation = () =>
-useMutation({
-  mutationFn: async ({
-    email,
-    password,
+  useMutation({
+    mutationFn: async ({
     
-  }: {
-    email: string
-    password: string
-  
-  }) =>
-    (
-      await apiClient.post<HirerInfo>(`api/recruiter/signin`, {
-        email,
-        password,
-      })
-    ).data,
-})
+    title, 
+    qualification,
+    company,
+    location,
+    salary,
+    description,
+    shifts,
+    benefits,
+    count,
+    requirements,
+    token,
+    jobType,
+    workPlace
+     
+    }: {
+
+      title: string
+      qualification: string
+      company: string
+      location: string
+      salary: string
+      description: string
+      shifts: string
+      benefits: string
+      count: string
+      requirements:string
+      token:string
+      jobType:string
+      workPlace:string
+
+    }) =>
+      (
+        await apiClient.post<Job>(`api/recruiter/post-job`, {
+          title, 
+          qualification,
+          company,
+          location,
+          salary,
+          description,
+          shifts,
+          benefits,
+          count,
+          requirements,
+          jobType,
+          workPlace
+        },{      headers: {
+          Authorization: `Bearer ${token}`
+        }})
+      ).data,
+  })

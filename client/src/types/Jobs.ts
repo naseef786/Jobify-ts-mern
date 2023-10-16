@@ -1,5 +1,6 @@
 export type Jobs = {
     id: number;
+    recruiterId:number
     title: string;
     qualification: string;
     company: string;
@@ -16,6 +17,7 @@ export type Jobs = {
 
 export type Job = {
     id:number |null
+    recruiterId:number
     title : String
     qualification : String
     company : String

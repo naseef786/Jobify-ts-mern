@@ -50,7 +50,6 @@ export const recruiterSignUpPost = expressAsyncHandler(async (req: Request, res:
     next(error);
   }
 })
-
 export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body
   const existingRecruiter = await RecruiterModel.findOne({ email: email })
@@ -75,8 +74,6 @@ export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Res
     }
   }
 })
-
-
 export const postJob =  async (req: Request, res: Response) => {
   try {
     console.log();
@@ -124,3 +121,16 @@ export const postJob =  async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 }
+
+export const fetchJob = expressAsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const recruiterId = req.recruiter._id;
+    const jobs = await JobModel.find({ recruiterId });
+    console.log(jobs);
+    
+    res.json(jobs);
+
+  } catch (error) {
+    next(error); // Pass the error to Express error handling middleware
+  }
+});

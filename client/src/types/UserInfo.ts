@@ -10,9 +10,10 @@ export type AdminInfo = {
   token:string
 }
 export type HirerInfo = {
-  _id:string
+  _id:number
   name:string
   email:string
   token:string
   image:string
+
 }

@@ -6,7 +6,8 @@ const JobDetails: React.FC = () => {
   const { selectedJob } = state;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    
+    <div className="  flex flex-col items-center justify-center h-screen overflow-y-hidden">
       {selectedJob ? (
         <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold mb-4">{selectedJob.title}</h1>

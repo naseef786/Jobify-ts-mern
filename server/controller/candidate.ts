@@ -8,6 +8,7 @@ import { JobModel } from '../models/jobModel'
 import otpGenerator from 'otp-generator'
 import zxcvbn from 'zxcvbn';
 import { sendEmail } from '../Utils/nodeMailer'
+import mongoose from 'mongoose'
 
 
 
@@ -251,37 +252,81 @@ export const resetPassword = (req: Request, res: Response) => {
 export const applyJob = async(req: Request, res: Response, next: NextFunction)=>{
   try {
     console.log("inside apply job");
+    console.log(req.body);
     
-    const { jobId } = req.params;
-    const  userId  = req.user
-
-    
-    const job = JobModel.findById(jobId);
-
-    if (!job) {
-      return res.status(404).json({ message: 'Job not found' });
-    }
-
-    if (job ) {
-
-(await job).applicants.push(userId.)
-
-
-    job.applicants.push(userId._id);
-    job.save();
-    console.log("yezzzz");
+    const { jobId } = req.body;
+    const  userId  = req.user;
+    const {_id}= userId;
+   await JobModel.findByIdAndUpdate(jobId, { $addToSet: { applicants: _id } })
+    .then(updatedJob => {
+      if (updatedJob) {
+        console.log(`User ${userId.name} added as an applicant to job ${jobId}`);
+      } else {
+        console.log(`Job with ID ${jobId} not found`);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
     
 
     return res.json({ message: 'Application submitted successfully' });
-  }} catch (error) {
+  } catch (error) {
     next(error); // Pass the error to Express error handling middleware
   }
 }
 
 
 
+export const update = async (req, res, next) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    contact,
+    location,
+    profileUrl,
+    jobTitle,
+    about,
+  } = req.body;
 
+  try {
+    if (!firstName || !lastName || !email || !contact || !jobTitle || !about) {
+      next("Please provide all required fields");
+    }
 
+    const id = req.body.user.userId;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).send(`No User with id: ${id}`);
+    }
 
+    const updateUser = {
+      firstName,
+      lastName,
+      email,
+      contact,
+      location,
+      profileUrl,
+      jobTitle,
+      about,
+      _id: id,
+    };
 
+    const user = await UserModel.findByIdAndUpdate(id, updateUser, { new: true });
+
+    // const token = user.createJWT();
+
+    user.password = undefined;
+
+    res.status(200).json({
+      sucess: true,
+      message: "User updated successfully",
+      user,
+      // token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};

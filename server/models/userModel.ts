@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class User {
+
   public _id?: string;
 
   @prop({ required: true })
@@ -26,16 +27,24 @@ export class User {
 
   @prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Job' })
   public applicants?: mongoose.Types.ObjectId[];
+
   @prop({
     required: true,
     minlength: [6, 'Password length should be greater than 6 characters'],
   })
   public password!: string;
 
-
+  public contact!:string; 
+  public location!:string;
+  public profileUrl!:string; 
+  public cvUrl!:string; 
+  public jobTitle!:string; 
+  public about!:string; 
 
   @prop({ required: true, default: false })
   public isAdmin!: boolean;
+
+
 }
 
 export const UserModel = getModelForClass(User);

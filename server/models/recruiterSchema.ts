@@ -1,4 +1,5 @@
 import { prop, getModelForClass, Ref, modelOptions } from '@typegoose/typegoose';
+import { ObjectId, Schema } from 'mongoose';
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class Recruiter {
@@ -8,6 +9,7 @@ export class Recruiter {
   @prop({ required: true, trim: true })
   name!: string;
 
+  
   @prop({  required: true })
   company!: string;
 
@@ -29,6 +31,9 @@ export class Recruiter {
   @prop({ required: true, minlength: 6, trim: true })
      password!: string;
 
+  @prop({ ref: 'Job' })
+     jobPosts?: Schema.Types.ObjectId[];
+
   @prop()
      image?: string;
 
@@ -37,6 +42,7 @@ export class Recruiter {
 
   @prop({ type: Date, default: Date.now })
      updatedAt?: Date;
+     
 }
 
 export const RecruiterModel = getModelForClass(Recruiter);

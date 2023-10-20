@@ -10,6 +10,7 @@ import { getError } from '../../utils';
 import { ApiError } from '../../types/ApiError';
 import { useGetJobsQuery } from '../../hooks/jobHooks';
 import { Store } from '../../store/Store';
+import JobDetails from './JobDetails';
 
 
 
@@ -62,7 +63,7 @@ const UserPage: React.FC = () => {
     {/* Job Listings */}
     <h2 className="text-xl font-bold mb-4">Job Listings</h2>
     {/* Add job listings content here */}
-    <JobDetailsComponent/>
+    <JobDetails/>
   </div>
 </div>
 

@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser';
 import cors from 'cors'
 import run from '../Config/config';
+import morgan from 'morgan'
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import { jobRouter } from '../routers/jobRouter';

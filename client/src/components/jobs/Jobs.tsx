@@ -1,31 +1,27 @@
 import React, { useContext, useEffect } from 'react';
-
+import { GoLocation } from "react-icons/go"
 import LoadingBox from '../../components/loadingBox/LoadingBox';
 import MessageBox from '../../components/messageBox/MessageBox';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
-import { useGetJobsQuery } from '../../hooks/jobHooks';
+import { useGetJobsQuery, useSearchJobsQuery } from '../../hooks/jobHooks';
 import { getError } from '../../utils';
 import { ApiError } from '../../types/ApiError';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Store } from '../../store/Store';
-import { Job, Jobs } from '../../types/Jobs';
+import moment from 'moment';
 
 
-const Jobs: React.FC = () => {
+const JobN: React.FC = () => {
 const navigate = useNavigate()
 const {state,dispatch} = useContext(Store)
-const {userInfo,jobs} = state
+const {userInfo,searchTerm} = state
 
 const token = userInfo.token
-  const { data: fetchedJobs, isLoading, error } = useGetJobsQuery(token);
+
+const { data: jobs, isLoading, error } = useSearchJobsQuery(searchTerm,token)
 
 
-useEffect(() => {
-  // Fetch jobs from your backend server
-  if(fetchedJobs) dispatch({ type: 'STORE_JOBS', payload: fetchedJobs });
-   
-}, [dispatch,jobs]);
 
 
   if (isLoading) {
@@ -40,28 +36,57 @@ useEffect(() => {
 
     <div className='page-wrapper' style={{background:'white'}}>
      
-      <Container className=' main mt-3' style={{paddingTop: '100px',background:'wheat'}}>
-        <Row style={{gap:'8px'}}>
+     
+    <div className='w-full flex flex-wrap gap-4'>
           <Helmet>
             <title>jobify - Jobs</title>
           </Helmet>
           {jobs && jobs.length > 0 ? ( /* Add a check for 'jobs' and its length before mapping */
             jobs.map((job) => (
-              <Col key={job.id} className='jobcard' sm={6} md={4} lg={3}>
-                <h1 style={{textAlign:'center'}}>{job.title}</h1>
-                <p style={{textAlign:'center'}}>company : {job.company}</p>
-                <li>salary : {job.salary}</li>
-                <li>Location :{job.location}</li>
-                <li>requirements : {job.description}</li> 
-          
-                <button  className='buttonapply' onClick={()=>{  navigate('/applyform')            }}>apply now</button>
-              </Col>
+              <Link to={`/job-detail/${job?.id}`}>
+              <div
+                className='w-full md:w-[16rem] 2xl:w-[18rem] h-[16rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
+                        rounded-md px-3 py-5 '
+              >
+                <div className='flex gap-3'>
+                  {/* <img
+                    src={job?.company?.profileUrl}
+                    alt={job?.company?.name}
+                    className='w-14 h-14'
+                  /> */}
+        
+                  <div className=''>
+                    <p className='text-lg font-semibold truncate'>{job?.title}</p>
+                    <span className='flex gap-2 items-center'>
+                      <GoLocation className='text-slate-900 text-sm' />
+                      {job?.location}
+                    </span>
+                  </div>
+                </div>
+        
+                <div className='py-3'>
+                  <p className='text-sm'>
+                  {job.description}
+                    {/* {job?.detail[0]?.desc?.slice(0, 150) + "..."} */}
+                  </p>
+                </div>
+        
+                <div className='flex items-center justify-between'>
+                  <p className='bg-[#1d4fd826] text-[#1d4fd8] py-0.5 px-1.5 rounded font-semibold text-sm'>
+                    {job?.jobType}
+                  </p>
+                  <span className='text-gray-500 text-sm'>
+                    {moment(job?.createdAt).fromNow()}
+                  </span>
+                </div>
+              </div>
+            </Link>
             ))
           ) : (
             <MessageBox variant="info">No jobs found.</MessageBox> /* Display a message when 'jobs' is empty or undefined */
           )}
-        </Row>
-      </Container>
+    
+  </div>
      
       </div>
       
@@ -70,4 +95,4 @@ useEffect(() => {
   );
 };
 
-export default Jobs;
+export default JobN;

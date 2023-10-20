@@ -13,10 +13,9 @@ const queryClient = new QueryClient
 StoreProvider
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode >
-    <StoreProvider>
-        <QueryClientProvider client={queryClient}>
+    <StoreProvider>     
+    <QueryClientProvider client={queryClient}>
     <App />
-   
     </QueryClientProvider>
     </StoreProvider>
   </React.StrictMode>,

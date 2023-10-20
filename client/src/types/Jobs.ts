@@ -1,5 +1,5 @@
 export type Jobs = {
-    id: number;
+    id: string;
     recruiterId:number
     title: string;
     qualification: string;
@@ -9,24 +9,32 @@ export type Jobs = {
     salary: number;
     description: string;
     shifts: string;
-    benefits: string;
+    jobType:string;
+    benefits:string;
+    createdAt:string;
+    vaccancy:string
+    applicants:[]
     countOfStaffNeeded: number;
 };
 
 
 
 export type Job = {
-    id:number 
+    id:string
     recruiterId:number
     title : String
-    qualification : String
+    vaccancy:string
+    qualification : string
     company : String
     location : String
     salary : string
-    description : String
+    description : string
     requirements:string
     shifts : String
     benefits  :String
     countOfStaffNeeded: string
+    createdAt:string;
+    jobType:string;
+    applicants:[]
 
 }

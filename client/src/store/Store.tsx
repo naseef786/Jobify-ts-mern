@@ -40,9 +40,6 @@ function reducer(state: AppState, action: Action): AppState {
       return {...state,jobs:action.payload}
     case 'SELECT_JOBS' :
       return {...state,selectedJob:action.payload}
-
-
-
     case 'ADMIN_SIGNIN':
       return { ...state, adminInfo: action.payload }
     case 'HIRER_SIGNIN':

@@ -6,6 +6,7 @@ const errorMiddleware = (err: any, req: Request, res: Response, next: NextFuncti
     const defaultErrors = {
         statusCode: 500,
         message: err,
+        success: "falied",
     };
 
     // missing field error
@@ -24,7 +25,9 @@ const errorMiddleware = (err: any, req: Request, res: Response, next: NextFuncti
         )} field has to be unique`;
     }
 
-    res.status(defaultErrors.statusCode).json({ message: defaultErrors.message });
+    res.status(defaultErrors.statusCode).json({
+        success: defaultErrors.success,
+         message: defaultErrors.message });
 };
 
 export default errorMiddleware;

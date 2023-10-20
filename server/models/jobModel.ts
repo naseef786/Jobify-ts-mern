@@ -1,5 +1,5 @@
 import { modelOptions, prop,index, getModelForClass } from '@typegoose/typegoose'
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose, { ObjectId, Schema } from 'mongoose';
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 @index({ title: 'text', description: 'text', location: 'text', company: 'text' })
@@ -10,8 +10,8 @@ export class Job {
   @prop({ ref: 'Recruiter', required: true })
   public recruiterId!: ObjectId;
 
-  @prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'User' })
-  public applicants?: mongoose.Types.ObjectId[];
+  @prop({ref: 'User' })
+  public applicants?: Schema.Types.ObjectId[];
 
   @prop({ required: true })
   public workPlace!: string;

@@ -80,7 +80,7 @@ export const useVerifyMutation = () =>
 
 
   export const useApplyJobMutation = () =>
-  useMutation({mutationFn: async ({jobId,token}: { jobId: number,token:string}) =>
-  (await apiClient.post<ApiInfo>(`api/users/jobs/apply-job`, {jobId,token},{      headers: {
+  useMutation({mutationFn: async ({jobId,token}: { jobId: string,token:string}) =>
+  (await apiClient.post<ApiInfo>(`api/users/jobs/apply-job`, {jobId},{      headers: {
     Authorization: `Bearer ${token}`
   }})).data})

@@ -1,21 +1,27 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Store } from '../../store/Store';
 import { useApplyJobMutation } from '../../hooks/userHooks';
 
 const JobDetails: React.FC = () => {
   const { state } = useContext(Store);
   const { selectedJob,userInfo } = state;
-  const [jobId,setJobId] = useState(Number)
- 
+  const [jobId, setJobId] = useState<string>('')
+;
+
   const token = userInfo.token
   const {mutateAsync:applyJob} = useApplyJobMutation()
-const handleApply = async ()=>{
-  if(selectedJob){
-    setJobId(selectedJob.id)
-  }
+const handleApply = async (e:React.SyntheticEvent)=>{
+e.preventDefault()
+
+if(selectedJob){
+  setJobId(selectedJob._id)
+  console.log(selectedJob,"kkkkkkkkkkkkkkkkkkkkk");
   
-const response = await applyJob({jobId,token})
+  const response = await applyJob({jobId,token})
 console.log(response);
+}
+
+console.log(jobId);
 
 }
   return (
@@ -40,9 +46,12 @@ console.log(response);
           </div>
           <div className="flex justify-between items-center">
             <p className="text-xl font-bold text-blue-600">${selectedJob.salary}</p>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleApply}>
+            <form onSubmit={handleApply}>
+              <input type="text" hidden defaultValue={selectedJob.id} />
+            <button type='submit' className= "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >
               Apply Now
             </button>
+            </form>
           </div>
         </div>
       ) : (

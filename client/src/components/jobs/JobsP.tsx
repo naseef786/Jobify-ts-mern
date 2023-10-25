@@ -4,6 +4,7 @@ import { Job, Jobs } from '../../types/Jobs';
 import MessageBox from '../messageBox/MessageBox';
 import { BiTimeFive } from 'react-icons/bi';
 import { Helmet } from 'react-helmet-async';
+import moment from 'moment';
 
 const JobList: React.FC = () => {
   const { state,dispatch } = useContext(Store);
@@ -24,7 +25,9 @@ function selectJob(job:Job){
            <span className='flex justify-between items-center gap-4'>
                <h1 className='text-[16px] font-semibold text-black group-hover:text-white'>{job.title} </h1>
                <span className='flex items-center text-[#ccc] gap-1'>
-                   <BiTimeFive />Now
+                   <BiTimeFive /><span className='text-gray-500 text-sm'>
+            {moment(job?.createdAt).fromNow()}
+          </span>
                </span>
            </span>
            <h6 className='text-[#ccc]'>{job.location} </h6>

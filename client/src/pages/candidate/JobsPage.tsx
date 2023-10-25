@@ -13,7 +13,7 @@ function JobsPage() {
     <>
     <TileNav/>
     <SearchBox/>
-    <JobN />
+    <Jobview />
     <Footer/>
     </>
   )

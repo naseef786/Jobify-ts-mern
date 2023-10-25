@@ -75,7 +75,7 @@ export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Res
     }
   }
 })
-export const postJob =  async (req: Request, res: Response) => {
+export const postJob = async (req: Request, res: Response) => {
   try {
     console.log(req.body);
     
@@ -93,32 +93,36 @@ export const postJob =  async (req: Request, res: Response) => {
       jobType,
       requirements
     } = req.body;
-    const recruiter = req.recruiter
-    const _id =recruiter._id
+
+    const recruiter = req.recruiter;
+    const _id = recruiter._id;
 
     // Create a new job instance
     const newJob = new JobModel({
       title,
       qualification,
-      companyName:company,
+      companyName: company,
       location,
       salary,
       description,
       shifts,
       benefits,
       workPlace,
-      vaccancy:count,
+      vaccancy: count,
       jobType,
       requirements,
-      recruiterId:_id,
+      recruiterId: recruiter._id,
     });
 
     // Save the job to the database
     await newJob.save();
 
-    const Recruiter = await RecruiterModel.findById(recruiter._id,{ $addToSet: { jobposts: newJob._id} });
-
-      await Recruiter.save()
+    // Update the recruiter's jobposts field
+    const updatedRecruiter = await RecruiterModel.findByIdAndUpdate(
+      recruiter._id,
+      { $addToSet: { jobposts: newJob._id } },
+      { new: true }
+    );
 
     res.json({ message: 'Job posted successfully' });
   } catch (error) {
@@ -127,10 +131,12 @@ export const postJob =  async (req: Request, res: Response) => {
   }
 }
 
+
 export const fetchJob = expressAsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   try {
     const recruiterId = req.recruiter._id;
-    const jobs = await JobModel.find({ recruiterId });
+    const recruiter = RecruiterModel.findById(recruiterId)
+    const jobs = await JobModel.find({ recruiterId :(await recruiter).id});
     console.log(jobs);
     
     res.json(jobs);
@@ -140,7 +146,7 @@ export const fetchJob = expressAsyncHandler(async (req: Request, res: Response, 
   }
 });
 
-export const updateJob = async (req, res, next) => {
+export const updateJob = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
       jobTitle,
@@ -195,7 +201,7 @@ export const updateJob = async (req, res, next) => {
 };
 
 
-export const deleteJobPost = async (req, res, next) => {
+export const deleteJobPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 
@@ -210,7 +216,7 @@ export const deleteJobPost = async (req, res, next) => {
     res.status(404).json({ message: error.message });
   }
 };
-export const getJobById = async (req, res, next) => {
+export const getJobById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 
@@ -255,7 +261,7 @@ export const getJobById = async (req, res, next) => {
   }
 };
 
-// export const getJobPosts = async (req, res, next) => {
+// export const getJobPosts = async (req: Request, res: Response, next: NextFunction) => {
 //   try {
 //     const { search, sort, location, jtype, exp } = req.query;
 //     const types = jtype?.split(","); //full-time,part-time
@@ -402,7 +408,7 @@ export const getJobById = async (req, res, next) => {
 //   }
 // };
 
-// export const getCompanies = async (req, res, next) => {
+// export const getCompanies = async (req: Request, res: Response, next: NextFunction) => {
 //   try {
 //     const { search, sort, location } = req.query;
 
@@ -465,7 +471,7 @@ export const getJobById = async (req, res, next) => {
 
 
 
-// export const getCompanyJobListing = async (req, res, next) => {
+// export const getCompanyJobListing = async (req: Request, res: Response, next: NextFunction) => {
 //   const { search, sort } = req.query;
 //   const id = req.body.user.userId;
 
@@ -508,7 +514,7 @@ export const getJobById = async (req, res, next) => {
 //   }
 // };
 
-// export const getCompanyById = async (req, res, next) => {
+// export const getCompanyById = async (req: Request, res: Response, next: NextFunction) => {
 //   try {
 //     const { id } = req.params;
 

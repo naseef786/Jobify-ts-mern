@@ -27,25 +27,25 @@ export class Job {
   public shifts!: string;
 
   @prop({ required: true })
-  title!: string;
+  public title!: string;
 
   @prop({ required: true })
   public jobType!: string;
 
   @prop({ required: true })
-  description!: string;
+  public description!: string;
 
   @prop({ required: true })
-  companyName!: string;
+  public companyName!: string;
 
   @prop({ required: true })
-  location!: string;
+  public location!: string;
 
   @prop({ required: true })
-  salary!: string;
+  public salary!: string;
 
   @prop({ required: true })
-  requirements!: string;
+  public requirements!: string;
 
   @prop({ default: true })
   public isActive!: boolean;

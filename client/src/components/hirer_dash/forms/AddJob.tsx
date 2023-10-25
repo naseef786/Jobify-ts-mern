@@ -37,7 +37,7 @@ const {state} =useContext(Store)
     description: 'DataInsight is looking for a Data Analyst to interpret data and turn it into information which can offer ways to improve a business, thus affecting business decisions.',
     shifts: 'Day Shift',
     benefits: 'Health and wellness benefits, Stock options',
-    countOfStaffNeeded:"s",
+    countOfStaffNeeded:"2",
     workPlace: 'Hybrid',
     jobType: 'Full-time',
     requirements: 'SQL, Excel, Data visualization tools (e.g., Tableau)',

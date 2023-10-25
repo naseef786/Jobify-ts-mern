@@ -7,6 +7,7 @@ import { generateAdminToken } from '../Utils/utils'
 import bcrypt from 'bcryptjs'
 import { JobModel } from '../models/jobModel'
 import zxcvbn from 'zxcvbn';
+import { RecruiterModel } from "../models/recruiterSchema"
 
 
 export const adminSignup =    expressAsyncHandler(async (req: Request, res: Response,next:NextFunction) => {
@@ -59,3 +60,43 @@ export const adminSignup =    expressAsyncHandler(async (req: Request, res: Resp
 
 
   })
+
+
+  
+  export const getRecruiters =    expressAsyncHandler(async (req: Request, res: Response,next:NextFunction) => {
+
+ const recruiters = RecruiterModel.find()
+if(!recruiters) {
+  res.status(400).json({message:'recruiters not available'})
+}
+else if (recruiters){
+  res.status(200).json({message:'recruiters fetched successfully',recruiters})
+}
+
+  })
+
+
+  export const getCandidates =    expressAsyncHandler(async (req: Request, res: Response,next:NextFunction) => {
+
+    const candidates = UserModel.find()
+   if(!candidates) {
+     res.status(400).json({message:'recruiters not available'})
+   }
+   else if (candidates){
+     res.status(200).json({message:'recruiters fetched successfully',candidates})
+   }
+   
+     })
+
+
+     export const getProfile =    expressAsyncHandler(async (req: Request, res: Response,next:NextFunction) => {
+
+      const details = AdminModel.find()
+     if(!details) {
+       res.status(400).json({message:'recruiters not available'})
+     }
+     else if (details){
+       res.status(200).json({message:'recruiters fetched successfully',details})
+     }
+     
+       })

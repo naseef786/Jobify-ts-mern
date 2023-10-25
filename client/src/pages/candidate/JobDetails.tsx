@@ -25,7 +25,7 @@ const JobDetails: React.FC = () => {
 // }
 return (
 
-<div className='container mx-auto'>
+<div className=' overflow-visible mx-auto bg-fixed fixed  items-center align-middle'>
 {selectedJob ? (
 <div className='w-full flex flex-col md:flex-row gap-10'>
   {/* LEFT SIDE */}
@@ -89,7 +89,9 @@ return (
         </p>
       </div>
     </div>
-
+    <div className='w-full flex gap-4 py-5'>
+    {selectedJob?.description}
+      </div>
     {/* <div className='w-full flex gap-4 py-5'>
       <CustomButton
         onClick={() => setSelected("0")}

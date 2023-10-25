@@ -5,6 +5,7 @@ import Loginpage from '../../pages/candidate/Loginpage';
 import SignupPage from '../../pages/candidate/SignupPage';
 import JobsPage from '../../pages/candidate/JobsPage';
 import About from '../../components/test/About';
+import Job from '../../components/jobs/Jobs'
 import Help from '../../components/test/Help';
 import Contact from '../../components/test/Contact';
 import Applyform from '../../components/applyform/Applyform';
@@ -13,6 +14,7 @@ import JobC from '../../pages/candidate/JobsC'
 import {Store}  from '../../store/Store'
 import Otp from '../../pages/candidate/Otp';
 import ResetPassword from '../../components/reset/ResetPassword';
+import JobDetails from '../../pages/candidate/JobDetails';
 
 function CandidteRouter() {
     const {state} = useContext(Store)
@@ -24,6 +26,7 @@ function CandidteRouter() {
              <Route path="/signup" element={<SignupPage/>} />
              <Route path='/otp' element={<Otp/>}/>
              <Route path='/jobs'  element={userInfo ? <JobsPage/>: <Navigate to='/signin'/> } />
+             <Route path='/jobs/:id'  element={userInfo ? <JobDetails/>: <Navigate to='/signin'/> } />
              <Route path='/applied'  element={userInfo ? <JobC/>: <Navigate to='/signin'/> } />
              <Route path='/contact'  element={<Contact/>}/>
 

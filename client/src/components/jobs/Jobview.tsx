@@ -6,8 +6,8 @@ import MessageBox from '../messageBox/MessageBox';
 import { getError } from '../../utils';
 import { ApiError } from '../../types/ApiError';
 import { Helmet } from 'react-helmet-async';
-
-import { Jobs } from '../../types/Jobs';
+import moment from 'moment';
+import { Job, Jobs } from '../../types/Jobs';
 import { Store } from '../../store/Store';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +24,10 @@ const Jobview:React.FC= () => {
   const { state, dispatch } = useContext(Store)
   const { userInfo,searchTerm } = state
   const token = userInfo.token
-
+  function selectJob(job:Job){
+    dispatch({ type: 'SELECT_JOBS', payload: job })
+    navigate('/jobs/:id')
+}
   const { data: jobs, isLoading, error } = useSearchJobsQuery(searchTerm,token);
 
 // useEffect(() => {
@@ -52,7 +55,7 @@ const Jobview:React.FC= () => {
             <div className='jobContainer flex gap-10 justify-center flex-wrap items-center py-10'>
             {jobs && jobs.length > 0 ? (
                  jobs.map((job) => (
-                <div className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'>
+                <div className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'  onClick={()=>selectJob(job)} >
                     <span className='flex justify-between items-center gap-4'>
                         <h1 className='text-[16px] font-semibold text-black group-hover:text-white'>{job.title} </h1>
                         <span className='flex items-center text-[#ccc] gap-1'>

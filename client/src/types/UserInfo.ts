@@ -3,6 +3,10 @@ export type UserInfo = {
     name: string
     email: string
     token: string
+    accountType: string;
+    firstName?: string;
+    jobTitle?: string;
+    profileUrl?: string;
   }
 export type AdminInfo = {
   _id:string

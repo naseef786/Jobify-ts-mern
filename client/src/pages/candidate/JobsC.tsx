@@ -63,7 +63,7 @@ const UserPage: React.FC = () => {
     {/* Job Listings */}
     <h2 className="text-xl font-bold mb-4 ">Job Listings</h2>
     {/* Add job listings content here */}
-    <JobDetails/>
+    <JobDetailsComponent/>
   </div>
 </div>
 

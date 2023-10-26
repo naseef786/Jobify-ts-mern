@@ -5,6 +5,7 @@ import { NextFunction, Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { JobModel } from "../models/jobModel";
 import mongoose from "mongoose";
+import { UserModel } from "../models/userModel";
 
 export const recruiterSignUpPost = expressAsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -78,7 +79,7 @@ export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Res
 export const postJob = async (req: Request, res: Response) => {
   try {
     console.log(req.body);
-    
+
     const {
       title,
       qualification,
@@ -136,9 +137,9 @@ export const fetchJob = expressAsyncHandler(async (req: Request, res: Response, 
   try {
     const recruiterId = req.recruiter._id;
     const recruiter = RecruiterModel.findById(recruiterId)
-    const jobs = await JobModel.find({ recruiterId :(await recruiter).id});
+    const jobs = await JobModel.find({ recruiterId: (await recruiter).id });
     console.log(jobs);
-    
+
     res.json(jobs);
 
   } catch (error) {
@@ -260,6 +261,47 @@ export const getJobById = async (req: Request, res: Response, next: NextFunction
     res.status(404).json({ message: error.message });
   }
 };
+
+export const getCandidates = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const recruiterId = req.recruiter._id;
+    const recruiter = await RecruiterModel.findById(recruiterId);
+    
+    const job = await JobModel.find({ recruiterId: recruiter.id });
+    
+    if (job.length === 0) {
+      return res.status(200).send({
+        message: "Job Post Not Found",
+        success: false,
+      });
+    }
+
+    const users = await Promise.all(
+      job.map(async (jobPost) => {
+        if (jobPost.applicants) {
+          const user = await UserModel.findById(jobPost.applicants).exec();
+          let userids = []
+          if(user?.id){
+            userids.push(user)
+          }
+          return userids;
+        }
+        return null; // or handle the case where applicants is not defined
+      })
+    );
+    
+
+    if (users.length === 0) {
+      return res.status(200).json({ message: "No applicants" });
+    } else {
+      return res.status(200).json(users);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+
 
 // export const getJobPosts = async (req: Request, res: Response, next: NextFunction) => {
 //   try {

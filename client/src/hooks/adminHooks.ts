@@ -1,7 +1,9 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import apiClient from '../axios/apiClient'
-import { AdminInfo } from '../types/UserInfo'
-
+import { AdminInfo, HirerInfo } from '../types/UserInfo'
+import { Recruiter } from '../types/Recruiter'
+import {Candidate}  from '../types/Candidate'
+ 
 
 
 export const useAdminSigninMutation = () =>
@@ -44,3 +46,39 @@ export const useAdminSignupMutation = () =>
         })
       ).data,
   })
+  export const useGetRecruitersQuery = (token:string) => {
+    return useQuery(['recruiters'], async () => {
+    
+   
+    
+      if (!token) {
+        throw new Error('Token not found in local storage'); // Handle case where token is not available
+      }
+  
+      const response = await apiClient.get<Recruiter[]>(`/api/admin/recruiters`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+  
+      return response.data;
+    });
+  };
+  export const useGetCandidatesQuery = (token:string) => {
+    return useQuery(['candidates'], async () => {
+    
+   
+    
+      if (!token) {
+        throw new Error('Token not found in local storage'); // Handle case where token is not available
+      }
+  
+      const response = await apiClient.get<Candidate[]>(`/api/admin/candidates`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+  
+      return response.data;
+    });
+  };

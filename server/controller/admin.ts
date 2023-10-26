@@ -63,27 +63,26 @@ export const adminSignup =    expressAsyncHandler(async (req: Request, res: Resp
 
 
   
-  export const getRecruiters =    expressAsyncHandler(async (req: Request, res: Response,next:NextFunction) => {
-
- const recruiters = RecruiterModel.find()
-if(!recruiters) {
-  res.status(400).json({message:'recruiters not available'})
-}
-else if (recruiters){
-  res.status(200).json({message:'recruiters fetched successfully',recruiters})
-}
-
-  })
+  export const getRecruiters = expressAsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const recruiters = await RecruiterModel.find();
+  
+    if (!recruiters) {
+      res.status(400).json({ message: 'Recruiters not available' });
+    } else {
+      res.status(200).json( recruiters );
+    }
+  });
+  
 
 
   export const getCandidates =    expressAsyncHandler(async (req: Request, res: Response,next:NextFunction) => {
 
-    const candidates = UserModel.find()
+    const candidates = await UserModel.find()
    if(!candidates) {
      res.status(400).json({message:'recruiters not available'})
    }
-   else if (candidates){
-     res.status(200).json({message:'recruiters fetched successfully',candidates})
+   else {
+     res.status(200).json(candidates)
    }
    
      })

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Contact() {
+const  ContactPage = ()=> {
   return (
     <div className='page-wrapper' style={{background:'white'}}>
   
@@ -80,3 +80,4 @@ export default function Contact() {
   )
 }
 
+export default ContactPage

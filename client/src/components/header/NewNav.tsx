@@ -73,7 +73,7 @@ const MenuList: React.FC<MenuListProps> = ({ user, onClick,dispatch }) => {
                 {({ active }) => (
                   <Link
                     to={`${
-                      user?.accountType ? "user-profile" : "company-profile"
+                      user?.accountType ? "company-profile" :   "user-profile"
                     }`}
                     className={`${
                       active ? "bg-blue-500 text-white" : "text-gray-900"
@@ -86,7 +86,7 @@ const MenuList: React.FC<MenuListProps> = ({ user, onClick,dispatch }) => {
                       } mr-2 h-5 w-5  `}
                       aria-hidden='true'
                     />
-                    {user?.accountType ? "User Profile" : "Company Profile"}
+                    {user?.accountType ? "Company Profile" :  "User Profile"}
                   </Link>
                 )}
               </Menu.Item>
@@ -144,19 +144,25 @@ const Navbar: React.FC = () => {
               <Link to='/'>Find Job</Link>
             </li>
             <li>
-              <Link to='/companies'>Companies</Link>
+              <Link to='/recruiters'>Find Recruiters</Link>
             </li>
             <li>
-              <Link to='/upload-job'>Upload Job</Link>
+              <Link to='/jobs'>Your Jobs</Link>
             </li>
             <li>
-              <Link to='/about-us'>About</Link>
+              <Link to='/updates'>Updates</Link>
             </li>
+            <li>
+              <Link to='/about-us'>About-us</Link>
+            </li><li>
+              <Link to='/applied'>Applied</Link>
+            </li>
+           
           </ul>
 
           <div className='hidden lg:block'>
             {!user?.token ? (
-              <Link to='/user-auth'>
+              <Link to='/signin'>
                 <CustomButton
                   title='Sign In'
                   containerStyles='text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600'

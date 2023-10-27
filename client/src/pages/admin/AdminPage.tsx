@@ -23,14 +23,3 @@ function AdminPage() {
 export default AdminPage
 
 
-// <div className='flex'>
-// <div className='basis-[20%] h-[100vh] border' >
-//  <Sidebar/>
-// </div>
-// <div className='basis-[80%] border ' >
-// <DashboardNav/>
-// <div>
-// 
-// </div>
-// </div>
-// </div>

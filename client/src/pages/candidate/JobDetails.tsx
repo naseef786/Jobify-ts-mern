@@ -4,10 +4,24 @@ import { useApplyJobMutation } from '../../hooks/userHooks';
 import moment from 'moment';
 import { AiOutlineSafetyCertificate } from 'react-icons/ai';
 import JobCard from '../../components/user_dash/JobCard';
-
+import Footer from '../../components/footer/Footer';
+import NewNav from '../../components/header/NewNav'
+import { useGetJobsQuery } from '../../hooks/jobHooks';
 const JobDetails: React.FC = () => {
-    const { state } = useContext(Store);
+    const { state,dispatch } = useContext(Store);
+
+
+    
     const { selectedJob,jobs,userInfo } = state;
+const token = userInfo.token
+    const {  data, isLoading, error } = useGetJobsQuery(token);
+    useEffect(() => {
+      // Fetch jobs from your backend server
+      if(data) dispatch({ type: 'STORE_JOBS', payload:data });
+       
+    }, [dispatch,jobs]);
+
+
 //   const token = userInfo.token
 //   const {mutateAsync:applyJob} = useApplyJobMutation()
 // const handleApply = async (e:React.SyntheticEvent)=>{
@@ -25,7 +39,8 @@ const JobDetails: React.FC = () => {
 
 // }
 return (
-
+<>
+<NewNav/>
 <div className=' overflow-visible mx-auto bg-fixed   items-center align-middle'>
 {selectedJob ? (
 <div className='w-full flex flex-col md:flex-row gap-10'>
@@ -133,7 +148,7 @@ return (
 
     <div className='w-full flex flex-wrap gap-4'>
       {jobs?.slice(0, 6).map((job, index) => (
-        <JobCard job={job} key={index} />
+        <JobCard dispatch={dispatch} job={job} key={index} />
       ))}
     </div>
   </div>
@@ -144,7 +159,8 @@ return (
     <p>Select a job from the list to view details.</p>
   )}
 </div>
-
+<Footer/>
+</>
 
 );
 };

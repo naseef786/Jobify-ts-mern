@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import { GoLocation } from "react-icons/go";
 import moment from "moment";
-import { Link } from "react-router-dom";
-import { Jobs } from "../../types/Jobs";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+
 
 interface Job {
   id: string;
@@ -15,20 +15,41 @@ interface Job {
   detail: Array<{
     desc: string;
   }>;
-  jobType: string;
-  createdAt: string;
+  
+  
+  recruiterId:number
+  title: string;
+  qualification: string;
+  
+  requirements:string
+  salary: string;
+  description: string;
+  shifts: string;
+  jobType:string;
+  benefits:string;
+  createdAt:string;
+  vaccancy:string
+  applicants:[]
+  countOfStaffNeeded: string;
 }
 
 interface JobCardProps {
-  job: Jobs;
+  job: Job;
+  dispatch: React.Dispatch<any>
 }
 
-const JobCard: React.FC<JobCardProps> = ({ job }) => {
+const JobCard: React.FC<JobCardProps> = ({ job,dispatch }) => {
+const navigate = useNavigate()
+  function selectJob(job:Job){
+    dispatch({ type: 'SELECT_JOBS', payload: job })
+    navigate('/jobs/:id')
+}
+
   return (
-    <Link to={`/job-detail/${job?.id}`}>
+  
       <div
         className="w-full md:w-[16rem] 2xl:w-[18rem] h-[16rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
-                rounded-md px-3 py-5 "
+                rounded-md px-3 py-5 " onClick={()=>selectJob(job)}
       >
         <div className="flex gap-3">
           {/* <img
@@ -61,7 +82,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           </span>
         </div>
       </div>
-    </Link>
+  
   );
 };
 

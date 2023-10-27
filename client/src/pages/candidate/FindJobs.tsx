@@ -14,6 +14,7 @@ import { useGetJobsQuery } from "../../hooks/jobHooks";
 import LoadingBox from "../../components/loadingBox/LoadingBox";
 import MessageBox from "../../components/messageBox/MessageBox";
 import { ApiError } from "../../types/ApiError";
+import { Job } from "../../types/Jobs";
 
 
 const FindJobs: React.FC = () => {
@@ -21,12 +22,20 @@ const FindJobs: React.FC = () => {
     const { userInfo } = state
     const token = userInfo.token
     const { data: jobs, isLoading, error } = useGetJobsQuery(token);
+    function selectJob(job:Job){
+      dispatch({ type: 'SELECT_JOBS', payload: job })
+      navigate('/jobs/:id')
+  }
+
+
 
   const [sort, setSort] = useState<string>("Newest");
   const [page, setPage] = useState<number>(1);
   const [numPage, setNumPage] = useState<number>(1);
   const [recordCount, setRecordCount] = useState<number>(0);
   const [data, setData] = useState<any[]>([]);
+
+
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [jobLocation, setJobLocation] = useState<string>("");
@@ -151,7 +160,7 @@ const FindJobs: React.FC = () => {
 
           <div className="w-full flex flex-wrap gap-4">
             {jobs?.map((job, index) => (
-              <JobCard job={job} key={index} />
+              <JobCard job={job} dispatch={dispatch} key={index} />
             ))}
           </div>
 

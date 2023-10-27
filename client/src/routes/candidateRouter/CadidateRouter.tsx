@@ -4,10 +4,10 @@ import HomePage from '../../pages/Home/HomePage';
 import Loginpage from '../../pages/candidate/Loginpage';
 import SignupPage from '../../pages/candidate/SignupPage';
 import JobsPage from '../../pages/candidate/JobsPage';
-import About from '../../components/test/About';
+import About from '../../pages/candidate/About';
 import Job from '../../components/jobs/Jobs'
 import Help from '../../components/test/Help';
-import Contact from '../../components/test/Contact';
+import Contact from  '../../pages/candidate/Contact'
 import Applyform from '../../components/applyform/Applyform';
 import Forgetpass from '../../components/forgetpassword/Forget'
 import JobC from '../../pages/candidate/JobsC'
@@ -29,17 +29,12 @@ function CandidteRouter() {
              <Route path='/jobs/:id'  element={userInfo ? <JobDetails/>: <Navigate to='/signin'/> } />
              <Route path='/applied'  element={userInfo ? <JobC/>: <Navigate to='/signin'/> } />
              <Route path='/contact'  element={<Contact/>}/>
-
              <Route path='/recovery'  element={<Forgetpass/>}/>
              <Route path='/reset'  element={<ResetPassword/>}/>
-             <Route path='/about'  element={<About/>}/>
+             <Route path='/about-us'  element={<About/>}/>
+             <Route path='/contact-us'  element={<Contact/>}/>
              <Route path='/help'  element={<Help/>}/>
              <Route path='/applyform' element={<Applyform/>}/>
-
-        
-       {/* <Route element={<OtpPage />} path='/otp' />
-      <Route element={<LoginPage />} path='/login' />
-      <Route element={<SignupPage />} path='/signup' />i */}
         </Routes>
     )
 }

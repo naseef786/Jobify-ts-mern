@@ -1,12 +1,22 @@
 export type Jobs = {
     id: string;
+    company: {
+      profileUrl: string;
+      name: string;
+    };
+    jobTitle: string;
+    location: string;
+    detail: Array<{
+      desc: string;
+    }>;
+    
+    
     recruiterId:number
     title: string;
     qualification: string;
-    company: string;
+    
     requirements:string
-    location: string;
-    salary: number;
+    salary: string;
     description: string;
     shifts: string;
     jobType:string;
@@ -14,7 +24,7 @@ export type Jobs = {
     createdAt:string;
     vaccancy:string
     applicants:[]
-    countOfStaffNeeded: number;
+    countOfStaffNeeded: string;
 };
 
 

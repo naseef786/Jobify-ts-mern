@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import CustomButton from "../button/CustomButton";
 import { Store } from "../../store/Store";
 import { UserInfo } from "../../types/UserInfo";
+import jobify from '../../assets/jobify.png'
 
 
 
@@ -126,23 +127,21 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <div className='relative bg-[#f7fdfd] z-50'>
+      <div className='relative  z-50' >
         <nav className='container mx-auto flex items-center justify-between p-5'>
           <div>
             <Link to='/' className='text-blue-600 font-bold text-xl decoration-transparent'>
-              Job<span className='text-[#1677cccb]'>ify</span>
+              {/* Job<span className='text-[#d2dbe2cb]'>ify</span> */}
+              <img src={jobify} alt=""  className='w-100 h-10 ' />
             </Link>
           </div>
 
           {userInfo &&  <ul className='hidden lg:flex gap-10 text-base'>
             <li >
-              <Link className=" decoration-transparent" to='/'>Find Job</Link>
+              <Link className=" decoration-transparent" to='/jobs'>Find Job</Link>
             </li>
             <li>
               <Link className=" decoration-transparent" to='/recruiters'>Find Recruiters</Link>
-            </li>
-            <li>
-              <Link className=" decoration-transparent" to='/jobs'>Your Jobs</Link>
             </li>
             <li>
               <Link className=" decoration-transparent" to='/about-us'>About-us</Link>

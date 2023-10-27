@@ -14,7 +14,7 @@ const handleApply = async (e:React.SyntheticEvent)=>{
 e.preventDefault()
 
 if(selectedJob){
-  setJobId(selectedJob._id)
+  setJobId(selectedJob.id)
   console.log(selectedJob,"kkkkkkkkkkkkkkkkkkkkk");
   
   const response = await applyJob({jobId,token})
@@ -26,9 +26,9 @@ console.log(jobId);
 }
   return (
     
-    <div className="  flex flex-col items-center justify-center h-screen overflow-y-hidden">
+    <div className="  flex flex-row items-center justify-center h-screen  ">
       {selectedJob ? (
-        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <div key={selectedJob.id} className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold mb-4">{selectedJob.title}</h1>
           <div className="flex mb-4">
             <div className="w-1/2">

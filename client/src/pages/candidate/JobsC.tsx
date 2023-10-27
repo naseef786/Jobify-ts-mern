@@ -59,11 +59,11 @@ const UserPage: React.FC = () => {
     <JobListComponent />
    
   </div>
-  <div className="w-1/2 p-4 bg-gray-100 absolute right-7"> {/* Adjust the width and padding as needed */}
+  <div className="w-1/2 p-4 bg-gray-100  fixed right-7  items-center align-middle " > {/* Adjust the width and padding as needed */}
     {/* Job Listings */}
-    <h2 className="text-xl font-bold mb-4 ">Job Listings</h2>
+    <h2 className="text-xl font-bold mb-4    ">Job Listings</h2>
     {/* Add job listings content here */}
-    <JobDetailsComponent/>
+    <JobDetails  />
   </div>
 </div>
 

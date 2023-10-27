@@ -5,6 +5,7 @@ import Footer from '../../components/footer/Footer'
 import NewNav from '../../components/header/NewNav'
 import SearchBox from '../../components/search/Search'
 import Jobview from '../../components/jobs/Jobview'
+import FindJobs from './FindJobs'
 
 function JobsPage() {
  
@@ -12,7 +13,8 @@ function JobsPage() {
   return (
     <>
     <NewNav/>
-    <SearchBox/>
+    {/* <SearchBox/> */}
+    <FindJobs/>
     <Jobview />
     <Footer/>
     </>

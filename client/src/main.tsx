@@ -5,7 +5,7 @@ import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StoreProvider } from './store/Store.tsx';
-import AdminRouter from './routes/adminRouter/AdminRouter.tsx';
+
 
 
 

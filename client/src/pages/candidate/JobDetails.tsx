@@ -3,10 +3,11 @@ import { Store } from '../../store/Store';
 import { useApplyJobMutation } from '../../hooks/userHooks';
 import moment from 'moment';
 import { AiOutlineSafetyCertificate } from 'react-icons/ai';
+import JobCard from '../../components/user_dash/JobCard';
 
 const JobDetails: React.FC = () => {
     const { state } = useContext(Store);
-    const { selectedJob,userInfo } = state;
+    const { selectedJob,jobs,userInfo } = state;
 //   const token = userInfo.token
 //   const {mutateAsync:applyJob} = useApplyJobMutation()
 // const handleApply = async (e:React.SyntheticEvent)=>{
@@ -25,7 +26,7 @@ const JobDetails: React.FC = () => {
 // }
 return (
 
-<div className=' overflow-visible mx-auto bg-fixed fixed  items-center align-middle'>
+<div className=' overflow-visible mx-auto bg-fixed   items-center align-middle'>
 {selectedJob ? (
 <div className='w-full flex flex-col md:flex-row gap-10'>
   {/* LEFT SIDE */}
@@ -115,11 +116,25 @@ return (
     </div> */}
 
 
+    
+ 
+
+
     <div className='w-full'>
       <button
         title='Apply Now'
         className={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
       />
+    </div>
+  </div>
+   {/* RIGHT SIDE */}
+   <div className='w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0'>
+    <p className='text-gray-500 font-semibold'>Similar Job Post</p>
+
+    <div className='w-full flex flex-wrap gap-4'>
+      {jobs?.slice(0, 6).map((job, index) => (
+        <JobCard job={job} key={index} />
+      ))}
     </div>
   </div>
 
@@ -140,52 +155,7 @@ export default JobDetails;
 
 
 
-  // {/* RIGHT SIDE */}
-  // <div className='w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0'>
-  //   <p className='text-gray-500 font-semibold'>Similar Job Post</p>
-
-  //   <div className='w-full flex flex-wrap gap-4'>
-  //     {jobs?.slice(0, 6).map((job, index) => (
-  //       <JobCard job={job} key={index} />
-  //     ))}
-  //   </div>
-  // </div>
-
 
 
 
   
-//   <div className='my-6'>
-//   {selectedJob ? (
-//     <>
-//       <p className='text-xl font-semibold'>Job Decsription</p>
-
-//       <span className='text-base'>
-//         {/* {job?.detail[0]?.desc} */}
-//         {selectedJob.description}
-//         </span>
-
-//       {/* {job?.detail[0]?.requirement && (
-//         <>
-//           <p className='text-xl font-semibold mt-8'>Requirement</p>
-//           <span className='text-base'>
-//             {job?.detail[0]?.requirement}
-//           </span>
-//         </>
-//       )} */}
-//     </>
-//   ) : (
-//     <>
-//       <div className='mb-6 flex flex-col'>
-//         <p className='text-xl text-blue-600 font-semibold'>
-//           {selectedJob.company}
-//         </p>
-//         <span className='text-base'>{selectedJob.company}</span>
-//         <span className='text-sm'>{selectedJob.shifts}</span>
-//       </div>
-
-//       <p className='text-xl font-semibold'>About Company</p>
-//       <span>{selectedJob.company}</span>
-//     </>
-//   )}
-// </div>

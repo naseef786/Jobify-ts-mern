@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from '../../pages/Home/HomePage';
+import HomePage from '../../pages/candidate/HomePage';
 import HirerSidebar from '../../components/hirer_dash/HirerSidebar';
 import HirerPage from '../../pages/hirer/HirerPage';
 import { Store } from '../../store/Store';

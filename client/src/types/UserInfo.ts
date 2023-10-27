@@ -4,9 +4,13 @@ export type UserInfo = {
     email: string
     token: string
     accountType: string;
-    firstName?: string;
-    jobTitle?: string;
-    profileUrl?: string;
+    firstName: string;
+    jobTitle: string;
+    profileUrl: string;
+    lastName: string;
+    contact: string;
+    location: string;
+    about: string;
   }
 export type AdminInfo = {
   _id:string

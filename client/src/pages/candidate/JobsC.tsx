@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import JobListComponent from '../../components/jobs/JobsP';
 import JobDetailsComponent from '../../components/jobs/JobD';
-import Footer from '../../components/footer/Footer'
-import TileNav from '../../components/header/TileNav'
 import { Jobs } from '../../types/Jobs';
 import LoadingBox from '../../components/loadingBox/LoadingBox';
 import MessageBox from '../../components/messageBox/MessageBox';
@@ -49,7 +47,7 @@ const UserPage: React.FC = () => {
 
 
   return (<>
-    <TileNav/>
+  
     <div>
 
     <div className="flex">
@@ -70,7 +68,6 @@ const UserPage: React.FC = () => {
      
        
     </div>
-    <Footer/>
     </>
   );
 }

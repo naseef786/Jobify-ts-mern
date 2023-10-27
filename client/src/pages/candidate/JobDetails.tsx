@@ -40,7 +40,6 @@ const token = userInfo.token
 // }
 return (
 <>
-<NewNav/>
 <div className=' overflow-visible mx-auto bg-fixed   items-center align-middle'>
 {selectedJob ? (
 <div className='w-full flex flex-col md:flex-row gap-10'>
@@ -159,7 +158,6 @@ return (
     <p>Select a job from the list to view details.</p>
   )}
 </div>
-<Footer/>
 </>
 
 );

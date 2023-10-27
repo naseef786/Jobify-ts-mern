@@ -6,6 +6,12 @@ export type Candidate = {
     name: string;
     password: string;
     updatedAt: string;
+    firstName: string;
+    lastName: string;
+    contact: string;
+    location: string;
+    jobTitle: string;
+    about: string;
     __v: number;
     _id: string;
   };

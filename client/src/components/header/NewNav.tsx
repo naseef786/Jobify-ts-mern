@@ -6,18 +6,15 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import CustomButton from "../button/CustomButton";
-// import { users } from "../utils/data";
 import { Store } from "../../store/Store";
+import { UserInfo } from "../../types/UserInfo";
+
+
+
+    
 
 interface MenuListProps {
-  user: {
-    accountType: string;
-    firstName?: string;
-    name?: string;
-    jobTitle?: string;
-    email?: string;
-    profileUrl?: string;
-  };
+  user: UserInfo
   onClick: MouseEventHandler;
   dispatch: React.Dispatch<any>
 }
@@ -72,12 +69,10 @@ const MenuList: React.FC<MenuListProps> = ({ user, onClick,dispatch }) => {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to={`${
-                      user?.accountType ? "company-profile" :   "user-profile"
-                    }`}
+                    to={'/user-profile'}
                     className={`${
                       active ? "bg-blue-500 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md p-2 text-sm`}
+                    }  decoration-transparent group flex w-full items-center rounded-md p-2 text-sm`}
                     onClick={onClick}
                   >
                     <CgProfile
@@ -86,7 +81,7 @@ const MenuList: React.FC<MenuListProps> = ({ user, onClick,dispatch }) => {
                       } mr-2 h-5 w-5  `}
                       aria-hidden='true'
                     />
-                    {user?.accountType ? "Company Profile" :  "User Profile"}
+                    User Profilee
                   </Link>
                 )}
               </Menu.Item>
@@ -134,31 +129,28 @@ const Navbar: React.FC = () => {
       <div className='relative bg-[#f7fdfd] z-50'>
         <nav className='container mx-auto flex items-center justify-between p-5'>
           <div>
-            <Link to='/' className='text-blue-600 font-bold text-xl'>
+            <Link to='/' className='text-blue-600 font-bold text-xl decoration-transparent'>
               Job<span className='text-[#1677cccb]'>ify</span>
             </Link>
           </div>
 
-          <ul className='hidden lg:flex gap-10 text-base'>
-            <li>
-              <Link to='/'>Find Job</Link>
+          {userInfo &&  <ul className='hidden lg:flex gap-10 text-base'>
+            <li >
+              <Link className=" decoration-transparent" to='/'>Find Job</Link>
             </li>
             <li>
-              <Link to='/recruiters'>Find Recruiters</Link>
+              <Link className=" decoration-transparent" to='/recruiters'>Find Recruiters</Link>
             </li>
             <li>
-              <Link to='/jobs'>Your Jobs</Link>
+              <Link className=" decoration-transparent" to='/jobs'>Your Jobs</Link>
             </li>
             <li>
-              <Link to='/updates'>Updates</Link>
-            </li>
-            <li>
-              <Link to='/about-us'>About-us</Link>
+              <Link className=" decoration-transparent" to='/about-us'>About-us</Link>
             </li><li>
-              <Link to='/applied'>Applied</Link>
+              <Link className=" decoration-transparent" to='/applied'>Applications</Link>
             </li>
            
-          </ul>
+          </ul>}
 
           <div className='hidden lg:block'>
             {!user?.token ? (
@@ -170,7 +162,7 @@ const Navbar: React.FC = () => {
               </Link>
             ) : (
               <div>
-                <MenuList dispatch={dispatch} onClick={()=>{}} user={user} />
+                <MenuList dispatch={dispatch} onClick={handleCloseNavbar} user={user} />
               </div>
             )}
           </div>
@@ -184,24 +176,26 @@ const Navbar: React.FC = () => {
         </nav>
 
         {/* MOBILE MENU */}
+        {userInfo &&
         <div
           className={`${
             isOpen ? "absolute flex bg-[#f7fdfd] " : "hidden"
           } container mx-auto lg:hidden flex-col pl-8 gap-3 py-5`}
         >
-          <Link to='/' onClick={handleCloseNavbar}>
+          
+          <Link className=" decoration-transparent" to='/' onClick={handleCloseNavbar}>
             Find Job
           </Link>
-          <Link to='/companies' onClick={handleCloseNavbar}>
-            Companies
+          <Link className=" decoration-transparent" to='/recruiters' onClick={handleCloseNavbar}>
+            Recruiters
           </Link>
           <Link
             onClick={handleCloseNavbar}
             to={
-              user?.accountType === "seeker" ? "applly-gistory" : "upload-job"
+             "applied" 
             }
           >
-            {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
+            Applications
           </Link>
           <Link to='/about-us' onClick={handleCloseNavbar}>
             About
@@ -209,7 +203,7 @@ const Navbar: React.FC = () => {
 
           <div className='w-full py-10'>
             {!user?.token ? (
-              <a href='/user-auth'>
+              <a href='/signin'>
                 <CustomButton
                   title='Sign In'
                   containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
@@ -221,7 +215,7 @@ const Navbar: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
+        </div>}
       </div>
     </>
   );

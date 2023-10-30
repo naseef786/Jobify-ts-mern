@@ -55,7 +55,7 @@ const Jobview:React.FC= () => {
             <div className='jobContainer flex gap-10 justify-center flex-wrap items-center py-10'>
             {jobs && jobs.length > 0 ? (
                  jobs.map((job) => (
-                <div key={job.company} className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'  onClick={()=>selectJob(job)} >
+                <div key={job.id} className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'  onClick={()=>selectJob(job)} >
                     <span className='flex justify-between items-center gap-4'>
                         <h1 className='text-[16px] font-semibold text-black group-hover:text-white'>{job.title} </h1>
                         <span className='flex items-center text-[#ccc] gap-1'>
@@ -68,7 +68,7 @@ const Jobview:React.FC= () => {
                     </p>
                     <div className='logo flex items-center gap-2'>
                         <img src="" alt="logo" className='w-[10%]' />
-                        <span className='text-[14px] py-[1rem] block text-[#959595] group-hover:text-black'>{job.company} </span>
+                        <span className='text-[14px] py-[1rem] block text-[#959595] group-hover:text-black'>{job.company.name} </span>
                     </div>
                     <button className='border-2 rounded-[10px] block p-[10px] text-[14px] font-semibold text-textColor hover:bg-white group-hover:item:text-slate-400 group-hover:text-black'>
                         Apply Now

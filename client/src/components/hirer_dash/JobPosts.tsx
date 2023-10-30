@@ -52,7 +52,7 @@ const Jobs = jobs?.filter(job => job.recruiterId === hirerInfo._id);
             <div className=' jobContainer flex gap-10 justify-center flex-wrap items-center py-10'>
             {Jobs && Jobs.length > 0 ? (
                  Jobs?.map((job) => (
-                <div className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'>
+                <div key={job.id} className='group group/item singleJob w-[250px] p-[20px] bg-white rounded-[10px] hover:bg-blueColor shadow-lg shadow-greyish-400/700 hover:shadow-lg'>
                     <span className='flex justify-between items-center gap-4'>
                         <h1 className='text-[16px] font-semibold text-black group-hover:text-white'>{job.title} </h1>
                         <span className='flex items-center text-[#ccc] gap-1'>
@@ -65,7 +65,7 @@ const Jobs = jobs?.filter(job => job.recruiterId === hirerInfo._id);
                     </p>
                     <div className='logo flex items-center gap-2'>
                         <img src="" alt="logo" className='w-[10%]' />
-                        <span className='text-[14px] py-[1rem] block text-[#959595] group-hover:text-black'>{job.company} </span>
+                        <span className='text-[14px] py-[1rem] block text-[#959595] group-hover:text-black'>{job.title} </span>
                     </div>
                     <button className='border-2 rounded-[10px] block p-[10px] text-[14px] font-semibold text-textColor hover:bg-white group-hover:item:text-slate-400 group-hover:text-black'>
                         Apply Now

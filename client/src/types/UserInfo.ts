@@ -23,5 +23,13 @@ export type HirerInfo = {
   email:string
   token:string
   image:string
-
+  jobPosts:[]
+    accountType: string;
+    firstName: string;
+    jobTitle: string;
+    profileUrl: string;
+    lastName: string;
+    contact: string;
+    location: string;
+    about: string;
 }

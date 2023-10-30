@@ -14,8 +14,10 @@ export type UserInfo = {
 }
 export type AdminInfo = {
   _id: string
+  
   email: string
   token: string
+  password:string
 }
 export type HirerInfo = {
   _id: number

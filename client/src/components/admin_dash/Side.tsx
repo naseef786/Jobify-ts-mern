@@ -11,13 +11,15 @@ interface SideProps {
 
 const Side: React.FC<SideProps> = ({ openSidebarToggle, OpenSidebar }) => {
   return (
-    <aside id="sidebar" className={`${openSidebarToggle ? "sidebar-responsive" : ""} p-4` } style={{
-      background:
-      "linear-gradient(to right,rgba(187, 164, 193, 0.85), rgba(70, 87, 145, 1), rgba(104, 135, 99, 0), rgba(82, 103, 130, 0.66),rgba(0, 0, 0, 0.2))",
-    }}>
+    <aside id="sidebar" className={`${openSidebarToggle ? "sidebar-responsive" : ""} p-4 bg-slate-50` }
+    //  style={{
+    //   background:
+    //   "linear-gradient(to right,rgba(187, 164, 193, 0.85), rgba(70, 87, 145, 1), rgba(104, 135, 99, 0), rgba(82, 103, 130, 0.66),rgba(0, 0, 0, 0.2))",
+    // }}
+    >
       <div className='sidebar-title'>
-        <div className='sidebar-brand text-white flex align-middle '>
-          <BsCart3 className='icon_header' /> Jobify 
+        <div className='sidebar-brand  text-zinc-600 flex align-middle '>
+          <BsCart3 className='icon_header  text-zinc-800' /> Jobify 
         </div>
         <span className='icon close_icon text-white cursor-pointer' onClick={OpenSidebar}>X</span>
       </div>

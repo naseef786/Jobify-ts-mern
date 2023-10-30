@@ -383,48 +383,48 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
 //   }
 // };
 
-// export const updateCompanyProfile = async (req: Request, res: Response, next: NextFunction) => {
-//   const { name, contact, location, profileUrl, about } = req.body;
-// const id =req.body.id
-//   try {
-//     // validation
-//     if (!name || !location || !about || !contact || !profileUrl) {
-//       next("Please Provide All Required Fields");
-//       return;
-//     }
+export const updateCompanyProfile = async (req: Request, res: Response, next: NextFunction) => {
+  const { name, contact, location, profileUrl, about, } = req.body;
+const id =req.body.id
+  try {
+    // validation
+    if (!name || !location || !about || !contact || !profileUrl) {
+      next("Please Provide All Required Fields");
+      return;
+    }
 
-//     const recruiter = req.recruiter;
+    const recruiter = req.recruiter;
 
 
 
-//     const updateCompany = {
-//       name,
-//       contact,
-//       location,
-//       profileUrl,
-//       about,
-//       _id: id,
-//     };
+    const updateCompany = {
+      name,
+      contact,
+      location,
+      profileUrl,
+      about,
+      _id: id,
+    };
 
-//     const company = await RecruiterModel.findByIdAndUpdate(id, updateCompany, {
-//       new: true,
-//     });
+    const company = await RecruiterModel.findByIdAndUpdate(id, updateCompany, {
+      new: true,
+    });
 
-//     // const token = company.createJWT();
+    // const token = company.createJWT();
 
-//     company.password = undefined;
+    company.password = undefined;
 
-//     res.status(200).json({
-//       success: true,
-//       message: "Company Profile Updated SUccessfully",
-//       company,
-//       // token,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(404).json({ message: error.message });
-//   }
-// };
+    res.status(200).json({
+      success: true,
+      message: "Company Profile Updated SUccessfully",
+      company,
+      // token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
 
 // export const getCompanyProfile = async (req: Request, res: Response, next: NextFunction) => {
 //   try {

@@ -13,6 +13,7 @@ import Home from '../../components/admin_dash/Home';
 import Recruiters from '../../components/admin_dash/Recruiters';
 import ViewCandidate from '../../components/admin_dash/ViewCandidate';
 import ViewRecrui from '../../components/admin_dash/ViewRecrui';
+
 import Profile from '../../components/admin_dash/Profile';
 import Reports from '../../components/admin_dash/Reports';
 import Blocked from '../../components/admin_dash/Blocked';
@@ -31,6 +32,7 @@ function AdminRouter() {
          <Route path='/recruiters' element={<Recruiters/>} />
          <Route path='/candidates/:id' element={<ViewCandidate/>} />
          <Route path='/candidates' element={<Users/>} />
+     
          <Route path='/recruiters/:id' element={<ViewRecrui/>} />
          <Route path='/reports' element={<Reports/>} />
          <Route path='/profile' element={<Profile/>} />

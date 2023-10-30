@@ -1,4 +1,7 @@
 import React from 'react';
+
+import jobify from '../../assets/jobify.png'
+
 import {
   BsCart3, BsGrid1X2Fill, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill,
   BsListCheck, BsMenuButtonWideFill, BsFillGearFill, BsBuilding
@@ -14,9 +17,12 @@ const Side: React.FC<SideProps> = ({ openSidebarToggle, OpenSidebar }) => {
   return (
     <aside id="sidebar" className={`${openSidebarToggle ? "sidebar-responsive" : ""}  p-4`}>
       <div className='sidebar-title'>
-        <div className='sidebar-brand text-white flex align-middle '>
-          <BsCart3 className='icon_header' /> Jobify 
-        </div>
+      <div>
+            <Link to='/hirer' className='text-blue-600 font-bold text-xl decoration-transparent'>
+              {/* Job<span className='text-[#d2dbe2cb]'>ify</span> */}
+              <img src={jobify} alt=""  className='w-100 h-10 ' />
+            </Link>
+          </div>
         <span className='icon close_icon text-white cursor-pointer' onClick={OpenSidebar}>X</span>
       </div>
 

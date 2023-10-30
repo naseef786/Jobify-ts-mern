@@ -15,7 +15,7 @@ recruiterRouter.get('createResetSession')
 recruiterRouter.post('/post-job',recruiterMiddleware,postJob)
 recruiterRouter.get('/jobs',recruiterMiddleware,fetchJob)
 recruiterRouter.get('/candidates',recruiterMiddleware,getCandidates)
-recruiterRouter.put('updateProfile')
+recruiterRouter.put('update-Profile')
 recruiterRouter.put('updatepassword')
 
 

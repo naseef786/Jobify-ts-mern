@@ -6,12 +6,16 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FiPhoneCall, FiEdit3, FiUpload } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
 import { companies } from "../../utils";
-import  TextInput from "../user_dash/TextInput";
+import TextInput from "../user_dash/TextInput";
 import JobCard from '../user_dash/JobCard'
- import CustomButton from '../button/CustomButton'
+import CustomButton from '../button/CustomButton'
 import LoadingBox from "../loadingBox/LoadingBox";
 import { Store } from "../../store/Store";
 import { useSearchJobsQuery } from "../../hooks/jobHooks";
+import { handleFileUpload } from "../../hooks/fileUpload";
+import apiClient from "../../axios/apiClient";
+import { Job } from "../../types/Jobs";
+import { HirerInfo } from "../../types/UserInfo";
 
 interface CompanyFormProps {
   open: boolean;
@@ -19,29 +23,52 @@ interface CompanyFormProps {
 }
 
 const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
-  const {state ,dispatch } =useContext(Store)
- 
+  const { state, dispatch } = useContext(Store)
 
-  
-  const {hirerInfo,searchTerm} = state
-  
+
+
+  const { hirerInfo, searchTerm } = state
+
 
   const user = hirerInfo
+  const token = user.token
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     mode: "onChange",
-    defaultValues: { ...user },
+    defaultValues: { ...hirerInfo },
   });
 
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [uploadCv, setUploadCv] = useState<File | null>(null);
 
-  const onSubmit = () => {
+  const onSubmit = async (data: HirerInfo) => {
+    console.log(data);
 
+    const uri = profileImage && (await
+      handleFileUpload(profileImage))
+
+    const newData = uri ? { ...data, profileURL: uri } : data;
+    
+
+    try {
+      const res = await apiClient.post<Job>(`api/recruiter/update-profile`, { newData }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      if (res.status == 400) {
+        console.log(res);
+      }
+      else {
+        console.log(res);
+      }
+    } catch (error) {
+
+    }
   };
 
   const closeModal = () => setOpen(false);
@@ -85,38 +112,43 @@ const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
                     className="w-full mt-2 flex flex-col gap-5"
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    <TextInput
-                      name="name"
-                      label="Company Name"
-                      type="text"
-                      register={register("name", {
-                        required: "Compnay Name is required",
-                      })}
-                      error={errors.name ? errors.name?.message : ""}
-                    />
 
-                    <TextInput
-                      name="location"
-                      label="Location/Address"
-                      placeholder="eg. Califonia"
-                      type="text"
-                      register={register("location", {
-                        required: "Address is required",
-                      })}
-                      error={errors.location ? errors.location?.message : ""}
-                    />
+                    <div className="flex flex-col mt-2">
+                      <p className="text-gray-600 text-sm mb-1">Name</p>
+                      <input
+                        className="rounded border border-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base px-4 py-2 "
+                        type="text"
+                        {...register("name", {
+                          required: "Compnay Name is required",
+                        })}
+                        aria-invalid={errors.name ? true : false}
+                      /></div>
+                    <div className="flex flex-col mt-2">
+                      <p className="text-gray-600 text-sm mb-1">Location</p>
+                      <input
+                        className="rounded border border-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base px-4 py-2  resize-none"
+                        type="text"
+
+
+                        {...register("location", {
+                          required: "Address is required",
+                        })}
+                        aria-invalid={errors.location ? true : false}
+                      />
+                    </div>
 
                     <div className="w-full flex gap-2">
                       <div className="w-1/2">
-                        <TextInput
-                          name="contact"
-                          label="Contact"
-                          placeholder="Phone Number"
+                        <label className="text-gray-600 text-sm mb-1">
+                          contact
+                        </label>
+                        <input
+                          className="rounded border border-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base px-2 py-2 resize-none"
                           type="text"
-                          register={register("contact", {
+                          {...register("contact", {
                             required: "Contact is required!",
                           })}
-                          error={errors.contact ? errors.contact?.message : ""}
+                          aria-invalid={errors.contact ? true : false}
                         />
                       </div>
 
@@ -125,6 +157,7 @@ const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
                           Company Logo
                         </label>
                         <input
+
                           type="file"
                           onChange={(e) =>
                             setProfileImage(e.target.files ? e.target.files[0] : null)
@@ -176,28 +209,29 @@ const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
 
 const CompanyProfile: React.FC = () => {
   const params = useParams<{ id?: string }>();
-  const {state ,dispatch } =useContext(Store)
-  const {hirerInfo,searchTerm} = state
+  const { state, dispatch } = useContext(Store)
+  const { hirerInfo, searchTerm } = state
   const user = hirerInfo
   const [info, setInfo] = useState<any | null>(null);
   // const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openForm, setOpenForm] = useState<boolean>(false);
   const token = hirerInfo.token
-  const { data: jobs, isLoading, error } = useSearchJobsQuery(searchTerm,token);
+  const { data: jobs, isLoading, error } = useSearchJobsQuery(searchTerm, token);
   const Jobs = jobs?.filter(job => job.recruiterId === hirerInfo._id);
- 
-  
+
+
 
   useEffect(() => {
     if (params.id) {
-    setInfo(companies[parseInt(params?.id) - 1 ?? 0]);
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      setInfo(companies[parseInt(params?.id) - 1 ?? 0]);
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
   }, [params]);
 
   if (isLoading) {
     return <LoadingBox />;
   }
+
 
   return (
     <div className="main-container">
@@ -208,23 +242,23 @@ const CompanyProfile: React.FC = () => {
           </h2>
 
           {user && (
-              <div className="flex items-center justifu-center py-5 md:py-0 gap-4">
-                <CustomButton
-                  title=""
-                  onClick={() => setOpenForm(true)}
-                  iconRight={<FiEdit3 />}
-                  containerStyles={`py-1.5 px-3 md:px-5 focus:outline-none bg-blue-600  hover:bg-blue-700 text-white rounded text-sm md:text-base border border-blue-600`}
-                />
+            <div className="flex items-center justifu-center py-5 md:py-0 gap-4">
+              <CustomButton
+                title=""
+                onClick={() => setOpenForm(true)}
+                iconRight={<FiEdit3 />}
+                containerStyles={`py-1.5 px-3 md:px-5 focus:outline-none bg-blue-600  hover:bg-blue-700 text-white rounded text-sm md:text-base border border-blue-600`}
+              />
 
-                <Link to="/upload-job">
-                  <CustomButton
-                    title="Upload Job"
-                    iconRight={<FiUpload />}
-                    containerStyles={`text-blue-600 py-1.5 px-3 md:px-5 focus:outline-none  rounded text-sm md:text-base border border-blue-600`}
-                  />
-                </Link>
-              </div>
-            )}
+              <Link to="/hirer/upload-job">
+                <CustomButton
+                  title="Upload Job"
+                  iconRight={<FiUpload />}
+                  containerStyles={`text-blue-600 py-1.5 px-3 md:px-5 focus:outline-none  rounded text-sm md:text-base border border-blue-600`}
+                />
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="w-full flex flex-col md:flex-row justify-start md:justify-between mt-4 md:mt-8 text-sm">

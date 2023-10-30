@@ -4,9 +4,8 @@ import { UseFormRegisterReturn } from "react-hook-form";
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
-  styles?:string;
+  styles?: string;
   register: UseFormRegisterReturn;
-  
 }
 
 const TextInput = forwardRef(

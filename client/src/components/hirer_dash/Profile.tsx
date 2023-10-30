@@ -55,11 +55,7 @@ const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
     
 
     try {
-      const res = await apiClient.post<Job>(`api/recruiter/update-profile`, { newData }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      const res = await apiClient.put(`api/recruiter/update-profile`, { newData })
       if (res.status == 400) {
         console.log(res);
       }

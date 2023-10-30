@@ -384,7 +384,9 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
 // };
 
 export const updateCompanyProfile = async (req: Request, res: Response, next: NextFunction) => {
-  const { name, contact, location, profileUrl, about, } = req.body;
+  console.log(req.body.newData);
+  
+  const { name, contact, location, profileUrl, about, } = req.body.newData;
 const id =req.body.id
   try {
     // validation

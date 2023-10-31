@@ -20,7 +20,7 @@ interface Job {
   recruiterId:number
   title: string;
   qualification: string;
-  
+  profileUrl:string
   requirements:string
   salary: string;
   description: string;
@@ -52,11 +52,11 @@ const navigate = useNavigate()
                 rounded-md px-3 py-5 " onClick={()=>selectJob(job)}
       >
         <div className="flex gap-3">
-          {/* <img
-            src={job?.company?.profileUrl}
-            alt={job?.company?.name}
+          <img
+            src={job?.profileUrl}
+            alt={job?.title}
             className="w-14 h-14"
-          /> */}
+          />
 
           <div className="">
             <p className="text-lg font-semibold truncate">{job?.title}</p>

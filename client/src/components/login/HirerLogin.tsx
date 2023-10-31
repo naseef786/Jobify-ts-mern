@@ -32,8 +32,11 @@ export default function HirerSignIn(): JSX.Element {
           
         })
         dispatch({ type: 'HIRER_SIGNIN', payload: data })
-        localStorage.setItem('hirerInfo', JSON.stringify(data))
-        navigate(redirect)
+        console.log(data);
+
+        
+        localStorage.setItem('hirerInfo', JSON.stringify(data.token))
+        // navigate(redirect)
       } catch (err) {
         toast.error(getError(err as ApiError))
       }

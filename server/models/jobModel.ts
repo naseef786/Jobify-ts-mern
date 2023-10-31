@@ -58,6 +58,8 @@ export class Job {
 
   @prop({ required: true })
   public vaccancy!: string;
+  @prop({ required: true })
+  public profileUrl!: string;
 
 }
 

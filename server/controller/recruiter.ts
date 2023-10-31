@@ -46,15 +46,16 @@ export const recruiterSignUpPost = expressAsyncHandler(async (req: Request, res:
         password: bcrypt.hashSync(password),
       } as Recruiter)
 
-      res.status(200).json({ status: 'success', message: 'signup success', 
+      res.status(200).json({
+        status: 'success', message: 'signup success',
         _id: recruiter._id,
         name: recruiter.name,
         email: recruiter.email,
-        location:recruiter.location,
-        phone:recruiter.phone,
+        location: recruiter.location,
+        phone: recruiter.phone,
         image: recruiter.image,
         token: generateRecruiterToken(recruiter)
-       });
+      });
     }
   } catch (error) {
     next(error);
@@ -78,6 +79,10 @@ export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Res
         name: existingRecruiter.name,
         email: existingRecruiter.email,
         image: existingRecruiter.image,
+        jobPosts: existingRecruiter.jobPosts,
+        location: existingRecruiter.location,
+        contact: existingRecruiter.phone,
+
         token: generateRecruiterToken(existingRecruiter)
       })
       return
@@ -87,29 +92,30 @@ export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Res
 export const postJob = async (req: Request, res: Response) => {
   try {
     console.log("inside job upload");
-    
+
     console.log(req.body);
 
     const {
       jobTitle,
-  salary,
-  vacancies,
-  experience,
-  location,
-  resposibilities,
-  jobType,
-  qualification,
-  description,
-  shifts,
-  benefits
+      salary,
+      vacancies,
+      experience,
+      location,
+      resposibilities,
+      jobType,
+      qualification,
+      description,
+      shifts,
+      benefits
     } = req.body;
 
     const recruiter = req.recruiter;
     const _id = recruiter._id;
+    const profileUrl = RecruiterModel.findById(_id)
 
     // Create a new job instance
     const newJob = new JobModel({
-      title:jobTitle,
+      title: jobTitle,
       qualification,
       companyName: jobTitle,
       location,
@@ -117,10 +123,11 @@ export const postJob = async (req: Request, res: Response) => {
       description,
       shifts,
       benefits,
-      workPlace:location,
+      profileUrl:(await profileUrl).profileUrl,
+      workPlace: location,
       vaccancy: vacancies,
-      jobType:jobType,
-      requirements:experience,
+      jobType: jobType,
+      requirements: experience,
       recruiterId: recruiter._id,
     });
 
@@ -275,9 +282,9 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
   try {
     const recruiterId = req.recruiter._id;
     const recruiter = await RecruiterModel.findById(recruiterId);
-    
+
     const job = await JobModel.find({ recruiterId: recruiter.id });
-    
+
     if (job.length === 0) {
       return res.status(200).send({
         message: "Job Post Not Found",
@@ -290,7 +297,7 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
         if (jobPost.applicants) {
           const user = await UserModel.findById(jobPost.applicants).exec();
           let userids = []
-          if(user?.id){
+          if (user?.id) {
             userids.push(user)
           }
           return userids;
@@ -298,7 +305,7 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
         return null; // or handle the case where applicants is not defined
       })
     );
-    
+
 
     if (users.length === 0) {
       return res.status(200).json({ message: "No applicants" });
@@ -394,7 +401,7 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
 
 export const updateCompanyProfile = async (req: Request, res: Response, next: NextFunction) => {
   console.log(req.body);
-  
+
   const { name, contact, location, profileURL, about, } = req.body.newData;
 
   try {
@@ -406,13 +413,13 @@ export const updateCompanyProfile = async (req: Request, res: Response, next: Ne
 
     const recruiter = req.recruiter;
 
-    const id =recruiter._id
+    const id = recruiter._id
 
     const updateCompany = {
       name,
-      phone:contact,
+      phone: contact,
       location,
-      profileUrl:profileURL,
+      profileUrl: profileURL,
       about,
       _id: id,
     };
@@ -428,7 +435,7 @@ export const updateCompanyProfile = async (req: Request, res: Response, next: Ne
     res.status(200).json({
       success: true,
       message: "Company Profile Updated SUccessfully",
-      
+
       // token,
     });
   } catch (error) {

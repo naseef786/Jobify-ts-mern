@@ -22,7 +22,8 @@ export type Jobs = {
     jobType:string;
     benefits:string;
     createdAt:string;
-    vaccancy:string
+    vaccancy:string;
+    profileUrl:string
     applicants:[]
     countOfStaffNeeded: string;
 };
@@ -44,6 +45,7 @@ export type Job = {
     benefits  :String
     countOfStaffNeeded: string
     createdAt:string;
+    profileUrl:string;
     jobType:string;
     applicants:[]
 

@@ -64,7 +64,7 @@ const Jobs = jobs?.filter(job => job.recruiterId === hirerInfo._id);
                         {job.description}
                     </p>
                     <div className='logo flex items-center gap-2'>
-                        <img src="" alt="logo" className='w-[10%]' />
+                        <img src={job.profileUrl} alt="logo" className='w-[10%]' />
                         <span className='text-[14px] py-[1rem] block text-[#959595] group-hover:text-black'>{job.title} </span>
                     </div>
                     <button className='border-2 rounded-[10px] block p-[10px] text-[14px] font-semibold text-textColor hover:bg-white group-hover:item:text-slate-400 group-hover:text-black'>

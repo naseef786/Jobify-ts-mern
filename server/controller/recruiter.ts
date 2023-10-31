@@ -15,7 +15,7 @@ export const recruiterSignUpPost = expressAsyncHandler(async (req: Request, res:
       company,
       email,
       tagline,
-      discription,
+      description,
       website,
       location,
       password,
@@ -39,14 +39,22 @@ export const recruiterSignUpPost = expressAsyncHandler(async (req: Request, res:
         phone,
         email,
         tagline,
-        discription,
+        description,
         website,
         image,
         location,
         password: bcrypt.hashSync(password),
       } as Recruiter)
 
-      res.json({ status: 'success', message: 'signup success', token: generateRecruiterToken(recruiter) });
+      res.status(200).json({ status: 'success', message: 'signup success', 
+        _id: recruiter._id,
+        name: recruiter.name,
+        email: recruiter.email,
+        location:recruiter.location,
+        phone:recruiter.phone,
+        image: recruiter.image,
+        token: generateRecruiterToken(recruiter)
+       });
     }
   } catch (error) {
     next(error);
@@ -78,21 +86,22 @@ export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Res
 })
 export const postJob = async (req: Request, res: Response) => {
   try {
+    console.log("inside job upload");
+    
     console.log(req.body);
 
     const {
-      title,
-      qualification,
-      company,
-      location,
-      salary,
-      description,
-      shifts,
-      benefits,
-      count,
-      workPlace,
-      jobType,
-      requirements
+      jobTitle,
+  salary,
+  vacancies,
+  experience,
+  location,
+  resposibilities,
+  jobType,
+  qualification,
+  description,
+  shifts,
+  benefits
     } = req.body;
 
     const recruiter = req.recruiter;
@@ -100,18 +109,18 @@ export const postJob = async (req: Request, res: Response) => {
 
     // Create a new job instance
     const newJob = new JobModel({
-      title,
+      title:jobTitle,
       qualification,
-      companyName: company,
+      companyName: jobTitle,
       location,
       salary,
       description,
       shifts,
       benefits,
-      workPlace,
-      vaccancy: count,
-      jobType,
-      requirements,
+      workPlace:location,
+      vaccancy: vacancies,
+      jobType:jobType,
+      requirements:experience,
       recruiterId: recruiter._id,
     });
 
@@ -384,26 +393,26 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
 // };
 
 export const updateCompanyProfile = async (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.body.newData);
+  console.log(req.body);
   
-  const { name, contact, location, profileUrl, about, } = req.body.newData;
-const id =req.body.id
+  const { name, contact, location, profileURL, about, } = req.body.newData;
+
   try {
     // validation
-    if (!name || !location || !about || !contact || !profileUrl) {
+    if (!name || !location || !about || !contact || !profileURL) {
       next("Please Provide All Required Fields");
       return;
     }
 
     const recruiter = req.recruiter;
 
-
+    const id =recruiter._id
 
     const updateCompany = {
       name,
-      contact,
+      phone:contact,
       location,
-      profileUrl,
+      profileUrl:profileURL,
       about,
       _id: id,
     };
@@ -414,12 +423,12 @@ const id =req.body.id
 
     // const token = company.createJWT();
 
-    company.password = undefined;
+    // company.password = undefined;
 
     res.status(200).json({
       success: true,
       message: "Company Profile Updated SUccessfully",
-      company,
+      
       // token,
     });
   } catch (error) {

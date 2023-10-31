@@ -21,6 +21,7 @@ const TextInput = forwardRef(
           type={type}
           placeholder={placeholder}
           ref={ref}
+        
           className={`rounded border border-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base px-4 py-2 ${styles}`}
           {...rest}
           aria-invalid={error ? "true" : "false"}

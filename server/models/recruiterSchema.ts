@@ -23,7 +23,7 @@ export class Recruiter {
   tagline!: string;
 
   @prop({ default: true })
-  discription!: string;
+  description!: string;
 
   @prop({ required: true, trim: true })
      website!: string;
@@ -36,6 +36,13 @@ export class Recruiter {
 
   @prop()
      image?: string;
+
+     @prop()
+     location?: string 
+     @prop()
+     about?: string
+     @prop() 
+     profileUrl?: string 
 
   @prop({ type: Date, default: Date.now })
      createdAt?: Date;

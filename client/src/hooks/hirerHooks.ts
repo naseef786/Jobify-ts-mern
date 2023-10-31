@@ -72,51 +72,60 @@ export const usePostJobMutation = () =>
   useMutation({
     mutationFn: async ({
     
-    title, 
-    qualification,
-    company,
-    location,
-    salary,
-    description,
-    shifts,
-    benefits,
-    count,
-    requirements,
-    token,
-    jobType,
-    workPlace
+      jobTitle,
+      salary,
+      vacancies,
+      experience,
+      location,
+      resposibilities,
+      vaccancy,
+      qualification ,
+      company ,
+      description,
+      requirements,
+      shifts ,
+      benefits  ,
+      countOfStaffNeeded,
+      createdAt,
+      jobType,
+      token
      
     }: {
 
-      title: string
-      qualification: string
-      company: string
-      location: string
-      salary: string
-      description: string
-      shifts: string
-      benefits: string
-      count: string
+      jobTitle: string;
+      salary: number;
+      vacancies: number;
+      experience: number;
+      location: string;
+      resposibilities?: string;
+      vaccancy:string
+      qualification : string
+      company : String
+      description : string
       requirements:string
+      shifts : String
+      benefits  :String
+      countOfStaffNeeded: string
+      createdAt:string;
+      jobType:string;
       token:string
-      jobType:string
-      workPlace:string
 
     }) =>
       (
         await apiClient.post<Job>(`api/recruiter/post-job`, {
-          title, 
-          qualification,
-          company,
-          location,
-          salary,
-          description,
-          shifts,
-          benefits,
-          count,
-          requirements,
-          jobType,
-          workPlace
+      jobTitle,
+      salary,
+      vacancies,
+      experience,
+      location,
+      vaccancy,
+      qualification ,
+      company ,
+      description,
+      requirements,
+      shifts ,
+      benefits,
+      jobType,
         },{      headers: {
           Authorization: `Bearer ${token}`
         }})

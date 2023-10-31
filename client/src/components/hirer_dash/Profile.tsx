@@ -50,12 +50,15 @@ const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
 
     const uri = profileImage && (await
       handleFileUpload(profileImage))
+      const { image, ...Data } = data;
+    const newData = uri ? { ...Data, profileURL: uri } : data;
+  
 
-    const newData = uri ? { ...data, profileURL: uri } : data;
-    
 
     try {
-      const res = await apiClient.put(`api/recruiter/update-profile`, { newData })
+      const res = await apiClient.put(`api/recruiter/update-profile`, { newData },{      headers: {
+        Authorization: `Bearer ${token}`
+      }})
       if (res.status == 400) {
         console.log(res);
       }
@@ -119,6 +122,8 @@ const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
                         })}
                         aria-invalid={errors.name ? true : false}
                       /></div>
+
+                      
                     <div className="flex flex-col mt-2">
                       <p className="text-gray-600 text-sm mb-1">Location</p>
                       <input

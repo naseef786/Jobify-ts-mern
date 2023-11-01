@@ -38,7 +38,6 @@ if (storedToken) {
         <Route path='/jobposts' element={<JobPosts/>} />
         <Route path='/jobposts/:id' element={<JobPostView/>} />
         <Route path='/upload-job' element={<UploadJob/>} />
-        <Route path='/create-job' element={<AddJobForm />} />
         <Route path='/profile' element={<Profile/>} />
         <Route path='/applied' element={<Applyform />} />
         <Route path='/applied/:id' element={<Applyform />} />

@@ -13,3 +13,21 @@ export const handleFileUpload = async (uploadFile: File): Promise<string | undef
         return undefined;
     }
 };
+
+
+
+export const updateURL = ({
+    pageNum,query,cmpLoc,sort,navigate,jType,exp,location
+}:any)=>{
+const params = new URLSearchParams();
+if(pageNum && pageNum > 1){ params.set('page',pageNum)}
+if(query){ params.set('search',query)}
+if(cmpLoc){ params.set('location',cmpLoc)}
+if(sort){ params.set('sort',sort)}
+// if(navigate){ params.set('navigate',navigate)}
+if(jType){ params.set('jType',jType)}
+if(exp){ params.set('exp',exp)}
+
+const newURL =  `http://localhost:4000/admin/companies`;
+return newURL
+}

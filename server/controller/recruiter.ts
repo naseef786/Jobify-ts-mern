@@ -82,7 +82,6 @@ export const recruiterSignin = expressAsyncHandler(async (req: Request, res: Res
         jobPosts: existingRecruiter.jobPosts,
         location: existingRecruiter.location,
         contact: existingRecruiter.phone,
-
         token: generateRecruiterToken(existingRecruiter)
       })
       return
@@ -471,6 +470,9 @@ export const getCompanyProfile = async (req: Request, res: Response, next: NextF
 
 export const getCompanies = async (req: Request, res: Response, next: NextFunction) => {
   try {
+
+    
+    
     const { search, sort, location } = req.query;
 
     //conditons for searching filters
@@ -492,6 +494,8 @@ export const getCompanies = async (req: Request, res: Response, next: NextFuncti
     }
     if (sort === "Oldest") {
       queryResult = queryResult.sort("createdAt");
+   
+      
     }
     if (sort === "A-Z") {
       queryResult = queryResult.sort("name");
@@ -499,6 +503,7 @@ export const getCompanies = async (req: Request, res: Response, next: NextFuncti
     if (sort === "Z-A") {
       queryResult = queryResult.sort("-name");
     }
+  
 
     // PADINATIONS
     const page = Number(req.query.page) || 1;

@@ -55,7 +55,7 @@ export const useAdminSignupMutation = () =>
         throw new Error('Token not found in local storage'); // Handle case where token is not available
       }
   
-      const response = await apiClient.get<HirerInfo[]>(`/api/admin/recruiters`, {
+      const response = await apiClient.get<Recruiter[]>(`/api/admin/recruiters`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -82,3 +82,40 @@ export const useAdminSignupMutation = () =>
       return response.data;
     });
   };
+
+  export const useGetCompQuery = (token:string ,params:any) => {
+    return useQuery(['recruiters'], async () => {
+    
+   
+    
+      if (!token) {
+        throw new Error('Token not found in local storage'); // Handle case where token is not available
+      }
+  
+      const response = await apiClient.get(`/api/admin/companies`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params:params
+      });
+  
+      return response.data;
+    });
+  };
+
+
+  export const usegetCompMutation = () =>
+  useMutation({
+    mutationFn: async ({
+      newUrl,
+      token
+    }:{newUrl:any,token:string}) =>
+      (
+        await apiClient.get(`/api/admin/companies`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          params:newUrl
+        })
+      ).data,
+  })

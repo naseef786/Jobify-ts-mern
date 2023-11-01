@@ -43,8 +43,8 @@ const Side: React.FC<SideProps> = ({ openSidebarToggle, OpenSidebar }) => {
     </Link>
   </li>
   <li className='sidebar-list-item'>
-    <Link to="/hirer/create-job" className="flex items-center no-underline text-gray-500">
-      <BsListCheck className='icon'/> Create a Job Post
+    <Link to="/hirer/upload-job" className="flex items-center no-underline text-gray-500">
+      <BsListCheck className='icon'/> Upload a Job Post
     </Link>
   </li>
   <li className='sidebar-list-item'>
@@ -57,7 +57,7 @@ const Side: React.FC<SideProps> = ({ openSidebarToggle, OpenSidebar }) => {
       <BsFillGearFill className='icon'/> Settings
     </Link>
   </li>
-        {/* Add classes for other list items as needed */}
+        
       </ul>
     </aside>
   )

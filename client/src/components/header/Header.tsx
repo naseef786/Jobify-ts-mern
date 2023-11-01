@@ -49,7 +49,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
 interface HeaderProps {
   title: string;
   type: string;
-  handleClick: () => void;
+  handleClick:(e: React.SyntheticEvent)=> Promise<void>;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   location: string;

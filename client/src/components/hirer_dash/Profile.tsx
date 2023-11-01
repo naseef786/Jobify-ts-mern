@@ -52,9 +52,6 @@ const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
       handleFileUpload(profileImage))
       const { image, ...Data } = data;
     const newData = uri ? { ...Data, profileURL: uri } : data;
-  
-
-
     try {
       const res = await apiClient.put(`api/recruiter/update-profile`, { newData },{      headers: {
         Authorization: `Bearer ${token}`

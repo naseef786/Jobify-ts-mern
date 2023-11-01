@@ -1,15 +1,16 @@
 import React from 'react'
 import { UserInfo, AdminInfo, HirerInfo } from '../types/UserInfo'
 import { Job, Jobs } from '../types/Jobs'
+import { Candidate } from '../types/Candidate'
 type AppState = {
   jobs: Jobs[] | null
-  Recruiters: HirerInfo[]
+  Recruiters: HirerInfo[] | null 
   userInfo: UserInfo
   adminInfo: AdminInfo
   hirerInfo: HirerInfo
   searchTerm: string// Add this field
   selectedJob: Job | null
-  Candidates: UserInfo[]
+  Candidates: Candidate[] | null
 }
 
 const initialState: AppState = {
@@ -27,7 +28,7 @@ type Action =
   { type: 'USER_SIGNIN'; payload: UserInfo } |
   { type: 'STORE_JOBS'; payload: Jobs[] } |
   { type: 'STORE_RECRUITERS'; payload: HirerInfo[] } |
-  { type: 'STORE_CANDIDATES'; payload: UserInfo[] } |
+  { type: 'STORE_CANDIDATES'; payload: Candidate[] } |
   { type: 'SELECT_JOBS'; payload: Job } |
   { type: 'ADMIN_SIGNIN'; payload: AdminInfo } |
   { type: 'HIRER_SIGNIN'; payload: HirerInfo } |

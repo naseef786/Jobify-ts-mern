@@ -10,6 +10,7 @@ export type Candidate = {
     lastName: string;
     contact: string;
     location: string;
+    profileUrl:string;
     jobTitle: string;
     about: string;
     __v: number;

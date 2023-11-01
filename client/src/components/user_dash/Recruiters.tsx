@@ -31,12 +31,12 @@ const Companies: React.FC = () => {
 
  const { data: recruiters, isLoading, error } = useGetRecruitersQuery(userInfo.token);
 
- useEffect(()=>{
-    function storeRecruiters(recruiters:HirerInfo[]){
-    dispatch({type:'STORE_RECRUITERS', payload:recruiters})}
-    storeRecruiters
-},[recruiters,dispatch])
 
+useEffect(() => {
+  // Fetch jobs from your backend server
+  if(recruiters) dispatch({ type: 'STORE_RECRUITERS', payload: recruiters});
+   
+}, [dispatch,recruiters]);
 
  const [data, setData] = useState(recruiters ?? []);
   const location = useLocation();
@@ -69,7 +69,7 @@ const Companies: React.FC = () => {
       <div className="container mx-auto flex flex-col gap-5 2xl:gap-10 px-5 md:px-0 py-6 bg-[#f7fdfd]">
         <div className="flex items-center justify-between mb-4" >
           <p className="text-sm md:text-base">
-            Showing: <span className="font-semibold">1,902</span> Companies Available
+            Showing: <span className="font-semibold">{Recruiters?.length}</span> Companies Available
           </p>
 
           <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">

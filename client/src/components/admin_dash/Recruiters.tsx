@@ -1,87 +1,107 @@
-import React, { useContext, useEffect } from 'react'
-import { Store } from '../../store/Store'
-import { useGetRecruitersQuery } from '../../hooks/adminHooks'
-import LoadingBox from '../loadingBox/LoadingBox'
-import MessageBox from '../messageBox/MessageBox'
-import { getError } from '../../utils'
-import { ApiError } from '../../types/ApiError'
-
-const Recruiters : React.FC = () => {
-  const { state, dispatch } = useContext(Store)
-  const { adminInfo } = state
-  const token = adminInfo.token
-  const { data: recruiters, isLoading, error } = useGetRecruitersQuery(token);
-
-  // useEffect(() => {
-  //   // Fetch jobs from your backend server
-  //   if(jobs) dispatch({ type: 'STORE_JOBS', payload: jobs });
-     
-  // }, [dispatch,jobs]);
+import React, { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Header from "../header/Header";
+import CompanyCard from "../user_dash/RecruiterCard";
+import CustomButton from "../button/CustomButton";
+import ListBox from "../user_dash/ListBox";
+import LoadingBox from "../loadingBox/LoadingBox";
+import { useGetRecruitersQuery } from "../../hooks/adminHooks";
+import { Store } from "../../store/Store";
 
 
+const Companies: React.FC = () => {
 
-  if (isLoading) {
-    return <LoadingBox />;
-  }
 
-  if (error) {
-    return <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>;
-  }
+  const [page, setPage] = useState<number>(1);
+  const [numPage, setNumPage] = useState<number>(1);
+  const [recordsCount, setRecordsCount] = useState<number>(0);
+ 
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [cmpLocation, setCmpLocation] = useState<string>("");
+  const [sort, setSort] = useState<string>("Newest");
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const {state,dispatch} =useContext(Store)
+  const {adminInfo,Recruiters} = state
+
+ const { data: recruiters, isLoading, error } = useGetRecruitersQuery(adminInfo.token);
+
+
+useEffect(() => {
+  // Fetch jobs from your backend server
+  if(recruiters) dispatch({ type: 'STORE_RECRUITERS', payload: recruiters});
+   
+}, [dispatch,recruiters]);
+
+ const [data, setData] = useState(recruiters ?? []);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSearchSubmit = () => {
+    // Add your search logic here
+  };
+
+  const handleShowMore = () => {
+    // Add your "Load More" logic here
+  };
+
+
+
 
   return (
-  <div className="main-container">
-<div className="flex flex-col">
-  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div className="overflow-hidden">
-        <table className="min-w-full text-left text-sm font-light">
-          <thead className="border-b font-medium dark:border-neutral-500">
-            <tr>
-              <th scope="col" className="px-6 py-4 text-blue-700">#</th>
-              <th scope="col" className="px-6 py-4 text-blue-700">Name</th>
-              <th scope="col" className="px-6 py-4 text-blue-700">company name</th>
-              <th scope="col" className="px-6 py-4 text-blue-700">phnoe</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recruiters && recruiters.length > 0 ?
-            recruiters?.map((data)=>(
+    <div className="main-container">
+    <div className="w-full">
+      <Header
+        type=""
+        title="Find Your Dream Company"
+        handleClick={handleSearchSubmit}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        location={cmpLocation}
+        setLocation={setSearchQuery}
+      />
 
-              <tr key={data.id} className="border-b dark:border-neutral-500">
-              <td className="whitespace-nowrap text-blue-400 px-6 py-4 font-medium">{data.id}</td>
-              <td className="whitespace-nowrap text-blue-400 px-6 py-4">{data.name}</td>
-              <td className="whitespace-nowrap text-blue-400 px-6 py-4">{data.company}</td>
-              <td className="whitespace-nowrap text-blue-400 px-6 py-4">{data.phone}</td>
-            </tr>
-              
-            )):(
-              
-              <h1>no recruiters have registered</h1>
-            )}
-          
-            {/* <tr className="border-b dark:border-neutral-500">
-              <td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
-              <td className="whitespace-nowrap px-6 py-4">Jacob</td>
-              <td className="whitespace-nowrap px-6 py-4">Thornton</td>
-              <td className="whitespace-nowrap px-6 py-4">@fat</td>
-            </tr>
-            <tr className="border-b dark:border-neutral-500">
-              <td className="whitespace-nowrap px-6 py-4 font-medium">3</td>
-              <td className="whitespace-nowrap px-6 py-4">Larry</td>
-              <td className="whitespace-nowrap px-6 py-4">Wild</td>
-              <td className="whitespace-nowrap px-6 py-4">@twitter</td>
-            </tr> */}
-          </tbody>
-        </table>
+      <div className="container mx-auto flex flex-col gap-5 2xl:gap-10 px-5 md:px-0 py-6 bg-[#f7fdfd]">
+        <div className="flex items-center justify-between mb-4" >
+          <p className="text-sm md:text-base">
+            Showing: <span className="font-semibold">{Recruiters?.length}</span> Companies Available
+          </p>
+
+          <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">
+            <p className="text-sm md:text-base">Sort By:</p>
+
+            <ListBox sort={sort} setSort={setSort} />
+          </div>
+        </div>
+
+        <div className="w-full flex flex-col gap-6">
+          {Recruiters?.map((cmp, index) => (
+            <CompanyCard cmp={cmp} key={index} />
+          ))}
+
+          {isFetching && (
+            <div className="mt-10">
+              <LoadingBox />
+            </div>
+          )}
+
+          <p className="text-sm text-right">
+            {data?.length} records out of {recordsCount}
+          </p>
+        </div>
+
+        {numPage > page && !isFetching && (
+          <div className="w-full flex items-center justify-center pt-16">
+            <CustomButton
+              onClick={handleShowMore}
+              title="Load More"
+              containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
+            />
+          </div>
+        )}
       </div>
     </div>
-  </div>
-</div>
-
-
     </div>
+  );
+};
 
-  )
-}
-
-export default Recruiters
+export default Companies;

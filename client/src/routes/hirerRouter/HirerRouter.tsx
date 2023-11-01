@@ -20,11 +20,19 @@ import UploadJob from '../../components/hirer_dash/forms/UploadJob';
 function HirerRouter() {
   const { state } = useContext(Store)
   const { hirerInfo } = state
+  const storedToken = localStorage.getItem('hirerInfo');
+
+if (storedToken) {
+  console.log('Token found in local storage:', storedToken);
+} else {
+  console.log('No token found in local storage');
+}
+
   return (
     <Routes>
       <Route element={<Login />} path='/signin' />
       <Route element={<Signup />} path='/signup' />
-      <Route element={hirerInfo ? <HirerPage /> : <Navigate to={'/hirer/signin'} />} path='/' >
+      <Route element={storedToken ? <HirerPage /> : <Navigate to={'/hirer/signin'} />} path='/' >
         <Route index element={<Home />} />
         <Route path='/candidates' element={<Candidates />} />
         <Route path='/jobposts' element={<JobPosts/>} />

@@ -43,7 +43,8 @@ export default function HirerSignIn(): JSX.Element {
     }
   
     useEffect(() => {
-      if (hirerInfo) {
+      const storedToken = localStorage.getItem('hirerInfo');
+      if (storedToken) {
         navigate(redirect)
       }
     }, [navigate, redirect, hirerInfo])

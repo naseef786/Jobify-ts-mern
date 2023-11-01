@@ -18,6 +18,7 @@ import ResetPassword from '../../components/reset/ResetPassword';
 import JobDetails from '../../pages/candidate/JobDetails';
 import UserProfile from '../../components/user_dash/UserProfile';
 import Footer from '../../components/footer/Footer';
+import Companies from '../../components/user_dash/Recruiters';
 
 function CandidteRouter() {
     const {state} = useContext(Store)
@@ -39,6 +40,12 @@ function CandidteRouter() {
               userInfo && "user-profile" 
             }
             element={<UserProfile />}
+          />
+           <Route
+            path={
+              userInfo && "/recruiters" 
+            }
+            element={<Companies />}
           />
              <Route path='/recovery'  element={<Forgetpass/>}/>
              <Route path='/reset'  element={<ResetPassword/>}/>

@@ -2,12 +2,14 @@ import React from 'react'
 import { UserInfo, AdminInfo, HirerInfo } from '../types/UserInfo'
 import { Job, Jobs } from '../types/Jobs'
 type AppState = {
-  jobs: Jobs[] | null 
+  jobs: Jobs[] | null
+  Recruiters: HirerInfo[]
   userInfo: UserInfo
   adminInfo: AdminInfo
-  hirerInfo : HirerInfo
+  hirerInfo: HirerInfo
   searchTerm: string// Add this field
-  selectedJob:Job | null
+  selectedJob: Job | null
+  Candidates: UserInfo[]
 }
 
 const initialState: AppState = {
@@ -15,15 +17,19 @@ const initialState: AppState = {
   userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')!) : null,
   adminInfo: localStorage.getItem('adminInfo') ? JSON.parse(localStorage.getItem('adminInfo')!) : null,
   hirerInfo: localStorage.getItem('hirerInfo') ? JSON.parse(localStorage.getItem('hirerInfo')!) : null,
-  searchTerm:'',
-  jobs:[],
-  selectedJob: null
+  searchTerm: '',
+  jobs: [],
+  selectedJob: null,
+  Recruiters: [],
+  Candidates: []
 }
 type Action =
   { type: 'USER_SIGNIN'; payload: UserInfo } |
   { type: 'STORE_JOBS'; payload: Jobs[] } |
+  { type: 'STORE_RECRUITERS'; payload: HirerInfo[] } |
+  { type: 'STORE_CANDIDATES'; payload: UserInfo[] } |
   { type: 'SELECT_JOBS'; payload: Job } |
-  { type: 'ADMIN_SIGNIN'; payload: AdminInfo} |
+  { type: 'ADMIN_SIGNIN'; payload: AdminInfo } |
   { type: 'HIRER_SIGNIN'; payload: HirerInfo } |
   { type: 'USER_SIGNOUT' } | { type: 'ADMIN_SIGNOUT' } | { type: 'HIRER_SIGNOUT' } |
   { type: 'SEARCH_JOBS'; payload: string };
@@ -34,12 +40,14 @@ function reducer(state: AppState, action: Action): AppState {
 
     case 'USER_SIGNIN':
       return { ...state, userInfo: action.payload }
-    case 'USER_SIGNOUT':
-      return { ...state }
-    case 'STORE_JOBS' :
-      return {...state,jobs:action.payload}
-    case 'SELECT_JOBS' :
-      return {...state,selectedJob:action.payload}
+    case 'STORE_JOBS':
+      return { ...state, jobs: action.payload }
+    case 'SELECT_JOBS':
+      return { ...state, selectedJob: action.payload }
+    case 'STORE_RECRUITERS':
+      return { ...state, Recruiters: action.payload }
+    case 'STORE_CANDIDATES':
+      return { ...state, Candidates: action.payload }
     case 'ADMIN_SIGNIN':
       return { ...state, adminInfo: action.payload }
     case 'HIRER_SIGNIN':
@@ -49,6 +57,8 @@ function reducer(state: AppState, action: Action): AppState {
     case 'ADMIN_SIGNOUT':
       return { ...state }
     case 'HIRER_SIGNOUT':
+      return { ...state }
+    case 'USER_SIGNOUT':
       return { ...state }
   }
 

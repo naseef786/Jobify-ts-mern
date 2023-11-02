@@ -57,20 +57,28 @@ const fetchJobss = async () => {
 
 
 
+
   useEffect(() => {
-    fetchJobss()
-  }, [Recruiters,page,sort]);
+    setTimeout(() => {
+      fetchJobss()
+    }, 1000);
+  }, [page,sort]);
 
    
   const handleSearchSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
-      await fetchJobss()
+     let res =  await fetchJobs({token,newUrl})
+     dispatch({ type: 'STORE_RECRUITERS', payload: res.data });
+     setNumPage(res?.data.numOfPage);
+     setRecordsCount(res?.data.total)
+     setPage(res?.data.page)
+     setData(res?.data)
     } catch (error) {
       console.log(error);
       
     }
-    await fetchJobss()
+
   };
   console.log(sort);
 

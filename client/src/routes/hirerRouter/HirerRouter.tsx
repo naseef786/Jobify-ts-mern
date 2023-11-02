@@ -22,11 +22,11 @@ function HirerRouter() {
   const { hirerInfo } = state
   const storedToken = localStorage.getItem('hirerInfo');
 
-if (storedToken) {
-  console.log('Token found in local storage:', storedToken);
-} else {
-  console.log('No token found in local storage');
-}
+// if (storedToken) {
+//   console.log('Token found in local storage:');
+// } else {
+//   console.log('No token found in local storage');
+// }
 
   return (
     <Routes>

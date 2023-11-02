@@ -107,15 +107,33 @@ export const useAdminSignupMutation = () =>
   export const usegetCompMutation = () =>
   useMutation({
     mutationFn: async ({
-      newUrl,
-      token
-    }:{newUrl:any,token:string}) =>
+      token,
+      newUrl
+   
+    }:{token:string,newUrl:any}) =>
       (
         await apiClient.get(`/api/admin/companies`, {
           headers: {
             Authorization: `Bearer ${token}`
           },
           params:newUrl
+        })
+      ).data,
+  })
+
+  export const useDeleteJobMutation = () =>
+  useMutation({
+    mutationFn: async ({
+      token,
+      jobId
+   
+    }:{token:string,jobId:string}) =>
+      (
+        await apiClient.delete(`/api/recruiter/jobs`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          params:{jobId}
         })
       ).data,
   })

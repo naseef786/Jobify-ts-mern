@@ -5,7 +5,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 
 
 interface Job {
-  id: string;
+  _id: string;
   company: {
     profileUrl: string;
     name: string;

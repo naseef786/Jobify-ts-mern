@@ -1,5 +1,5 @@
 export type Jobs = {
-    id: string;
+    _id: string;
     company: {
       profileUrl: string;
       name: string;
@@ -31,18 +31,18 @@ export type Jobs = {
 
 
 export type Job = {
-    id:string
+    _id:string
     recruiterId:number
-    title : String
+    title : string
     vaccancy:string
     qualification : string
-    company : String
-    location : String
+    company : string
+    location : string
     salary : string
     description : string
     requirements:string
-    shifts : String
-    benefits  :String
+    shifts : string
+    benefits  :string
     countOfStaffNeeded: string
     createdAt:string;
     profileUrl:string;

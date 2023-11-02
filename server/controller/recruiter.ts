@@ -217,9 +217,13 @@ export const updateJob = async (req: Request, res: Response, next: NextFunction)
 
 export const deleteJobPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+console.log(req.query);
 
-    await JobModel.findByIdAndDelete(id);
+    
+    const { jobId } = req.query
+console.log(jobId);
+
+    await JobModel.findByIdAndDelete(jobId);
 
     res.status(200).send({
       success: true,
@@ -472,6 +476,7 @@ export const getCompanies = async (req: Request, res: Response, next: NextFuncti
   try {
 
     
+    console.log(req.query);
     
     const { search, sort, location } = req.query;
 

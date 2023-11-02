@@ -1,5 +1,5 @@
 import express from 'express'
-import { fetchJob, getCandidates, postJob, recruiterSignUpPost, recruiterSignin, updateCompanyProfile } from '../controller/recruiter'
+import { deleteJobPost, fetchJob, getCandidates, postJob, recruiterSignUpPost, recruiterSignin, updateCompanyProfile } from '../controller/recruiter'
 import { post } from '@typegoose/typegoose'
 import { recruiterMiddleware } from '../middlewares/authMiddleware'
 
@@ -14,6 +14,7 @@ recruiterRouter.get('verifyOTP')
 recruiterRouter.get('createResetSession')
 recruiterRouter.post('/post-job',recruiterMiddleware,postJob)
 recruiterRouter.get('/jobs',recruiterMiddleware,fetchJob)
+recruiterRouter.delete('/jobs',recruiterMiddleware,deleteJobPost)
 recruiterRouter.get('/candidates',recruiterMiddleware,getCandidates)
 recruiterRouter.put('/update-profile',recruiterMiddleware, updateCompanyProfile)
 recruiterRouter.put('updatepassword')

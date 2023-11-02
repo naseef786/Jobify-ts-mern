@@ -15,20 +15,20 @@ import LoadingBox from "../../components/loadingBox/LoadingBox";
 import MessageBox from "../../components/messageBox/MessageBox";
 import { ApiError } from "../../types/ApiError";
 import { Job } from "../../types/Jobs";
+import Loading from "../../components/loadingBox/Loading";
+import { set } from "react-hook-form";
 
 
 const FindJobs: React.FC = () => {
     const { state, dispatch } = useContext(Store)
-    const { userInfo } = state
+    const { userInfo ,jobs} = state
     const token = userInfo.token
-    const { data: jobs, isLoading, error } = useGetJobsQuery(token);
+    // const { data: jobs, isLoading, error } = useGetJobsQuery(token);
     function selectJob(job:Job){
       dispatch({ type: 'SELECT_JOBS', payload: job })
       navigate('/jobs/:id')
   }
-
-
-
+  const [isLoading,setLoading] = useState(false)
   const [sort, setSort] = useState<string>("Newest");
   const [page, setPage] = useState<number>(1);
   const [numPage, setNumPage] = useState<number>(1);
@@ -41,6 +41,7 @@ const FindJobs: React.FC = () => {
   const [jobLocation, setJobLocation] = useState<string>("");
   const [filterJobTypes, setFilterJobTypes] = useState<string[]>([]);
   const [filterExp, setFilterExp] = useState<string[]>([]);
+  const [expValue,setExpValue] = useState<string[]>([]);
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const { mutateAsync: fetchJobPosts } = usegetJobsMutation()
@@ -49,20 +50,26 @@ const FindJobs: React.FC = () => {
     query: searchQuery,
     cmploc: jobLocation,
     sort: sort,
+    jtype:filterJobTypes,
+    exp:filterExp,
+
+
+
   }
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  // const filterJobs = (val: string) => {
-  //   if (filterJobTypes.includes(val)) {
-  //     setFilterJobTypes(filterJobTypes.filter((el) => el !== val));
-  //   } else {
-  //     setFilterJobTypes([...filterJobTypes, val]);
-  //   }
-  // };
+  const filterJobs = (val: string) => {
+    if (filterJobTypes.includes(val)) {
+      setFilterJobTypes(filterJobTypes.filter((el) => el !== val));
+    } else {
+      setFilterJobTypes([...filterJobTypes, val]);
+    }
+  };
 
   const fetchJobss = async () => {
+    setLoading(true)
     const res = await fetchJobPosts({
       token,
       newUrl
@@ -70,6 +77,7 @@ const FindJobs: React.FC = () => {
     console.log(res);
     if (res) {
       dispatch({ type: 'STORE_JOBS', payload: res.data });
+      setLoading(false)
       console.log(res);
       
       setNumPage(res?.data.numOfPage);
@@ -81,17 +89,38 @@ const FindJobs: React.FC = () => {
 
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchJobss()
+    
+    setTimeout(async() => {
+      setLoading(true)
+      await fetchJobss()
+      setLoading(false)
     }, 1000);
   }, [page,sort]);
   
+  useEffect(() => {
+    if (expValue.length > 0) {
+      let newExpValue: number[] = [];
+
+      expValue.forEach((el) => {
+        const newE1 = el.split('-');
+
+        newExpValue.push(Number(newE1[0]), Number(newE1[1]));
+      });
+
+      newExpValue.sort((a, b) => a - b);
+
+      setFilterExp([
+        `${newExpValue[0]}`,
+        `${newExpValue[newExpValue.length - 1]}`,
+      ]); // Updated to pass an array of strings
+    }
+  }, [expValue, setFilterExp]);
 
   const handleSearchSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
      let res =  await fetchJobPosts({token,newUrl})
-     dispatch({ type: 'STORE_RECRUITERS', payload: res.data });
+     dispatch({ type: 'STORE_JOBS', payload: res.data });
      setNumPage(res?.data.numOfPage);
     //  setRecordsCount(res?.data.total)
      setPage(res?.data.page)
@@ -101,19 +130,21 @@ const FindJobs: React.FC = () => {
       
     }}
   if (isLoading) {
-    return <LoadingBox />;
+    return <Loading />;
   }
 
   // if (error) {
   //   return <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>;
   // }
 
-  // const filterExperience = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const { value, checked } = e.target;
-  //   setFilterExp((prev) =>
-  //     checked ? [...prev, value] : prev.filter((exp) => exp !== value)
-  //   );
-  // };
+  const filterExperience = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setFilterExp((prev) =>
+      checked ? [...prev, value] : prev.filter((exp) => exp !== value)
+    );
+    console.log(filterExp);
+    
+  };
 
 
 
@@ -154,7 +185,7 @@ const FindJobs: React.FC = () => {
                     value={jtype}
                     checked={filterJobTypes.includes(jtype)}
                     className="w-4 h-4"
-                    // onChange={(e) => filterJobs(e.target.value)}
+                    onChange={(e) => filterJobs(e.target.value)}
                   />
                   <span>{jtype}</span>
                 </div>
@@ -182,7 +213,7 @@ const FindJobs: React.FC = () => {
                     value={exp.value}
                     checked={filterExp.includes(exp.value)}
                     className="w-4 h-4"
-                    // onChange={filterExperience}
+                    onChange={filterExperience}
                   />
                   <span>{exp.title}</span>
                 </div>
@@ -209,6 +240,7 @@ const FindJobs: React.FC = () => {
               <JobCard job={job} dispatch={dispatch} key={index} />
             ))}
           </div>
+          
 
           {numPage > page && !isFetching && (
             <div className="w-full flex items-center justify-center pt-16">

@@ -9,7 +9,7 @@ function JobsPage() {
     <>
     {/* <SearchBox/> */}
     <FindJobs/>
-    <Jobview />
+    {/* <Jobview /> */}
     </>
   )
 }

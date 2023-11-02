@@ -62,3 +62,21 @@ export const useSearchJobsQuery = (searchTerm: string = '',token:string) => {
 //       return response.data;
 //     });
 //   };
+
+
+export const usegetJobsMutation = () =>
+useMutation({
+  mutationFn: async ({
+    token,
+    newUrl
+ 
+  }:{token:string,newUrl:any}) =>
+    (
+      await apiClient.get(`/api/users/jobz`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params:newUrl
+      })
+    ).data,
+})

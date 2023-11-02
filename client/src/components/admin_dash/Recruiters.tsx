@@ -30,7 +30,7 @@ const Companies: React.FC = () => {
   const [data, setData] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
-  const { mutateAsync: fetchJobs } = usegetCompMutation()
+  const { mutateAsync: fetchRecruiters } = usegetCompMutation()
   // const { data: res, isLoading, error } = useGetCompQuery(adminInfo.token,newUrl);
   // console.log(res);
   const newUrl = {
@@ -40,7 +40,7 @@ const Companies: React.FC = () => {
     sort: sort,
   }
 const fetchJobss = async () => {
-    const res = await fetchJobs({
+    const res = await fetchRecruiters({
       token,
       newUrl
     })
@@ -68,7 +68,7 @@ const fetchJobss = async () => {
   const handleSearchSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
-     let res =  await fetchJobs({token,newUrl})
+     let res =  await fetchRecruiters({token,newUrl})
      dispatch({ type: 'STORE_RECRUITERS', payload: res.data });
      setNumPage(res?.data.numOfPage);
      setRecordsCount(res?.data.total)
@@ -96,7 +96,7 @@ const fetchJobss = async () => {
         <Header
           type=""
           title="Find Your Dream Company"
-          handleClick={async (e) => await handleSearchSubmit(e)}
+          handleClick={(e) => handleSearchSubmit(e)}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           location={cmpLocation}

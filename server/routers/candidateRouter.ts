@@ -4,6 +4,7 @@ import * as controller from "../controller/candidate"
 import { localVariables } from '../middlewares/authMiddleware'
 import { authMiddleware } from '../middlewares/authMiddleware'
 import { registerMail } from '../controller/mailer'
+import { getJobPosts } from '../controller/recruiter';
 const userRouter = express.Router();
 
 
@@ -18,6 +19,7 @@ userRouter.get('/verifyOTP')
 userRouter.get('/createResetSession',authMiddleware)
 // userRouter.get('/:user',authMiddleware,getUser)
 userRouter.get('/jobs' ,authMiddleware, getJobs)
+userRouter.get('/jobz' ,authMiddleware, getJobPosts)
 userRouter.post('/jobs/apply-job' ,authMiddleware, controller.applyJob)
 userRouter.get('/jobs/search' ,authMiddleware,controller.searchJobs )
 userRouter.put('/updateProfile',authMiddleware,updateUser)

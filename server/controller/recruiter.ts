@@ -324,6 +324,7 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
 export const getJobPosts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { search, sort, location, jtype, exp } = req.query;
+    console.log("inside getjobposts",req.query);
     
     const types = jtype?.toString().split(","); //full-time,part-time
     const experience = exp?.toString().split("-"); //2-6
@@ -358,7 +359,7 @@ export const getJobPosts = async (req: Request, res: Response, next: NextFunctio
     }
 
     let queryResult = JobModel.find(queryObject).populate({
-      path: "company",
+      path: "recruiterId",
       select: "-password",
     });
 

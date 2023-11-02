@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useContext } from "react";
+import React, { useState, ChangeEvent, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BiBriefcaseAlt2 } from "react-icons/bi";
 import { BsStars } from "react-icons/bs";
@@ -10,7 +10,7 @@ import  CustomButton from "../../components/button/CustomButton";
 import JobCard from "../../components/user_dash/JobCard";
 import ListBox from "../../components/user_dash/ListBox";
 import { Store } from "../../store/Store";
-import { useGetJobsQuery } from "../../hooks/jobHooks";
+import { useGetJobsQuery, usegetJobsMutation } from "../../hooks/jobHooks";
 import LoadingBox from "../../components/loadingBox/LoadingBox";
 import MessageBox from "../../components/messageBox/MessageBox";
 import { ApiError } from "../../types/ApiError";
@@ -43,33 +43,79 @@ const FindJobs: React.FC = () => {
   const [filterExp, setFilterExp] = useState<string[]>([]);
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const { mutateAsync: fetchJobPosts } = usegetJobsMutation()
+  const newUrl = {
+    pageNum: page,
+    query: searchQuery,
+    cmploc: jobLocation,
+    sort: sort,
+  }
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const filterJobs = (val: string) => {
-    if (filterJobTypes.includes(val)) {
-      setFilterJobTypes(filterJobTypes.filter((el) => el !== val));
-    } else {
-      setFilterJobTypes([...filterJobTypes, val]);
-    }
-  };
+  // const filterJobs = (val: string) => {
+  //   if (filterJobTypes.includes(val)) {
+  //     setFilterJobTypes(filterJobTypes.filter((el) => el !== val));
+  //   } else {
+  //     setFilterJobTypes([...filterJobTypes, val]);
+  //   }
+  // };
 
+  const fetchJobss = async () => {
+    const res = await fetchJobPosts({
+      token,
+      newUrl
+    })
+    console.log(res);
+    if (res) {
+      dispatch({ type: 'STORE_JOBS', payload: res.data });
+      console.log(res);
+      
+      setNumPage(res?.data.numOfPage);
+      // setRecordsCount(res?.data.total)
+      setPage(res?.data.page)
+      setData(res?.data)
+    }
+  }
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchJobss()
+    }, 1000);
+  }, [page,sort]);
   
+
+  const handleSearchSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    try {
+     let res =  await fetchJobPosts({token,newUrl})
+     dispatch({ type: 'STORE_RECRUITERS', payload: res.data });
+     setNumPage(res?.data.numOfPage);
+    //  setRecordsCount(res?.data.total)
+     setPage(res?.data.page)
+     setData(res?.data)
+    } catch (error) {
+      console.log(error);
+      
+    }}
   if (isLoading) {
     return <LoadingBox />;
   }
 
-  if (error) {
-    return <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>;
-  }
+  // if (error) {
+  //   return <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>;
+  // }
 
-  const filterExperience = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
-    setFilterExp((prev) =>
-      checked ? [...prev, value] : prev.filter((exp) => exp !== value)
-    );
-  };
+  // const filterExperience = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const { value, checked } = e.target;
+  //   setFilterExp((prev) =>
+  //     checked ? [...prev, value] : prev.filter((exp) => exp !== value)
+  //   );
+  // };
+
+
 
   return (
 
@@ -77,7 +123,7 @@ const FindJobs: React.FC = () => {
       <Header
         title="Find Your Dream Job with Ease"
         type="home"
-        handleClick={() => {}}
+        handleClick={(e) =>  handleSearchSubmit(e)}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         location={jobLocation}
@@ -108,7 +154,7 @@ const FindJobs: React.FC = () => {
                     value={jtype}
                     checked={filterJobTypes.includes(jtype)}
                     className="w-4 h-4"
-                    onChange={(e) => filterJobs(e.target.value)}
+                    // onChange={(e) => filterJobs(e.target.value)}
                   />
                   <span>{jtype}</span>
                 </div>
@@ -136,7 +182,7 @@ const FindJobs: React.FC = () => {
                     value={exp.value}
                     checked={filterExp.includes(exp.value)}
                     className="w-4 h-4"
-                    onChange={filterExperience}
+                    // onChange={filterExperience}
                   />
                   <span>{exp.title}</span>
                 </div>

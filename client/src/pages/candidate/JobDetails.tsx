@@ -11,6 +11,9 @@ import CustomButton from '../../components/button/CustomButton';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/loadingBox/Loading';
 import { useDeleteJobMutation } from '../../hooks/adminHooks';
+import { toast } from 'react-toastify';
+import { getError } from '../../utils';
+import { ApiError } from '../../types/ApiError';
 
 
 
@@ -51,20 +54,36 @@ const JobDetails: React.FC = () => {
 
     const {mutateAsync:applyJob} = useApplyJobMutation()
   const handleApply = async (e:React.SyntheticEvent)=>{
+
   e.preventDefault()
-  const token = userInfo.token
-  if(selectedJob){
-    setJobId(selectedJob._id)
-    console.log(selectedJob,"kkkkkkkkkkkkkkkkkkkkk");
+  try {
 
-    const response = await applyJob({jobId,token})
-  console.log(response.message);
+    const token = userInfo.token
+    if(selectedJob){
+      setJobId(selectedJob._id)
+      console.log(selectedJob,"kkkkkkkkkkkkkkkkkkkkk");
+  
+      const response = await applyJob({jobId,token})
+    console.log(response.message);
+    toast.success('applieded to the job successfully')
+    navigate('/jobs')
+    }
+   
+    
+  } catch (err) {
+    toast.error(getError(err as ApiError))
   }
 
-  console.log(jobId);
 
   }
+
+
   const { mutateAsync: deletePost } = useDeleteJobMutation()
+
+//   useEffect(()=>{
+// navigate('/jobs')
+//   },[handleApply])
+
 
   const handleDeletePost = useMemo(() => async () => {
     const jobId = job?._id;
@@ -135,7 +154,7 @@ const JobDetails: React.FC = () => {
             <div className='bg-[#fed0ab] w-40 h-16 px-6 rounded-lg flex flex-col items-center justify-center'>
               <span className='text-sm'>No. of Applicants</span>
               <p className='text-lg font-semibold text-gray-700'>
-                {job?.applicants?.length}K
+                {job?.applicants?.length}
               </p>
             </div>
 
@@ -199,18 +218,32 @@ const JobDetails: React.FC = () => {
             )}
           </div>
 
-          <div className='w-full'>
+          <div className='w-full '>
+
+          {hirerInfo ? (
+  <CustomButton
+    title='Delete'
+    onClick={handleDeletePost}
+    containerStyles={`w-full flex items-center justify-center text-white bg-red-700 py-3 px-5 outline-none rounded-full text-base`}
+  />
+) : (
+  job?.applicants.some(applicantId => applicantId === userInfo._id) ? (
+    <CustomButton
+      title='Applied'
+      containerStyles={`w-full flex items-center justify-center text-white   bg-slate-600 py-3 px-5 outline-none rounded-full text-base`}
+    />
+  ) : (
+    <CustomButton
+      title='Apply Now'
+      onClick={handleApply}
+      containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
+    />
+  ))
+}
 
 
-            {hirerInfo ? (<CustomButton
-              title='Delete'
-              onClick={handleDeletePost}
-              containerStyles={`w-full flex items-center justify-center text-white bg-red-700 py-3 px-5 outline-none rounded-full text-base`}
-            />) : (<CustomButton
-              title='Apply Now'
-              onClick={handleApply}
-              containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
-            />)}
+
+
 
           </div>
         </div>

@@ -14,13 +14,13 @@ export default function Recovery(): JSX.Element {
     const navigate = useNavigate()
     const { search } = useLocation()
     const redirectInUrl = new URLSearchParams(search).get('redirect')
-    const redirect = redirectInUrl ? redirectInUrl : '/otp'
+    const redirect = redirectInUrl ? redirectInUrl : '/otp';
   
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState('');
     
   
-    const { state, dispatch } = useContext(Store)
-    const { userInfo } = state
+    const { state, dispatch } = useContext(Store);
+    const { userInfo } = state;
   
     const { mutateAsync: recover, isLoading } = useRecoveryMutation()
   

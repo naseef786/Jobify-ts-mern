@@ -16,6 +16,7 @@ import { handleFileUpload } from "../../hooks/fileUpload";
 import apiClient from "../../axios/apiClient";
 import { Job } from "../../types/Jobs";
 import { HirerInfo } from "../../types/UserInfo";
+import { toast } from "react-toastify";
 
 interface CompanyFormProps {
   open: boolean;
@@ -56,11 +57,13 @@ const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
       const res = await apiClient.put(`api/recruiter/update-profile`, { newData },{      headers: {
         Authorization: `Bearer ${token}`
       }})
-      if (res.status == 400) {
-        console.log(res);
+      if (res.status == 200) {
+        toast.success(" profile updated successfully")
+        closeModal()
       }
-      else {
-        console.log(res);
+      else if(res.status == 400) {
+        toast.error("can't update profile right now")
+
       }
     } catch (error) {
 
@@ -215,7 +218,7 @@ const CompanyProfile: React.FC = () => {
   const [openForm, setOpenForm] = useState<boolean>(false);
   const token = hirerInfo.token
   const { data: jobs, isLoading, error } = useSearchJobsQuery(searchTerm, token);
-  const Jobs = jobs?.filter(job => job.recruiterId === hirerInfo._id);
+  const Jobs = jobs?.filter(job => job.recruiterId._id === hirerInfo._id);
 
 
 

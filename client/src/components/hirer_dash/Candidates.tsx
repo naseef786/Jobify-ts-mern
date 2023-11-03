@@ -23,10 +23,11 @@ const Candidates: React.FC = () => {
   const [sort, setSort] = useState<string>("Newest");
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const {state,dispatch} =useContext(Store)
-  const {adminInfo,Candidates} = state
+  const {adminInfo,Candidates,hirerInfo} = state
 
-  const { data: candidates, isLoading, error } = useGetCandidatesQuery(adminInfo.token);
+  const { data: candidates, isLoading, error } = useGetCandidatesQuery(hirerInfo.token);
 
+console.log(candidates);
 
 
 useEffect(() => {
@@ -39,6 +40,8 @@ useEffect(() => {
  const [data, setData] = useState(Candidates ?? []);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const filteredUsers = Candidates?.filter(user => user !== null && user !== undefined && user.length !== 0);
 
   const handleSearchSubmit = () => {
     
@@ -67,7 +70,7 @@ useEffect(() => {
       <div className="container mx-auto flex flex-col gap-5 2xl:gap-10 px-5 md:px-0 py-6 bg-[#f7fdfd]">
         <div className="flex items-center justify-between mb-4" >
           <p className="text-sm md:text-base">
-            Showing: <span className="font-semibold">{Candidates?.length}</span> Companies Available
+            Showing: <span className="font-semibold">{filteredUsers?.length}</span> Companies Available
           </p>
 
           <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">
@@ -78,7 +81,7 @@ useEffect(() => {
         </div>
 
         <div className="w-full flex flex-col gap-6">
-          {Candidates?.map((cmp, index) => (
+          {filteredUsers?.map((cmp, index) => (
                 <div key={index} className='w-full h-16 flex gap-4 items-center justify-between bg-white shadow-md rounded'>
                 <div className='w-3/4 md:w-2/4 flex gap-4 items-center'>
                   <Link to={`/recruiter-profile/${cmp?._id}`}>

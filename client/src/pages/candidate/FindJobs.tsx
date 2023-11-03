@@ -113,8 +113,12 @@ console.log(newUrl);
       setLoading(true)
       await fetchJobPost()
       setLoading(false)
+      
     }, 1000);}
   }, [page,sort,filterJobTypes,filterExp,searchQuery]);
+
+
+  const Jobs=jobs?.filter(job => job?.recruiterId._id === hirerInfo?._id);
   
   useEffect(() => {
     if(userInfo){
@@ -265,11 +269,26 @@ console.log(newUrl);
             </div>
           </div>
 
-          <div className="w-full flex flex-wrap gap-4">
-            {jobs?.map((job, index) => (
-              <JobCard job={job} dispatch={dispatch} key={index} />
-            ))}
-          </div>
+          {userInfo ? (jobs && jobs.length > 0 ? (
+  <div className="w-full flex flex-wrap gap-4">
+    {jobs.map((job, index) => (
+      <JobCard job={job} dispatch={dispatch} key={index} />
+    ))}
+  </div>
+) : (
+  <MessageBox variant="info">No jobs found.</MessageBox>
+)) : (
+  Jobs && Jobs.length > 0 ? (
+    <div className="w-full flex flex-wrap gap-4">
+      {Jobs.map((job, index) => (
+        <JobCard job={job} dispatch={dispatch} key={index} />
+      ))}
+    </div>
+  ) : (
+    <MessageBox variant="info">No jobs found.</MessageBox>
+  ))
+}
+ 
           
 
           {numPage > page && !isFetching && (

@@ -112,7 +112,7 @@ export const usePostJobMutation = () =>
 
     }) =>
       (
-        await apiClient.post<Job>(`api/recruiter/post-job`, {
+        await apiClient.post(`api/recruiter/post-job`, {
       jobTitle,
       salary,
       vacancies,

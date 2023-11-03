@@ -287,11 +287,11 @@ export const getJobById = async (req: Request, res: Response, next: NextFunction
 export const getCandidates = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const recruiterId = req.recruiter._id;
-    const recruiter = await RecruiterModel.findById(recruiterId);
-
-    const job = await JobModel.find({ recruiterId: recruiter.id });
-
-    if (job.length === 0) {
+  
+    console.log('inside get candidates')
+    const jobs = await JobModel.find({ recruiterId: recruiterId });
+  
+    if (jobs.length === 0) {
       return res.status(200).send({
         message: "Job Post Not Found",
         success: false,
@@ -299,23 +299,20 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
     }
 
     const users = await Promise.all(
-      job.map(async (jobPost) => {
-        if (jobPost.applicants) {
-          const user = await UserModel.findById(jobPost.applicants).exec();
-          let userids = []
-          if (user?.id) {
-            userids.push(user)
-          }
-          return userids;
+      jobs.map(async (jobPost) => {
+        if (jobPost.applicants && jobPost.applicants.length > 0) {
+          const user = await UserModel.findById(jobPost.applicants[0]).select("-password").exec();
+          return user;
         }
-        return null; // or handle the case where applicants is not defined
-      })
+        return null;
+      }).filter(Boolean) // Remove null values from the array
     );
 
-
     if (users.length === 0) {
-      return res.status(200).json({ message: "No applicants" });
+      return res.status(204).json({ message: "No applicants" });
     } else {
+      // console.log();
+      // users.filter((users.includes == null)
       return res.status(200).json(users);
     }
   } catch (error) {
@@ -323,6 +320,7 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
     res.status(404).json({ message: error.message });
   }
 };
+
 
 
 export const getJobPosts = async (req: Request, res: Response, next: NextFunction) => {
@@ -409,7 +407,7 @@ export const getJobPosts = async (req: Request, res: Response, next: NextFunctio
 };
 
 export const updateCompanyProfile = async (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.body);
+
 
   const { name, contact, location, profileURL, about, } = req.body.newData;
 
@@ -444,7 +442,7 @@ export const updateCompanyProfile = async (req: Request, res: Response, next: Ne
     res.status(200).json({
       success: true,
       message: "Company Profile Updated SUccessfully",
-
+      data:company
       // token,
     });
   } catch (error) {

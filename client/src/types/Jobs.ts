@@ -27,6 +27,10 @@ export type Jobs = {
 };
 
 
+type User = {
+  _id: string; // User ID
+  // other fields
+};
 
 export type Job = {
     _id:string
@@ -48,6 +52,9 @@ export type Job = {
     createdAt:string;
     profileUrl:string;
     jobType:string;
-    applicants:[]
+    applicants:[
+      _id:string
+    ]
 
 }
+

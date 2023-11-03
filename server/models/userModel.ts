@@ -40,6 +40,8 @@ export class User {
   public cvUrl!:string; 
   public jobTitle!:string; 
   public about!:string; 
+  @prop({ ref: 'Job' })
+  appliedJobs?: Schema.Types.ObjectId[];
 
   @prop({ required: true, default: false })
   public isAdmin!: boolean;

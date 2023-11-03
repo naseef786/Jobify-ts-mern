@@ -253,34 +253,63 @@ catch(error){
 
 }
   
-
-export const applyJob = async(req: Request, res: Response, next: NextFunction)=>{
+export const applyJob = async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log("inside apply job");
     console.log(req.body);
-    
-    const { jobId } = req.body;
-    const  userId  = req.user;
-    const {_id}= userId;
-   await JobModel.findByIdAndUpdate(jobId, { $addToSet: { applicants: _id } })
-    .then(updatedJob => {
-      if (updatedJob) {
-        console.log(`User ${userId.name} added as an applicant to job ${jobId}`);
-      } else {
-        console.log(`Job with ID ${jobId} not found`);
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
-    
 
-    return res.json({ message: 'Application submitted successfully' });
+    const { jobId } = req.body;
+    const userId = req.user as { _id: string }; 
+    const { _id } = userId;
+
+    const [updatedJob] = await Promise.all([
+      JobModel.findByIdAndUpdate(jobId, { $addToSet: { applicants: _id } }),
+      UserModel.findByIdAndUpdate(_id, { $addToSet: { appliedJobs: jobId } }, { new: true })
+    ]);
+
+    if (updatedJob) {
+      console.log(`User ${userId} added as an applicant to job ${jobId}`);
+      res.status(201).json({ message: 'Application submitted successfully' });
+    } else {
+      console.log(`Job with ID ${jobId} not found`);
+      res.status(400).json({ message: 'Job not found' });
+    }
   } catch (error) {
+    console.error(error);
     next(error); // Pass the error to Express error handling middleware
   }
-}
+};
 
+export const getAppliedJobsByUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user as { _id: string }; // Assuming req.user has a property _id
+    const { _id } = userId;
+
+    const user = await UserModel.findById(_id).exec();
+
+    if (user) {
+      const appliedJobs = user.appliedJobs;
+
+      if (appliedJobs && appliedJobs.length > 0) {
+        // Fetch job details for each applied job
+        const jobsPromises = appliedJobs.map(async (jobId) => {
+          return await JobModel.findById(jobId).exec();
+        });
+
+        const jobs = await Promise.all(jobsPromises);
+
+        res.status(200).json(jobs);
+      } else {
+        res.status(200).json([]);
+      }
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 export const getCompanies = async (req: Request, res: Response, next: NextFunction) => {
   try {

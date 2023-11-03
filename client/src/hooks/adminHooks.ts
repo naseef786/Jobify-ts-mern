@@ -73,7 +73,7 @@ export const useAdminSignupMutation = () =>
         throw new Error('Token not found in local storage'); // Handle case where token is not available
       }
   
-      const response = await apiClient.get<Candidate[]>(`/api/admin/candidates`, {
+      const response = await apiClient.get<Candidate[]>(`/api/recruiter/candidates`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

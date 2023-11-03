@@ -21,7 +21,7 @@ export const useGetJobsQuery = (token:string) => {
       throw new Error('Token not found in local storage'); // Handle case where token is not available
     }
 
-    const response = await apiClient.get<Jobs[]>(`/api/users/jobs`, {
+    const response = await apiClient.get<Jobs[]>(`/api/users/jobs/applied`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

@@ -5,7 +5,7 @@ import TextInput from "../../user_dash/TextInput";
 import JobCard from "../../user_dash/JobCard";
 import CustomButton from "../../button/CustomButton";
 import LoadingBox from "../../loadingBox/LoadingBox";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { getError, jobs } from "../../../utils";
 import JobTypes from "./JobTypes";
 import { Store } from "../../../store/Store";
@@ -58,6 +58,11 @@ const UploadJob: React.FC = () => {
     console.log(newData);
     try{
     const res = await Postjob(newData)
+    if(res){
+      console.log(res);
+      toast.success(res.message)
+    }
+
     }catch (err) {
       toast.error(getError(err as ApiError))
   }

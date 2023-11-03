@@ -1,9 +1,10 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useContext } from "react";
 import { AiOutlineSearch, AiOutlineCloseCircle } from "react-icons/ai";
 import { CiLocationOn } from "react-icons/ci";
 import CustomButton from "../button/CustomButton";
 import { popularSearch } from "../../utils";
 import HeroImage from "../../assets/hero.png";
+import { Store } from "../../store/Store";
 
 interface SearchInputProps {
   placeholder: string;
@@ -65,6 +66,10 @@ const Header: React.FC<HeaderProps> = ({
   location,
   setLocation,
 }) => {
+
+const {state,dispatch}= useContext(Store)
+const {hirerInfo,userInfo} = state
+
   return (
   
     <div className="bg-[#f7fdfd]">
@@ -86,13 +91,14 @@ const Header: React.FC<HeaderProps> = ({
               setValue={setSearchQuery}
               styles=""
             />
+            {userInfo &&
             <SearchInput
               placeholder="Add Country or City"
               icon={<CiLocationOn className="text-gray-600 text-xl" />}
               value={location}
               setValue={setLocation}
               styles="hidden md:flex"
-            />
+            />}
 
             <div>
               <CustomButton

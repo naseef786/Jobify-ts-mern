@@ -1,18 +1,16 @@
 export type Jobs = {
     _id: string;
-    company: {
+    recruiterId: {
       profileUrl: string;
       name: string;
+      _id:number
+      about:string
     };
     jobTitle: string;
     location: string;
     detail: Array<{
       desc: string;
-    }>;
-    
-    
-    recruiterId:number
-    title: string;
+    }>
     qualification: string;
     
     requirements:string
@@ -32,11 +30,14 @@ export type Jobs = {
 
 export type Job = {
     _id:string
-    recruiterId:number
-    title : string
+    jobTitle : string
     vaccancy:string
     qualification : string
-    company : string
+    recruiterId: {
+      profileUrl: string;
+      name: string;
+      about:string
+    };
     location : string
     salary : string
     description : string

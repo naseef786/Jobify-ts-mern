@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Store } from '../../store/Store';
 import { useApplyJobMutation } from '../../hooks/userHooks';
 import moment from 'moment';
@@ -19,80 +19,67 @@ const JobDetails: React.FC = () => {
   const { state, dispatch } = useContext(Store);
   const [isFetching, setFetching] = useState(false)
   const navigate = useNavigate()
+  const [jobId,setJobId]=useState('')
 
 
 
   const { selectedJob, jobs, userInfo, hirerInfo } = state;
   useEffect(() => {
+    
     if (!selectedJob) {
-      navigate('/jobs')
+      if(userInfo)navigate('/jobs')
+      else if(hirerInfo.token)navigate('/hirer/jobposts')
+      
     }
   }, [])
-  const token = userInfo.token
-  const { data, isLoading, error } = useGetJobsQuery(token);
-  useEffect(() => {
-    // Fetch jobs from your backend server
-    setFetching(true)
+  // const token = userInfo.token
+  // const { data, isLoading, error } = useGetJobsQuery(token);
+  // useEffect(() => {
+  //   // Fetch jobs from your backend server
+  //   setFetching(true)
 
-    setTimeout(() => {
-      if (data) dispatch({ type: 'STORE_JOBS', payload: data });
-      setFetching(false)
-    }, 2000);
+  //   setTimeout(() => {
+  //     if (data) dispatch({ type: 'STORE_JOBS', payload: data });
+  //     setFetching(false)
+  //   }, 2000);
 
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+  //   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 
-  }, [dispatch, jobs]);
+  // }, [dispatch, jobs]);
 
   const job = selectedJob;
-  //   const token = userInfo.token
-  //   const {mutateAsync:applyJob} = useApplyJobMutation()
-  // const handleApply = async (e:React.SyntheticEvent)=>{
-  // e.preventDefault()
 
-  // // if(selectedJob){
-  // //   setJobId(selectedJob._id)
-  // //   console.log(selectedJob,"kkkkkkkkkkkkkkkkkkkkk");
+    const {mutateAsync:applyJob} = useApplyJobMutation()
+  const handleApply = async (e:React.SyntheticEvent)=>{
+  e.preventDefault()
+  const token = userInfo.token
+  if(selectedJob){
+    setJobId(selectedJob._id)
+    console.log(selectedJob,"kkkkkkkkkkkkkkkkkkkkk");
 
-  // //   const response = await applyJob({jobId,token})
-  // // console.log(response);
-  // // }
+    const response = await applyJob({jobId,token})
+  console.log(response.message);
+  }
 
-  // console.log(jobId);
+  console.log(jobId);
 
-  // }
+  }
   const { mutateAsync: deletePost } = useDeleteJobMutation()
 
-  const handleDeletePost = async () => {
-    // setFetching(true)
+  const handleDeletePost = useMemo(() => async () => {
     const jobId = job?._id;
-    console.log(job);
-
-    console.log(jobId);
-
-
     if (jobId) {
+      const token = hirerInfo.token
       const res = await deletePost({ jobId, token })
-      console.log('inside handle delete');
-
       if (res.success) {
         alert(res?.message);
-        // navigate('/jobs')
+        navigate('/hirer/jobs')
       }
-
     }
-
-
-
-
-    // try{
-
-    // }catch(error){
-    //   console.log(error);
-
-    // }
-  }
+  }, [deletePost, job]);
+  
   return (
-    <div className='container mx-auto'>
+    <div className='main-container  container mx-auto'>
       <div className='w-full flex flex-col md:flex-row gap-10'>
         {/* LEFT SIDE */}
 
@@ -103,20 +90,20 @@ const JobDetails: React.FC = () => {
           <div className='w-full flex items-center justify-between'>
             <div className='w-3/4 flex gap-2'>
               <img
-                src={job?.profileUrl}
-                alt={job?.company}
+                src={job?.recruiterId.profileUrl}
+                alt={job?.recruiterId.name}
                 className='w-20 h-20 md:w-24 md:h-20 rounded'
               />
 
               <div className='flex flex-col'>
                 <p className='text-xl font-semibold text-gray-600'>
-                  {job?.title}
+                  {job?.jobTitle}
                 </p>
 
                 <span className='text-base'>{job?.location}</span>
 
                 <span className='text-base text-blue-600'>
-                  {job?.company}
+                  {job?.recruiterId.name}
                 </span>
 
                 <span className='text-gray-500 text-sm'>
@@ -200,14 +187,14 @@ const JobDetails: React.FC = () => {
               <>
                 <div className='mb-6 flex flex-col'>
                   <p className='text-xl text-blue-600 font-semibold'>
-                    {job?.recruiterId}
+                    {job?.recruiterId.name}
                   </p>
                   <span className='text-base'>{job?.location}</span>
-                  <span className='text-sm'>{job?.recruiterId}</span>
+                  <span className='text-sm'>{job?.recruiterId.name}</span>
                 </div>
 
                 <p className='text-xl font-semibold'>About Company</p>
-                <span>{job?.description}</span>
+                <span>{job?.recruiterId.about}</span>
               </>
             )}
           </div>
@@ -215,12 +202,13 @@ const JobDetails: React.FC = () => {
           <div className='w-full'>
 
 
-            {hirerInfo.token ? (<CustomButton
+            {hirerInfo ? (<CustomButton
               title='Delete'
               onClick={handleDeletePost}
               containerStyles={`w-full flex items-center justify-center text-white bg-red-700 py-3 px-5 outline-none rounded-full text-base`}
             />) : (<CustomButton
               title='Apply Now'
+              onClick={handleApply}
               containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
             />)}
 
@@ -229,21 +217,22 @@ const JobDetails: React.FC = () => {
 
 
 
+        {userInfo && (
+  isFetching ? (
+    <Loading />
+  ) : (
+    <div className='w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0'>
+      <p className='text-gray-500 font-semibold'>Similar Job Post</p>
 
-        {/* RIGHT SIDE */}
-        {isFetching ? (<Loading />) :
-          (
-            <div className='w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0'>
-              <p className='text-gray-500 font-semibold'>Similar Job Post</p>
+      <div className='w-full flex flex-wrap gap-4'>
+        {jobs?.slice(0, 6).map((job, index) => (
+          <JobCard dispatch={dispatch} job={job} key={index} />
+        ))}
+      </div>
+    </div>
+  )
+)}
 
-              <div className='w-full flex flex-wrap gap-4'>
-                {jobs?.slice(0, 6).map((job, index) => (
-                  <JobCard dispatch={dispatch} job={job} key={index} />
-                ))}
-              </div>
-            </div>
-          )
-        }
 
       </div>
     </div>

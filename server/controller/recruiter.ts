@@ -100,7 +100,8 @@ export const postJob = async (req: Request, res: Response) => {
       vacancies,
       experience,
       location,
-      resposibilities,
+      requirements,
+      responsibilities,
       jobType,
       qualification,
       description,
@@ -110,23 +111,26 @@ export const postJob = async (req: Request, res: Response) => {
 
     const recruiter = req.recruiter;
     const _id = recruiter._id;
-    const profileUrl = RecruiterModel.findById(_id)
+    const  profileUrl = RecruiterModel.findById(_id)
 
     // Create a new job instance
     const newJob = new JobModel({
-      title: jobTitle,
+      jobTitle: jobTitle,
       qualification,
-      companyName: jobTitle,
+      companyName: shifts,
+      // recruiterName:(await profileUrl).name,
       location,
       salary,
       description,
       shifts,
       benefits,
-      profileUrl:(await profileUrl).profileUrl,
-      workPlace: location,
+      recruiterName:recruiter.email,
+      profileUrl:recruiter.email,
       vaccancy: vacancies,
       jobType: jobType,
-      requirements: experience,
+      experience:experience,
+      requirements: benefits,
+      responsibilities:benefits,
       recruiterId: recruiter._id,
     });
 
@@ -362,6 +366,7 @@ export const getJobPosts = async (req: Request, res: Response, next: NextFunctio
       path: "recruiterId",
       select: "-password",
     });
+
 
     // SORTING
     if (sort === "Newest") {

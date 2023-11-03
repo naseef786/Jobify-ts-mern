@@ -13,8 +13,7 @@ export class Job {
   @prop({ref: 'User' })
   public applicants?: Schema.Types.ObjectId[];
 
-  @prop({ required: true })
-  public workPlace!: string;
+
 
   
   @prop({ required: true })
@@ -27,7 +26,7 @@ export class Job {
   public shifts!: string;
 
   @prop({ required: true })
-  public title!: string;
+  public jobTitle!: string;
 
   @prop({ required: true })
   public jobType!: string;
@@ -36,16 +35,21 @@ export class Job {
   public description!: string;
 
   @prop({ required: true })
-  public companyName!: string;
+  public recruiterName!: string;
 
   @prop({ required: true })
   public location!: string;
+  @prop({ required: true })
+  public experience!: number;
 
   @prop({ required: true })
   public salary!: string;
 
   @prop({ required: true })
   public requirements!: string;
+
+  @prop({ required: true })
+  public   responsibilities!: string;
 
   @prop({ default: true })
   public isActive!: boolean;

@@ -41,11 +41,11 @@ useEffect(() => {
   const navigate = useNavigate();
 
   const handleSearchSubmit = () => {
-    // Add your search logic here
+    
   };
 
   const handleShowMore = () => {
-    // Add your "Load More" logic here
+   
   };
 
 
@@ -81,7 +81,7 @@ useEffect(() => {
           {Candidates?.map((cmp, index) => (
                 <div key={index} className='w-full h-16 flex gap-4 items-center justify-between bg-white shadow-md rounded'>
                 <div className='w-3/4 md:w-2/4 flex gap-4 items-center'>
-                  <Link to={`/company-profile/${cmp?._id}`}>
+                  <Link to={`/recruiter-profile/${cmp?._id}`}>
                     <img
                       src={cmp?.profileUrl}
                       alt={cmp?.name}
@@ -90,7 +90,7 @@ useEffect(() => {
                   </Link>
                   <div className='h-full flex flex-col'>
                     <Link
-                      to={`/company-profile/${cmp?._id}`}
+                      to={`/recruiter-profile/${cmp?._id}`}
                       className='text-base md:text-lg font-semibold text-gray-600 truncate'
                     >
                       {cmp?.name}

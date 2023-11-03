@@ -21,8 +21,8 @@ import { set } from "react-hook-form";
 
 const FindJobs: React.FC = () => {
     const { state, dispatch } = useContext(Store)
-    const { userInfo ,jobs} = state
-    const token = userInfo.token
+    const { userInfo,hirerInfo ,jobs} = state
+   
     // const { data: jobs, isLoading, error } = useGetJobsQuery(token);
     function selectJob(job:Job){
       dispatch({ type: 'SELECT_JOBS', payload: job })
@@ -52,10 +52,8 @@ const FindJobs: React.FC = () => {
     sort: sort,
     jtype:filterJobTypes,
     exp:filterExp,
-
-
-
   }
+console.log(newUrl);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -69,6 +67,27 @@ const FindJobs: React.FC = () => {
   };
 
   const fetchJobss = async () => {
+    const token = userInfo?.token
+    setLoading(true)
+    const res = await fetchJobPosts({
+      token,
+      newUrl
+    })
+    console.log(res);
+    if (res) {
+      dispatch({ type: 'STORE_JOBS', payload: res.data });
+      setLoading(false)
+      console.log(res);
+      
+      setNumPage(res?.data.numOfPage);
+      // setRecordsCount(res?.data.total)
+      setPage(res?.data.page)
+      setData(res?.data)
+    }
+  }
+
+  const fetchJobPost = async () => {
+    const token = hirerInfo?.token
     setLoading(true)
     const res = await fetchJobPosts({
       token,
@@ -89,14 +108,25 @@ const FindJobs: React.FC = () => {
 
 
   useEffect(() => {
-    
+    if(hirerInfo){
+    setTimeout(async() => {
+      setLoading(true)
+      await fetchJobPost()
+      setLoading(false)
+    }, 1000);}
+  }, [page,sort,filterJobTypes,filterExp,searchQuery]);
+  
+  useEffect(() => {
+    if(userInfo){
     setTimeout(async() => {
       setLoading(true)
       await fetchJobss()
       setLoading(false)
-    }, 1000);
-  }, [page,sort]);
+    }, 1000);}
+  }, [page,sort,filterJobTypes,filterExp,searchQuery]);
   
+
+
   useEffect(() => {
     if (expValue.length > 0) {
       let newExpValue: number[] = [];
@@ -114,17 +144,17 @@ const FindJobs: React.FC = () => {
         `${newExpValue[newExpValue.length - 1]}`,
       ]); // Updated to pass an array of strings
     }
-  }, [expValue, setFilterExp]);
+  }, [expValue]);
 
   const handleSearchSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
+    const token = userInfo?.token
     try {
      let res =  await fetchJobPosts({token,newUrl})
      dispatch({ type: 'STORE_JOBS', payload: res.data });
      setNumPage(res?.data.numOfPage);
     //  setRecordsCount(res?.data.total)
      setPage(res?.data.page)
-     setData(res?.data)
     } catch (error) {
       console.log(error);
       

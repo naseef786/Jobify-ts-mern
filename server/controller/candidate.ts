@@ -223,32 +223,36 @@ export const resetPassword = (req: Request, res: Response) => {
     if (!req.app.locals.resetSession) return res.status(440).send({ message: "Session expired!" });
     try {
       UserModel.findOne({ email: email })
-        .then(user => {
-          bcrypt.hash(password, 10)
-            .then(hashedPassword => {
-              UserModel.updateOne({ username: user.id },
-                { password: hashedPassword }).then(() => {
-                  req.app.locals.resetSession = false; // Reset session
-                  return res.status(201).send({ message: "Record Updated...!" });
-                });
+      .then(user => {
+        if (user) {
+          const hashedPassword = bcrypt.hashSync(password);
+          UserModel.updateOne({ _id: user.id }, { password: hashedPassword })
+            .then(() => {
+              req.app.locals.resetSession = false; // Reset session
+              return res.status(201).send({ message: "Record Updated...!" });
             })
             .catch(e => {
-              return res.status(500).send({
-                message: "Enable to hashed password"
-              })
-            })
-        })
-        .catch(error => {
-          return res.status(404).send({ message: "email not Found" });
-        })
+              return res.status(500).send({ message: "Unable to update password" });
+            });
+        } else {
+          return res.status(404).send({ message: "User not found" });
+        }
+      })
+      .catch(e => {
+        return res.status(500).send({ message: "Error finding user" });
+      });
+    
+}catch(error){
+  console.log(error);
 
-    } catch (error) {
-      return res.status(500).send({ message: "server errror" })
-    }
-  } catch (error) {
-    return res.status(401).send({ error })
-  }
+}}
+catch(error){
+  console.log(error);
+  
 }
+
+}
+  
 
 export const applyJob = async(req: Request, res: Response, next: NextFunction)=>{
   try {

@@ -1,26 +1,23 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useContext } from "react";
 import { GoLocation } from "react-icons/go";
 import moment from "moment";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Store } from "../../store/Store";
 
 
 interface Job {
   _id: string;
-  company: {
+  recruiterId: {
     profileUrl: string;
     name: string;
+    about:string
   };
-  jobTitle: string;
   location: string;
   detail: Array<{
     desc: string;
   }>;
-  
-  
-  recruiterId:number
-  title: string;
+  jobTitle: string;
   qualification: string;
-  profileUrl:string
   requirements:string
   salary: string;
   description: string;
@@ -30,7 +27,7 @@ interface Job {
   createdAt:string;
   vaccancy:string
   applicants:[]
-  countOfStaffNeeded: string;
+ 
 }
 
 interface JobCardProps {
@@ -39,27 +36,35 @@ interface JobCardProps {
 }
 
 const JobCard: React.FC<JobCardProps> = ({ job,dispatch }) => {
+
+  const {state}=useContext(Store)
+  const{hirerInfo} =state
 const navigate = useNavigate()
+
   function selectJob(job:Job){
     dispatch({ type: 'SELECT_JOBS', payload: job })
     navigate('/jobs/:id')
+}
+function selectJobPost(job:Job){
+  dispatch({ type: 'SELECT_JOBS', payload: job })
+  navigate('/hirer/jobposts/:id')
 }
 
   return (
   
       <div
-        className="w-full md:w-[16rem] 2xl:w-[18rem] h-[16rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
-                rounded-md px-3 py-5 " onClick={()=>selectJob(job)}
+        className="w-full md:w-[20rem] 2xl:w-[15rem] h-[16rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
+                rounded-md px-3 py-5 "  onClick={()=>{hirerInfo?  selectJobPost(job) : selectJob(job)}}
       >
         <div className="flex gap-3">
           <img
-            src={job?.profileUrl}
-            alt={job?.title}
+            src={job?.recruiterId.profileUrl}
+            alt={job?.recruiterId.name}
             className="w-14 h-14"
           />
 
           <div className="">
-            <p className="text-lg font-semibold truncate">{job?.title}</p>
+            <p className=" text-base   truncate ">{job?.jobTitle}</p>
             <span className="flex gap-2 items-center">
               <GoLocation className="text-slate-900 text-sm" />
               {job?.location}
@@ -68,7 +73,7 @@ const navigate = useNavigate()
         </div>
 
         <div className="py-3">
-          <p className="text-sm">
+          <p className="text-sm truncate">
             {job?.requirements}
           </p>
         </div>

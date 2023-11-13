@@ -4,7 +4,7 @@ export type UserInfo = {
   email: string
   token: string
   accountType: string;
-  firstName: string;
+  firstName: string ;
   jobTitle: string;
   profileUrl: string;
   lastName: string;

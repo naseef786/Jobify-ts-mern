@@ -10,7 +10,7 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const TextInput = forwardRef(
   (
-    { type, placeholder, styles, label, error, ...rest }: TextInputProps,
+    { type, placeholder, styles, label, error, ...rest,register }: TextInputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     return (
@@ -21,7 +21,7 @@ const TextInput = forwardRef(
           type={type}
           placeholder={placeholder}
           ref={ref}
-        
+          {...register}
           className={`rounded border border-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base px-4 py-2 ${styles}`}
           {...rest}
           aria-invalid={error ? "true" : "false"}
@@ -33,3 +33,23 @@ const TextInput = forwardRef(
 );
 
 export default TextInput;
+// not working, because ref is not assigned
+<TextInput {...register('test')} />
+
+
+const firstName = register('firstName', { required: true })
+<TextInput
+  name={firstName.name}
+  onChange={firstName.onChange}
+  onBlur={firstName.onBlur}
+  inputRef={firstName.ref} // you can achieve the same for different ref name such as innerRef
+/>
+
+
+// correct way to forward input's ref
+const Select = React.forwardRef(({ onChange, onBlur, name, label }, ref) => (
+  <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
+    <option value="20">20</option>
+    <option value="30">30</option>
+  </select>
+));

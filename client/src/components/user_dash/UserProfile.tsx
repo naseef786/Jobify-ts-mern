@@ -34,7 +34,10 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [uploadCv, setUploadCv] = useState<File | null>(null);
 
-  const onSubmit = async (data: UserInfo) => {};
+  const onSubmit = async (data: UserInfo) => {
+    console.log(data);
+    
+  };
 
   const closeModal = () => setOpen(false);
 
@@ -79,13 +82,16 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
                     <div className='w-full flex gap-2'>
                       <div className='w-1/2'>
                         <TextInput
-                          name='firstName'
+                      
                           label='First Name'
                           placeholder='James'
                           type='text'
-                        //   register={register("firstName", {
-                        //     required: "First Name is required",
-                        //   })}
+                          register={register("firstName", {
+                            required: "First Name is required",
+                          })}
+                          {...register("firstName", {
+                            required: "First Name is required",
+                          })}
                           error={
                             errors.firstName ? errors.firstName?.message : ""
                           }
@@ -93,13 +99,16 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
                       </div>
                       <div className='w-1/2'>
                         <TextInput
-                          name='lastName'
+                          
                           label='Last Name'
                           placeholder='Wagonner'
                           type='text'
-                        //   register={register("lastName", {
-                        //     required: "Last Name is required",
-                        //   })}
+                          {...register("lastName", {
+                            required: "Last Name is required",
+                          })}
+                          register={register("lastName", {
+                            required: "Last Name is required",
+                          })}
                           error={
                             errors.lastName ? errors.lastName?.message : ""
                           }
@@ -110,26 +119,32 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
                     <div className='w-full flex gap-2'>
                       <div className='w-1/2'>
                         <TextInput
-                          name='contact'
+                       
                           label='Contact'
                           placeholder='Phone Number'
                           type='text'
-                        //   register={register("contact", {
-                        //     required: "Coontact is required!",
-                        //   })}
+                          register={register("contact", {
+                            required: "Coontact is required!",
+                          })}
+                          {...register("contact", {
+                            required: "Coontact is required!",
+                          })}
                           error={errors.contact ? errors.contact?.message : ""}
                         />
                       </div>
 
                       <div className='w-1/2'>
                         <TextInput
-                          name='location'
+                         
                           label='Location'
                           placeholder='Location'
                           type='text'
-                        //   register={register("location", {
-                        //     required: "Location is required",
-                        //   })}
+                          register={register("location", {
+                            required: "Location is required",
+                          })}
+                          {...register("location", {
+                            required: "Location is required",
+                          })}
                           error={
                             errors.location ? errors.location?.message : ""
                           }
@@ -138,13 +153,16 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
                     </div>
 
                     <TextInput
-                      name='jobTitle'
+                   
                       label='Job Title'
                       placeholder='Software Engineer'
                       type='text'
-                    //   register={register("jobTitle", {
-                    //     required: "Job Title is required",
-                    //   })}
+                      {...register("jobTitle", {
+                        required: "Job Title is is required",
+                      })}
+                      // register={register("jobTitle", {
+                      //   required: "Job Title is required",
+                      // })}
                       error={errors.jobTitle ? errors.jobTitle?.message : ""}
                     />
                     <div className='w-full flex gap-2 text-sm'>

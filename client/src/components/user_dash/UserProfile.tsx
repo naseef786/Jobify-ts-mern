@@ -9,6 +9,9 @@ import  TextInput  from "../../components/user_dash/TextInput";
 import CustomButton from "../button/CustomButton";
 import { Store } from "../../store/Store";
 import { UserInfo } from "../../types/UserInfo";
+import { handleFileUpload } from "../../hooks/fileUpload";
+import { toast } from "react-toastify";
+import apiClient from "../../axios/apiClient";
 interface UserFormProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,7 +39,30 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
 
   const onSubmit = async (data: UserInfo) => {
     console.log(data);
+    const token = user.token
+    const profileUrl = profileImage && (await
+      handleFileUpload(profileImage))
+      const cvUrl = uploadCv && (await
+        handleFileUpload(uploadCv))
+        const newData = profileUrl ? { ...data,profileUrl,cvUrl } : data;
+        try {
+          const res = await apiClient.put(`api/users/update-Profile`, { newData },{      headers: {
+            Authorization: `Bearer ${token}`
+          }})
+          console.log(res);
+          
+          if (res.status == 201) {
+            toast.success(" profile updated successfully")
+            dispatch({ type: 'USER_SIGNIN', payload: data })
+            closeModal()
+          }
+          else if(res.status == 400) {
+            toast.error("can't update profile right now")
     
+          }   } catch (error) {
+console.log(error);
+
+          }
   };
 
   const closeModal = () => setOpen(false);
@@ -160,9 +186,9 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
                       {...register("jobTitle", {
                         required: "Job Title is is required",
                       })}
-                      // register={register("jobTitle", {
-                      //   required: "Job Title is required",
-                      // })}
+                      register={register("jobTitle", {
+                        required: "Job Title is required",
+                      })}
                       error={errors.jobTitle ? errors.jobTitle?.message : ""}
                     />
                     <div className='w-full flex gap-2 text-sm'>
@@ -172,6 +198,9 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
                         </label>
                         <input
                           type='file'
+                          onChange={(e) =>
+                            setProfileImage(e.target.files ? e.target.files[0] : null)
+                          }
                         //   onChange={(e) => setProfileImage(e.target.files[0])}
                         />
                       </div>
@@ -182,6 +211,9 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
                         </label>
                         <input
                           type='file'
+                          onChange={(e) =>
+                            setUploadCv(e.target.files ? e.target.files[0] : null)
+                          }
                         //   onChange={(e) => setUploadCv(e.target.files[0])}
                         />
                       </div>
@@ -241,7 +273,8 @@ const UserProfile: React.FC = () => {
       <div className='w-full md:w-2/3 2xl:w-2/4 bg-white shadow-lg p-10 pb-20 rounded-lg'>
         <div className='flex flex-col items-center justify-center mb-4'>
           <h1 className='text-4xl font-semibold text-slate-600'>
-            {userInfo?.name + " " + userInfo?.lastName}
+         
+            {userInfo.firstName ? userInfo.firstName : 'add your firstname'  + "  " + userInfo.lastName ? userInfo.lastName : "last name"}
           </h1>
 
           <h5 className='text-blue-700 text-base font-bold'>

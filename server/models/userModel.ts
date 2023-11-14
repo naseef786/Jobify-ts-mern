@@ -22,7 +22,8 @@ export class User {
       message: 'Invalid email format',
     },
   })
-  public email!: string;
+  @prop({ required: true, lowercase: true, unique: true, trim: true })
+   email!: string;
 
 
   @prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Job' })
@@ -32,19 +33,35 @@ export class User {
     required: true,
     minlength: [6, 'Password length should be greater than 6 characters'],
   })
-  public password!: string;
+  @prop({ required: true, minlength: 6, trim: true })
+   password!: string;
 
-  public contact!:string; 
-  public location!:string;
-  public profileUrl!:string; 
-  public cvUrl!:string; 
-  public jobTitle!:string; 
-  public about!:string; 
+  @prop()
+  contact!:string; 
+  @prop() 
+  location!:string;
+  @prop() 
+  firstName!:string;
+  @prop() 
+  lastName!:string;
+  @prop() 
+  profileUrl!:string; 
+  @prop() 
+  cvUrl!:string; 
+  @prop() 
+  jobTitle!:string; 
+  @prop() 
+  about!:string; 
   @prop({ ref: 'Job' })
   appliedJobs?: Schema.Types.ObjectId[];
 
   @prop({ required: true, default: false })
   public isAdmin!: boolean;
+
+  @prop({ type: Date, default: Date.now })
+  createdAt?: Date;
+  @prop({ type: Date, default: Date.now })
+  updatedAt?: Date;
 
 
 }

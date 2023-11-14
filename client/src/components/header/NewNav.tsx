@@ -29,6 +29,9 @@ const MenuList: React.FC<MenuListProps> = ({ user, onClick,dispatch }) => {
     
     window.location.href = '/signin'
   };
+  console.log(user.cvUrl);
+  
+  
 
   return (
     <div>

@@ -23,7 +23,7 @@ interface CompanyFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CompnayForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
+const CompanyForm: React.FC<CompanyFormProps> = ({ open, setOpen }) => {
   const { state, dispatch } = useContext(Store)
 
 
@@ -295,7 +295,7 @@ const CompanyProfile: React.FC = () => {
         </div>
       </div>
 
-      <CompnayForm open={openForm} setOpen={setOpenForm} />
+      <CompanyForm open={openForm} setOpen={setOpenForm} />
     </div>
   );
 };

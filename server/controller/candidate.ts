@@ -33,6 +33,13 @@ export const candidateSignin = asyncHandler(async (req: Request, res: Response, 
         _id: user._id,
         name: user.name,
         email: user.email,
+        profileUrl:user.profileUrl,
+        cvUrl:user.cvUrl,
+        about:user.about,
+        contact:user.contact,
+        location:user.location,
+        firstName:user.firstName,
+        lastName:user.lastName,
         token: generateUserToken(user)
       })
       return
@@ -128,21 +135,36 @@ export const updateUser = async (req: Request, res: Response) => {
     const { _id } = req.user;
 
     if (_id) {
-      const body = req.body;
-
+      console.log(req.body);
+      
+      const { name,firstName,lastName,contact,jobTitle,cvUrl, location, profileUrl, about, } = req.body.newData;
+      const updatedCandidate = {
+        name,
+        phone: contact,
+        location,
+        profileUrl,
+        cvUrl,
+        firstName:firstName,
+        lastName:lastName,
+        jobTitle,
+        about,
+        _id: _id,
+      };
       // update the data
-      const updatedData = await UserModel.updateOne({ _id: _id }, body);
+      const updatedData = await UserModel.findByIdAndUpdate(_id , updatedCandidate,{new:true});
 
       if (updatedData) {
-        return res.status(201).send({ msg: "Record Updated...!" });
+
+        return res.status(201).json({ message: "Record Updated...!", success:true, data:updatedData });
       } else {
-        return res.status(500).send({ error: "Failed to update record...!" });
+        return res.status(500).json({ error: "Failed to update record...!" });
       }
     } else {
-      return res.status(401).send({ error: "User Not Found...!" });
+      return res.status(401).json({ error: "User Not Found...!" });
     }
   } catch (error) {
-    return res.status(500).send({ error: error.message });
+    console.log(error);
+    res.status(404).json({ message: error.message });
   }
 };
 export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -383,6 +405,7 @@ export const update = async (req:Request, res:Response, next:NextFunction) => {
     profileUrl,
     jobTitle,
     about,
+    token
   } = req.body;
 
   try {
@@ -418,7 +441,7 @@ export const update = async (req:Request, res:Response, next:NextFunction) => {
       sucess: true,
       message: "User updated successfully",
       user,
-      // token,
+      token,
     });
   } catch (error) {
     console.log(error);

@@ -23,7 +23,7 @@ userRouter.get('/jobs/applied' ,authMiddleware, controller.getAppliedJobsByUser)
 userRouter.get('/jobz' ,authMiddleware, getJobPosts)
 userRouter.post('/jobs/apply-job' ,authMiddleware, controller.applyJob)
 userRouter.get('/jobs/search' ,authMiddleware,controller.searchJobs )
-userRouter.put('/updateProfile',authMiddleware,updateUser)
+userRouter.put('/update-Profile',authMiddleware,updateUser)
 userRouter.put('/updatePassword',authMiddleware)
 
 

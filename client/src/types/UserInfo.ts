@@ -6,6 +6,7 @@ export type UserInfo = {
   accountType: string;
   firstName: string ;
   jobTitle: string;
+  cvUrl: string;
   profileUrl: string;
   lastName: string;
   contact: string;

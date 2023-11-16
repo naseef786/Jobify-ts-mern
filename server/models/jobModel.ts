@@ -13,10 +13,14 @@ enum ApplicationStatus {
 
 class JobApplication {
   @prop({ ref: 'User' })
-  public userId!: Ref<User>; // Assuming 'User' is the name of your user model
+  public userId!: ObjectId;
 
   @prop({ enum: ApplicationStatus, default: ApplicationStatus.APPLIED })
   public status!: ApplicationStatus;
+
+  @prop()
+  public coverLetter?: string;
+
 }
 
 @modelOptions({ schemaOptions: { timestamps: true } })
@@ -28,9 +32,8 @@ export class Job {
   @prop({ ref: 'Recruiter', required: true })
   public recruiterId!: ObjectId;
 
-  @prop({ ref: 'User' })
-  public applicants?: JobApplication[];
-
+  @prop({ ref: JobApplication, default:[] })
+  public applicants?: Ref<JobApplication>[];
 
   
   @prop({ required: true })
@@ -56,6 +59,7 @@ export class Job {
 
   @prop({ required: true })
   public location!: string;
+
   @prop({ required: true })
   public experience!: number;
 
@@ -79,6 +83,7 @@ export class Job {
 
   @prop({ required: true })
   public vaccancy!: string;
+
   @prop({ required: true })
   public profileUrl!: string;
 

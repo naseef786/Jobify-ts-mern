@@ -107,7 +107,7 @@ export const postJob = async (req: Request, res: Response) => {
       description,
       shifts,
       benefits
-    } = req.body;
+    } = req.body.newData;
 
     const recruiter = req.recruiter;
     const _id = recruiter._id;
@@ -614,5 +614,39 @@ export const getCompanyById = async (req: Request, res: Response, next: NextFunc
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });
+  }
+};
+
+
+
+export const  updateStatus = async (req:Request, res:Response) => {
+  const { jobId, candidateId } = req.params;
+  const { status } = req.body;
+
+  try {
+    const job = await JobModel.findById(jobId);
+
+    if (!job) {
+      return res.status(404).json({ error: 'Job not found' });
+    }
+
+    // Find the application in the job's applications array
+    const application = job.applicants.find(
+      (app) => app.userId.toString() === candidateId
+    );
+
+    if (!application) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
+
+    // Update the status
+    application.status = status;
+
+    await job.save();
+
+    res.json(job);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };

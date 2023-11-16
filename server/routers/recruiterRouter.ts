@@ -1,7 +1,7 @@
 import express from 'express'
-import { deleteJobPost, fetchJob, getCandidates, postJob, recruiterSignUpPost, recruiterSignin, updateCompanyProfile } from '../controller/recruiter'
+import { deleteJobPost, fetchJob, getCandidates, postJob, recruiterSignUpPost, recruiterSignin, updateCompanyProfile, updateStatus } from '../controller/recruiter'
 import { post } from '@typegoose/typegoose'
-import { recruiterMiddleware } from '../middlewares/authMiddleware'
+import { authMiddleware, recruiterMiddleware } from '../middlewares/authMiddleware'
 
 const recruiterRouter = express.Router()
 
@@ -18,6 +18,7 @@ recruiterRouter.delete('/jobs',recruiterMiddleware,deleteJobPost)
 recruiterRouter.get('/candidates',recruiterMiddleware,getCandidates)
 recruiterRouter.put('/update-profile',recruiterMiddleware, updateCompanyProfile)
 recruiterRouter.put('updatepassword')
+recruiterRouter.put('/jobs/:jobId/applications/:candidateId',recruiterMiddleware,updateStatus)
 
 
 

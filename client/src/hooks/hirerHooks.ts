@@ -77,7 +77,6 @@ export const usePostJobMutation = () =>
       vacancies,
       experience,
       location,
-      resposibilities,
       vaccancy,
       qualification ,
       company ,
@@ -85,8 +84,6 @@ export const usePostJobMutation = () =>
       requirements,
       shifts ,
       benefits  ,
-      countOfStaffNeeded,
-      createdAt,
       jobType,
       token
      

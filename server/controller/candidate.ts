@@ -10,6 +10,7 @@ import zxcvbn from 'zxcvbn';
 import { sendEmail } from '../Utils/nodeMailer'
 import mongoose from 'mongoose'
 import { RecruiterModel } from '../models/recruiterSchema'
+import { updateJob } from './recruiter'
 
 
 
@@ -281,13 +282,23 @@ export const applyJob = async (req: Request, res: Response, next: NextFunction) 
     console.log(req.body);
 
     const { jobId } = req.body;
-    const userId = req.user as { _id: string }; 
-    const { _id } = userId;
+    const userId =req.user._id;
+    const applicantObjectId = new mongoose.Types.ObjectId(userId);
+    enum ApplicationStatus {
+      APPLIED = 'applied',
+      SHORTLISTED = 'shortlisted',
+      REJECTED = 'rejected',
+      // Add more statuses as needed
+    }
 
-    const [updatedJob] = await Promise.all([
-      JobModel.findByIdAndUpdate(jobId, { $addToSet: { applicants: _id } }),
-      UserModel.findByIdAndUpdate(_id, { $addToSet: { appliedJobs: jobId } }, { new: true })
-    ]);
+    const updatedJob = await JobModel.findByIdAndUpdate(
+      jobId,
+      { $push: { applicants:  [applicantObjectId],status: ApplicationStatus.APPLIED } },
+      { new: true }
+    );
+     
+
+    await UserModel.findByIdAndUpdate(userId, { $addToSet: { appliedJobs: jobId } }, { new: true });
 
     if (updatedJob) {
       console.log(`User ${userId} added as an applicant to job ${jobId}`);
@@ -448,3 +459,4 @@ export const update = async (req:Request, res:Response, next:NextFunction) => {
     res.status(404).json({ message: error.message });
   }
 };
+

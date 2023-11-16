@@ -11,6 +11,7 @@ import JobTypes from "./JobTypes";
 import { Store } from "../../../store/Store";
 import { usePostJobMutation } from "../../../hooks/hirerHooks";
 import { ApiError } from "../../../types/ApiError";
+import apiClient from "../../../axios/apiClient";
 
 
 
@@ -57,10 +58,16 @@ const UploadJob: React.FC = () => {
     const newData = { ...data,jobType, token: token }
     console.log(newData);
     try{
-    const res = await Postjob(newData)
+      console.log("hello");
+      
+    const res =  await apiClient.post(`api/recruiter/post-job`, {
+      newData
+        },{      headers: {
+          Authorization: `Bearer ${token}`
+        }})
     if(res){
       console.log(res);
-      toast.success(res.message)
+      // toast.success(res.data)
     }
 
     }catch (err) {

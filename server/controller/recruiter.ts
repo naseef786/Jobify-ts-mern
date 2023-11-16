@@ -101,7 +101,7 @@ export const postJob = async (req: Request, res: Response) => {
       experience,
       location,
       requirements,
-      responsibilities,
+      resposibilities,
       jobType,
       qualification,
       description,
@@ -130,21 +130,23 @@ export const postJob = async (req: Request, res: Response) => {
       jobType: jobType,
       experience:experience,
       requirements: benefits,
-      responsibilities:benefits,
+      responsibilities:resposibilities,
       recruiterId: recruiter._id,
     });
 
     // Save the job to the database
     await newJob.save();
+    console.log(newJob.id);
+   const id = recruiter._id
 
     // Update the recruiter's jobposts field
     const updatedRecruiter = await RecruiterModel.findByIdAndUpdate(
-      recruiter._id,
-      { $addToSet: { jobposts: newJob._id } },
+      id,
+      { $addToSet: { jobPosts: newJob._id } },
       { new: true }
-    );
+    ).then(()=>{ res.json({ message: 'Job posted successfully' });});
 
-    res.json({ message: 'Job posted successfully' });
+  
   } catch (error) {
     console.error('Error posting job:', error);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -399,6 +401,7 @@ export const getJobPosts = async (req: Request, res: Response, next: NextFunctio
       data: jobs,
       page,
       numOfPage,
+      skip
     });
   } catch (error) {
     console.log(error);

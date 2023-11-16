@@ -313,6 +313,30 @@ export const applyJob = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
+
+// Assume you have a route like '/updateApplicationStatus'
+export const updateApplicationStatus = async (req:Request, res:Response, next:NextFunction) => {
+  try {
+    const { applicationId, newStatus } = req.body; // Assuming you receive applicationId and newStatus from the request body
+
+    // Assuming you have a JobModel and the applications are stored in an array named 'applicants'
+    const updatedJob = await JobModel.findOneAndUpdate(
+      { 'applicants._id': applicationId }, // Assuming applicationId is a unique identifier for each application within the job
+      { $set: { 'applicants.$.status': newStatus } }, // Updating the status of the specific application
+      { new: true }
+    );
+
+    if (updatedJob) {
+      res.status(200).json({ message: 'Application status updated successfully' });
+    } else {
+      res.status(404).json({ message: 'Application not found or update failed' });
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
 export const getAppliedJobsByUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.user as { _id: string }; // Assuming req.user has a property _id

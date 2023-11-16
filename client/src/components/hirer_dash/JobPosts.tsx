@@ -11,7 +11,7 @@ import { Jobs } from '../../types/Jobs';
 import { Store } from '../../store/Store';
 import { useNavigate } from 'react-router-dom';
 import JobCard from '../user_dash/JobCard';
-import FindJobs from '../../pages/candidate/FindJobs';
+import Find from '../../pages/candidate/FindJobs';
 
 // interface JobListProps {
 //   searchTerm: string;
@@ -59,10 +59,10 @@ console.log(res);
     return (
         <div className='main-container'>
              <Helmet>
-            <title>jobify - Jobs_recruiter</title>
+            <title>jobify - Jobs_recruiter view</title>
           </Helmet>
        
-          <FindJobs/>
+          <Find/>
          
           {/* <div className='w-full flex flex-wrap gap-4'>
                 {Jobs?.slice(0, 6).map((job, index) => (

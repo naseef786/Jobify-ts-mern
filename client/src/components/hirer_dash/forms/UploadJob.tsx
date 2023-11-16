@@ -38,7 +38,7 @@ interface FormInput {
 const UploadJob: React.FC = () => {
 
   const { state, dispatch } = useContext(Store)
-  const { jobs, hirerInfo } = state
+  const { jobs, hirerInfo,selectedJob } = state
   const token = hirerInfo.token
   const {
     register,
@@ -53,21 +53,21 @@ const UploadJob: React.FC = () => {
 
   const [jobType, setJobType] = useState<string>("Full-Time");
   const [recentPost, setRecent] = useState([])
-  const { mutateAsync: Postjob, isLoading } = usePostJobMutation()
+  // const { mutateAsync: Postjob, isLoading } = usePostJobMutation()
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     const newData = { ...data,jobType, token: token }
     console.log(newData);
     try{
       console.log("hello");
       
-    const res =  await apiClient.post(`api/recruiter/post-job`, {
+    const res =  await apiClient.post(`api/recruiter/jobs`, {
       newData
         },{      headers: {
           Authorization: `Bearer ${token}`
         }})
     if(res){
       console.log(res);
-      // toast.success(res.data)
+      toast.success(res.data)
     }
 
     }catch (err) {
@@ -107,6 +107,7 @@ const UploadJob: React.FC = () => {
                   {...register("jobTitle", {
                     required: "job title  is required",
                   })}
+                  defaultValue={selectedJob?.jobTitle}
                   aria-onInvalid={errors.jobTitle ? errors.jobTitle.message : 'mnj'}
                 /></div>
 
@@ -119,6 +120,7 @@ const UploadJob: React.FC = () => {
                 <div className={`w-1/2 mt-2`}>
                   <label className='text-gray-600 text-sm mb-1'>Job Type</label>
                   <JobTypes jobType={jobType} setJobType={setJobType} />
+                  
                 </div>
 
                 <div className='w-1/2'>
@@ -131,7 +133,7 @@ const UploadJob: React.FC = () => {
                       {...register("salary", {
                         required: "Salary is required",
                       })}
-
+                      defaultValue={selectedJob?.salary}
                       aria-onInvalid={errors.salary ? errors.salary?.message : ''}
                     /></div>
                 </div>
@@ -157,6 +159,7 @@ const UploadJob: React.FC = () => {
                       {...register("vacancies", {
                         required: "Compnay Name is required",
                       })}
+                      defaultValue={selectedJob?.vaccancy}
                       aria-invalid={errors.vacancies ? true : false}
                     /></div>
                 </div>
@@ -180,6 +183,7 @@ const UploadJob: React.FC = () => {
                       {...register("experience", {
                         required: "Compnay Name is required",
                       })}
+                      defaultValue={selectedJob?.experience}
                       aria-invalid={errors.experience ? true : false}
                     /></div>
                 </div>
@@ -203,6 +207,7 @@ const UploadJob: React.FC = () => {
                   {...register("location", {
                     required: "Compnay Name is required",
                   })}
+                  defaultValue={selectedJob?.location}
                   aria-invalid={errors.location ? true : false}
                 /></div>
               <div className='flex flex-col'>
@@ -216,6 +221,7 @@ const UploadJob: React.FC = () => {
                   {...register("description", {
                     required: "Job Description is required!",
                   })}
+                  defaultValue={selectedJob?.description}
                   aria-invalid={errors.description ? "true" : "false"}
                 ></textarea>
                 {errors.description && (
@@ -233,6 +239,7 @@ const UploadJob: React.FC = () => {
                   className='rounded border border-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-base px-4 py-2 resize-none'
                   rows={4}
                   cols={6}
+                  defaultValue={selectedJob?.requirements}
                   {...register("resposibilities")}
                 ></textarea>
               </div>
@@ -244,6 +251,7 @@ const UploadJob: React.FC = () => {
                   {...register("shifts", {
                     required: "Compnay Name is required",
                   })}
+                  defaultValue={selectedJob?.shifts}
                   aria-invalid={errors.shifts ? true : false}
                 /></div>
 
@@ -255,6 +263,7 @@ const UploadJob: React.FC = () => {
                   {...register("qualification", {
                     required: "Compnay Name is required",
                   })}
+                  defaultValue={selectedJob?.qualification}
                   aria-invalid={errors.qualification ? true : false}
                 /></div>
               <div className="flex flex-col mt-2">
@@ -265,6 +274,7 @@ const UploadJob: React.FC = () => {
                   {...register("benefits", {
                     required: "Compnay Name is required",
                   })}
+                  defaultValue={selectedJob?.benefits}
                   aria-invalid={errors.benefits ? true : false}
                 /></div>
               {/* <div className="flex flex-col mt-2">
@@ -284,11 +294,16 @@ const UploadJob: React.FC = () => {
                 </span>
               )}
               <div className='mt-2'>
-                <CustomButton
+                {selectedJob ? ( <CustomButton
                   type='submit'
                   containerStyles='inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none '
-                  title='Sumbit'
-                />
+                  title='Update job'
+                />):   <CustomButton
+                type='submit'
+                containerStyles='inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none '
+                title='Sumbit'
+              />}
+             
               </div>
             </form>
           </div>

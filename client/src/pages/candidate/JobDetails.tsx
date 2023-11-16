@@ -14,6 +14,9 @@ import { useDeleteJobMutation } from '../../hooks/adminHooks';
 import { toast } from 'react-toastify';
 import { getError } from '../../utils';
 import { ApiError } from '../../types/ApiError';
+import { Job } from '../../types/Jobs';
+import { FaRegEdit } from 'react-icons/fa';
+import { MdDeleteOutline } from 'react-icons/md';
 
 
 
@@ -83,16 +86,20 @@ const JobDetails: React.FC = () => {
 //   useEffect(()=>{
 // navigate('/jobs')
 //   },[handleApply])
+const handleEditPost = (job:Job)=>{
+  dispatch({ type: 'SELECT_JOBS', payload: job })
+  navigate('/hirer/upload-job')
 
+}
 
   const handleDeletePost = useMemo(() => async () => {
-    const jobId = job?._id;
+    const jobId = selectedJob?._id;
     if (jobId) {
       const token = hirerInfo.token
       const res = await deletePost({ jobId, token })
       if (res.success) {
-        alert(res?.message);
-        navigate('/hirer/jobs')
+        toast.success('job post deleted successfully')
+        navigate('/hirer/jobposts')
       }
     }
   }, [deletePost, job]);
@@ -131,7 +138,8 @@ const JobDetails: React.FC = () => {
               </div>
             </div>
 
-            <div className=''>
+            <div className=' flex flex-row'>
+            {hirerInfo &&<FaRegEdit className='text-3xl text-blue-500' />}
               <AiOutlineSafetyCertificate className='text-3xl text-blue-500' />
             </div>
           </div>
@@ -221,16 +229,28 @@ const JobDetails: React.FC = () => {
           <div className='w-full '>
 
           {hirerInfo ? (
-  <CustomButton
-    title='Delete'
-    onClick={handleDeletePost}
-    containerStyles={`w-full flex items-center justify-center text-white bg-red-700 py-3 px-5 outline-none rounded-full text-base`}
-  />
+     <div className="flex justify-evenly items-center">
+    {/* <CustomButton
+      title='Delete'
+      onClick={handleDeletePost}
+      containerStyles={`w-full flex items-center justify-center text-white bg-red-700 py-3 px-5 outline-none rounded-full text-base`}
+    /> */}
+    <MdDeleteOutline  className='text-3xl text-blue-500 text-center'  onClick={handleDeletePost}/>
+    {/* <button
+    
+    onClick={() => job && handleEditPost(job)}
+
+      className={`w-full flex items-center justify-center text-white bg-blue-700 py-3 px-5 outline-none`}
+    >Edit Post</button> */}
+     {hirerInfo &&<FaRegEdit onClick={() => job && handleEditPost(job)} className='text-3xl text-blue-500 text-center' />}
+
+
+  </div>
 ) : (
   job?.applicants.some(applicantId => applicantId === userInfo._id) ? (
     <CustomButton
       title='Applied'
-      containerStyles={`w-full flex items-center justify-center text-white   bg-slate-600 py-3 px-5 outline-none rounded-full text-base`}
+      containerStyles={`w-full flex items-center justify-center text-white bg-slate-600 py-3 px-5 outline-none rounded-full text-base`}
     />
   ) : (
     <CustomButton
@@ -238,8 +258,9 @@ const JobDetails: React.FC = () => {
       onClick={handleApply}
       containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
     />
-  ))
-}
+  )
+)}
+
 
 
 

@@ -12,7 +12,7 @@ export type Jobs = {
       desc: string;
     }>
     qualification: string;
-    
+    experience:number
     requirements:string
     salary: string;
     description: string;
@@ -46,6 +46,7 @@ export type Job = {
     salary : string
     description : string
     requirements:string
+    experience:number
     shifts : string
     benefits  :string
     countOfStaffNeeded: string

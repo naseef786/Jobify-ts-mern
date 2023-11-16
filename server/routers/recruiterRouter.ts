@@ -12,11 +12,19 @@ recruiterRouter.post('/signin',recruiterSignin)
 recruiterRouter.get('/generateOTP')
 recruiterRouter.get('verifyOTP')
 recruiterRouter.get('createResetSession')
-recruiterRouter.post('/post-job',recruiterMiddleware,postJob)
+
+
+recruiterRouter.post('/jobs',recruiterMiddleware,postJob)
 recruiterRouter.get('/jobs',recruiterMiddleware,fetchJob)
 recruiterRouter.delete('/jobs',recruiterMiddleware,deleteJobPost)
+recruiterRouter.put('/jobs',recruiterMiddleware,deleteJobPost)
+
+
+
 recruiterRouter.get('/candidates',recruiterMiddleware,getCandidates)
+recruiterRouter.put('/candidates/:id',recruiterMiddleware,getCandidates)
 recruiterRouter.put('/update-profile',recruiterMiddleware, updateCompanyProfile)
+
 recruiterRouter.put('updatepassword')
 recruiterRouter.put('/jobs/:jobId/applications/:candidateId',recruiterMiddleware,updateStatus)
 

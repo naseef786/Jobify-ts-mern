@@ -107,7 +107,7 @@ useEffect(() => {
                 </div>
           
                 <div className='w-1/4 h-full flex flex-col items-center'>
-                  <p className='text-blue-600 font-semibold'>{cmp?.applicants?.length}</p>
+                  <p className='text-blue-600 font-semibold'>{cmp?.appliedJobs?.length}</p>
                   <span className='text-xs md:base font-normal text-gray-600'>
                     Jobs applied
                   </span>

@@ -22,7 +22,8 @@ import { set } from "react-hook-form";
 const FindJobs: React.FC = () => {
     const { state, dispatch } = useContext(Store)
     const { userInfo,hirerInfo ,jobs} = state
-   
+    const location = useLocation();
+    const navigate = useNavigate();
     // const { data: jobs, isLoading, error } = useGetJobsQuery(token);
     function selectJob(job:Job){
       dispatch({ type: 'SELECT_JOBS', payload: job })
@@ -53,10 +54,9 @@ const FindJobs: React.FC = () => {
     jtype:filterJobTypes,
     exp:filterExp,
   }
-console.log(newUrl);
 
-  const location = useLocation();
-  const navigate = useNavigate();
+
+
 
   const filterJobs = (val: string) => {
     if (filterJobTypes.includes(val)) {
@@ -74,7 +74,11 @@ console.log(newUrl);
       newUrl
     })
     console.log(res);
+    console.log(res.data);
+    
     if (res) {
+      console.log(res);
+      
       dispatch({ type: 'STORE_JOBS', payload: res.data });
       setLoading(false)
       console.log(res);
@@ -98,10 +102,10 @@ console.log(newUrl);
       dispatch({ type: 'STORE_JOBS', payload: res.data });
       setLoading(false)
       console.log(res);
-      
-      setNumPage(res?.data.numOfPage);
+      setRecordCount(res.totalJobs)
+      setNumPage(res?.numOfPage);
       // setRecordsCount(res?.data.total)
-      setPage(res?.data.page)
+      setPage(res?.page)
       setData(res?.data)
     }
   }
@@ -179,6 +183,10 @@ console.log(newUrl);
     console.log(filterExp);
     
   };
+  const handleShowMore  = async (e:React.SyntheticEvent)=>{
+e.preventDefault()
+setPage((prev)=>prev+1)
+  }
 
 
 
@@ -195,9 +203,9 @@ console.log(newUrl);
         setLocation={setJobLocation}
       />
 
-      <div className="container mx-auto flex gap-6 2xl:gap-10 md:px-5 py-0 md:py-6 bg-[#f7fdfd]">
+      <div className="container mx-auto items-center flex gap-6 2xl:gap-10 md:px-5 py-0 md:py-6 bg-[#f7fdfd]">
         <div className="hidden md:flex flex-col w-1/6 h-fit bg-white shadow-sm" >
-          <p className="text-lg font-semibold text-slate-600">Filter Search</p>
+          <p className="text-lg font-semibold text-slate-600">Filter Search...</p>
 
           <div className="py-2">
             <div className="flex justify-between mb-3">
@@ -259,11 +267,11 @@ console.log(newUrl);
         <div className="w-full md:w-5/6 px-5 md:px-0">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm md:text-base">
-              Showing: <span className="font-semibold">1,902</span> Jobs Available
+              Showing: <span className="font-semibold">{recordCount}</span> Jobs Available
             </p>
 
-            <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">
-              <p className="text-sm md:text-base">Sort By:</p>
+            <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center border-neutral-50">
+              <p className="text-sm md:text-base flex">Sort By:</p>
 
               <ListBox sort={sort} setSort={setSort} />
             </div>
@@ -296,6 +304,7 @@ console.log(newUrl);
               <CustomButton
                 title="Load More"
                 containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
+                onClick={handleShowMore}
               />
             </div>
           )}
@@ -308,3 +317,7 @@ console.log(newUrl);
 };
 
 export default FindJobs;
+
+
+
+

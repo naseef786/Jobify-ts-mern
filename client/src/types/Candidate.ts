@@ -5,6 +5,7 @@ export type Candidate = {
     isAdmin: boolean;
     name: string;
     password: string;
+    appliedJobs:any[]
     updatedAt: string;
     firstName: string;
     lastName: string;

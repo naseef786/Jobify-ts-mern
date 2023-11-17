@@ -2,7 +2,8 @@ import React, { Fragment, useContext, useState } from 'react';
 import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify } from 'react-icons/bs';
 import { Store } from '../../store/Store';
 import { Menu, Transition } from '@headlessui/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import CustomButton from '../button/CustomButton';
 
 interface HeaderProps {
   OpenSidebar: () => void;
@@ -38,13 +39,17 @@ const Header: React.FC<HeaderProps> = ({ OpenSidebar }) => {
     
     window.location.href = '/hirer/signin'
   }
+  const navigate = useNavigate()
+  const nav = ()=>{
+    navigate('/hirer/upload-job')
+  }
 
   return (
     <header className='header'>
       <div className='menu-icon'>
-        <BsJustify className='icon' onClick={OpenSidebar} />
+        <BsJustify className='icon justify-start' onClick={OpenSidebar} />
       </div>
-      <div className='header-left'>
+      {/* <div className='header-left'>
         <form onSubmit={handleSubmit} className="flex items-center">
           <input
             type="text"
@@ -57,9 +62,16 @@ const Header: React.FC<HeaderProps> = ({ OpenSidebar }) => {
             <BsSearch className='icon' />
           </button>
         </form>
-      </div>
+      </div> */}
       <div className='flex space-x-5'>
+      <CustomButton
+                  onClick={nav}
+                  containerStyles='inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none '
+                  title='Upload a job'
+                  type='button'
+                />
         <BsFillBellFill className='icon' />
+      
         <BsFillEnvelopeFill className='icon' />
         <BsPersonCircle className='icon' />
         

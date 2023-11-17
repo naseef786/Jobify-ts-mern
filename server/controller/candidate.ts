@@ -11,6 +11,7 @@ import { sendEmail } from '../Utils/nodeMailer'
 import mongoose from 'mongoose'
 import { RecruiterModel } from '../models/recruiterSchema'
 import { updateJob } from './recruiter'
+import { ObjectId } from 'mongodb'
 
 
 
@@ -34,13 +35,13 @@ export const candidateSignin = asyncHandler(async (req: Request, res: Response, 
         _id: user._id,
         name: user.name,
         email: user.email,
-        profileUrl:user.profileUrl,
-        cvUrl:user.cvUrl,
-        about:user.about,
-        contact:user.contact,
-        location:user.location,
-        firstName:user.firstName,
-        lastName:user.lastName,
+        profileUrl: user.profileUrl,
+        cvUrl: user.cvUrl,
+        about: user.about,
+        contact: user.contact,
+        location: user.location,
+        firstName: user.firstName,
+        lastName: user.lastName,
         token: generateUserToken(user)
       })
       return
@@ -137,26 +138,28 @@ export const updateUser = async (req: Request, res: Response) => {
 
     if (_id) {
       console.log(req.body);
-      
-      const { name,firstName,lastName,contact,jobTitle,cvUrl, location, profileUrl, about, } = req.body.newData;
+
+      const { name, firstName, lastName, contact, jobTitle, cvUrl, location, profileUrl, about, } = req.body.newData;
       const updatedCandidate = {
         name,
         phone: contact,
         location,
         profileUrl,
         cvUrl,
-        firstName:firstName,
-        lastName:lastName,
+        firstName,
+         lastName,
         jobTitle,
         about,
         _id: _id,
       };
       // update the data
-      const updatedData = await UserModel.findByIdAndUpdate(_id , updatedCandidate,{new:true});
+      const updatedData = await UserModel.findByIdAndUpdate(_id, updatedCandidate, { new: true }).catch((err)=>{console.log(err);
+      });
+console.log(updatedData);
 
       if (updatedData) {
 
-        return res.status(201).json({ message: "Record Updated...!", success:true, data:updatedData });
+        return res.status(201).json({ message: "Record Updated...!", success: true, data: updatedData });
       } else {
         return res.status(500).json({ error: "Failed to update record...!" });
       }
@@ -246,76 +249,178 @@ export const resetPassword = (req: Request, res: Response) => {
     if (!req.app.locals.resetSession) return res.status(440).send({ message: "Session expired!" });
     try {
       UserModel.findOne({ email: email })
-      .then(user => {
-        if (user) {
-          const hashedPassword = bcrypt.hashSync(password);
-          UserModel.updateOne({ _id: user.id }, { password: hashedPassword })
-            .then(() => {
-              req.app.locals.resetSession = false; // Reset session
-              return res.status(201).send({ message: "Record Updated...!" });
-            })
-            .catch(e => {
-              return res.status(500).send({ message: "Unable to update password" });
-            });
-        } else {
-          return res.status(404).send({ message: "User not found" });
-        }
-      })
-      .catch(e => {
-        return res.status(500).send({ message: "Error finding user" });
-      });
+        .then(user => {
+          if (user) {
+            const hashedPassword = bcrypt.hashSync(password);
+            UserModel.updateOne({ _id: user.id }, { password: hashedPassword })
+              .then(() => {
+                req.app.locals.resetSession = false; // Reset session
+                return res.status(201).send({ message: "Record Updated...!" });
+              })
+              .catch(e => {
+                return res.status(500).send({ message: "Unable to update password" });
+              });
+          } else {
+            return res.status(404).send({ message: "User not found" });
+          }
+        })
+        .catch(e => {
+          return res.status(500).send({ message: "Error finding user" });
+        });
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+  catch (error) {
+    console.log(error);
+
+  }
+
+}
+
+// export const applyJob = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     // console.log("inside apply job");
+//     console.log(req.body);
+//     console.log(req.body);
     
-}catch(error){
-  console.log(error);
 
-}}
-catch(error){
-  console.log(error);
-  
-}
+//     const { jobId } = req.body;
+//     if(!jobId) return res.status(404).send("insuficient data")
+//     const userId = req.user._id;
+//     const applicantObjectId = new mongoose.Types.ObjectId(userId);
+//     enum ApplicationStatus {
+//       APPLIED = 'applied',
+//       SHORTLISTED = 'shortlisted',
+//       REJECTED = 'rejected',
+//       // Add more statuses as needed
+//     }
 
-}
-  
+//     console.log( { applicants: { userId: applicantObjectId, status: ApplicationStatus.APPLIED } })
+//     const updatedJob = await JobModel.findByIdAndUpdate(
+//       jobId,
+//       { $push: { applicants: { userId: applicantObjectId, status: ApplicationStatus.APPLIED } } },
+//       { new: true }
+//     ).catch((err)=>{
+//       console.log(err)
+//     })
+//     ;
+    // const updatedJob = await JobModel.findByIdAndUpdate(
+    //   jobId,
+    //   { $set: { applicants:  [applicantObjectId],status: ApplicationStatus.APPLIED } },
+    //   { new: true }
+    // );
+
+
+//     await UserModel.findByIdAndUpdate(userId, { $addToSet: { appliedJobs: jobId } }, { new: true });
+
+//     if (updatedJob) {
+//       // console.log(`User ${userId} added as an applicant to job ${jobId}`);
+//       res.status(201).json({ message: 'Application submitted successfully' });
+//     } else {
+//       // console.log(`Job with ID ${jobId} not found`);
+//       res.status(400).json({ message: 'Job not found' });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     next(error); // Pass the error to Express error handling middleware
+//   }
+// };
+// export const applyJob = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     const { jobId } = req.body;
+//     if (!jobId) return res.status(404).send("insufficient data");
+
+//     const userId = req.user._id;
+//     const applicantObjectId = new mongoose.Types.ObjectId(userId);
+//     enum ApplicationStatus {
+//       APPLIED = 'applied',
+//       SHORTLISTED = 'shortlisted',
+//       REJECTED = 'rejected',
+//       // Add more statuses as needed
+//     }
+//     const newApplicant = {
+//       userId: applicantObjectId,
+//       status: ApplicationStatus.APPLIED
+//     };
+//     const updatedJob = await JobModel.findByIdAndUpdate(
+//       jobId,
+//       { $push: { applicants:  [applicantObjectId] } },
+//       { new: true }
+//     );
+
+//     // const updatedJob = await JobModel.findByIdAndUpdate(
+//     //   jobId,
+//     //   { $push: { applicants: newApplicant } },
+//     //   { new: true }
+//     // );
+
+//     await UserModel.findByIdAndUpdate(
+//       userId,
+//       { $addToSet: { appliedJobs: jobId } }
+//     );
+
+//     if (updatedJob) {
+//       res.status(201).json({ message: 'Application submitted successfully' });
+//     } else {
+//       res.status(400).json({ message: 'Job not found' });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     next(error);
+//   }
+// };
+
 export const applyJob = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log("inside apply job");
-    console.log(req.body);
-
     const { jobId } = req.body;
-    const userId =req.user._id;
-    const applicantObjectId = new mongoose.Types.ObjectId(userId);
+    console.log('inside apply');
+    
+    if (!jobId) return res.status(400).send('Insufficient data');
     enum ApplicationStatus {
-      APPLIED = 'applied',
-      SHORTLISTED = 'shortlisted',
-      REJECTED = 'rejected',
-      // Add more statuses as needed
-    }
+            APPLIED = 'applied',
+            SHORTLISTED = 'shortlisted',
+            REJECTED = 'rejected',
+            // Add more statuses as needed
+          }
+    const userId = req.user._id;
+    const applicantObjectId = new mongoose.Types.ObjectId(userId);
 
-    const updatedJob = await JobModel.findByIdAndUpdate(
-      jobId,
-      { $push: { applicants:  [applicantObjectId],status: ApplicationStatus.APPLIED } },
+    const updatedJob = await JobModel.findOneAndUpdate(
+      { _id: jobId },
+      {
+        $addToSet: {
+          applicants: {
+            userId: applicantObjectId,
+            status: ApplicationStatus.APPLIED,
+            comment:ApplicationStatus.APPLIED
+          }
+        }
+      },
       { new: true }
     );
-     
-
-    await UserModel.findByIdAndUpdate(userId, { $addToSet: { appliedJobs: jobId } }, { new: true });
 
     if (updatedJob) {
-      console.log(`User ${userId} added as an applicant to job ${jobId}`);
-      res.status(201).json({ message: 'Application submitted successfully' });
+      // Add the jobId to the user's appliedJobs array
+      await UserModel.findByIdAndUpdate({_id:userId}, { $addToSet: { job : {jobId:jobId, applied:true,
+      comment: ApplicationStatus.REJECTED} } });
+
+      return res.status(201).json({ message: 'Application submitted successfully' });
     } else {
-      console.log(`Job with ID ${jobId} not found`);
-      res.status(400).json({ message: 'Job not found' });
+      return res.status(404).json({ message: 'Job not found' });
     }
   } catch (error) {
     console.error(error);
-    next(error); // Pass the error to Express error handling middleware
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
 
+
 // Assume you have a route like '/updateApplicationStatus'
-export const updateApplicationStatus = async (req:Request, res:Response, next:NextFunction) => {
+export const updateApplicationStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { applicationId, newStatus } = req.body; // Assuming you receive applicationId and newStatus from the request body
 
@@ -430,7 +535,7 @@ export const getCompanies = async (req: Request, res: Response, next: NextFuncti
 };
 
 
-export const update = async (req:Request, res:Response, next:NextFunction) => {
+export const update = async (req: Request, res: Response, next: NextFunction) => {
   const {
     firstName,
     lastName,

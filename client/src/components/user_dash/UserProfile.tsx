@@ -40,6 +40,8 @@ const UserForm: React.FC<UserFormProps> = ({ open, setOpen }) => {
   const onSubmit = async (data: UserInfo) => {
     console.log(data);
     const token = user.token
+    console.log(token+"dddddddddddddd");
+    
     const profileUrl = profileImage && (await
       handleFileUpload(profileImage))
       const cvUrl = uploadCv && (await

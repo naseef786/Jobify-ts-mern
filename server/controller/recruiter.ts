@@ -158,7 +158,7 @@ export const fetchJob = expressAsyncHandler(async (req: Request, res: Response, 
     const recruiterId = req.recruiter._id;
     const recruiter = RecruiterModel.findById(recruiterId)
     const jobs = await JobModel.find({ recruiterId: (await recruiter).id });
-    console.log(jobs);
+    // console.log(jobs);
 
     res.json(jobs);
 
@@ -223,11 +223,11 @@ export const updateJob = async (req: Request, res: Response, next: NextFunction)
 
 export const deleteJobPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
-console.log(req.query);
+// console.log(req.query);
 
     
     const { jobId } = req.query
-console.log(jobId);
+// console.log(jobId);
 
     await JobModel.findByIdAndDelete(jobId);
 
@@ -290,7 +290,7 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
   try {
     const recruiterId = req.recruiter._id;
   
-    console.log('inside get candidates')
+    // console.log('inside get candidates')
     const jobs = await JobModel.find({ recruiterId: recruiterId });
   
     if (jobs.length === 0) {
@@ -328,7 +328,7 @@ export const getCandidates = async (req: Request, res: Response, next: NextFunct
 export const getJobPosts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { search, sort, location, jtype, exp } = req.query;
-    console.log("inside getjobposts",req.query);
+    // console.log("inside getjobposts",req.query);
     
     const types = jtype?.toString().split(","); //full-time,part-time
     const experience = exp?.toString().split("-"); //2-6
@@ -383,7 +383,7 @@ export const getJobPosts = async (req: Request, res: Response, next: NextFunctio
     }
 
     // pagination
-    const page = Number(req.query.page) || 1;
+    const page = Number(req.query.pageNum) || 1;
     const limit = Number(req.query.limit) || 20;
     const skip = (page - 1) * limit;
 

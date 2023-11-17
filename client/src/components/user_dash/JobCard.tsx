@@ -26,7 +26,8 @@ interface Job {
   benefits:string;
   createdAt:string;
   vaccancy:string
-  applicants:[]
+    applicants:[{userId:string,
+    comment:string}]
  
 }
 
@@ -64,8 +65,8 @@ function selectJobPost(job:Job){
             className="w-14 h-14"
           />
 
-          <div className=" w-full h-16 flex fles-col justify-between  ">
-            <p className=" w-full h-12 flex items-center overflow-hidden leading-5  text-base   truncate ">{job?.jobTitle}</p>
+          <div className=" w-full h-16 flex fles-col justify-between truncate  ">
+            <p className=" w-full h-12 flex items-center overflow-hidden leading-5  text-base   truncate  ">{job?.jobTitle}</p>
           
           </div>
         </div>

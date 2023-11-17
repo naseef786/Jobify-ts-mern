@@ -29,7 +29,7 @@ const MenuList: React.FC<MenuListProps> = ({ user, onClick,dispatch }) => {
     
     window.location.href = '/signin'
   };
-  console.log(user.cvUrl);
+ 
   
   
 
@@ -135,7 +135,7 @@ const Navbar: React.FC = () => {
           <div>
             <Link to='/' className='text-blue-600 font-bold text-xl decoration-transparent'>
               {/* Job<span className='text-[#d2dbe2cb]'>ify</span> */}
-              <img src={jobify} alt=""  className='w-100 h-10 ' />
+              <img src={jobify} alt=""  className='w-150 h-20 ' />
             </Link>
           </div>
 

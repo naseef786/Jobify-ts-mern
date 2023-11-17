@@ -1,29 +1,13 @@
-import { modelOptions, prop,index, getModelForClass, Ref } from '@typegoose/typegoose'
+import { modelOptions, prop,index, getModelForClass, Ref, Severity } from '@typegoose/typegoose'
 import mongoose, { ObjectId, Schema } from 'mongoose';
 import { User } from './userModel';
 
 
 
-enum ApplicationStatus {
-  APPLIED = 'applied',
-  SHORTLISTED = 'shortlisted',
-  REJECTED = 'rejected',
-  // Add more statuses as needed
-}
 
-class JobApplication {
-  @prop({ ref: 'User' })
-  public userId!: ObjectId;
 
-  @prop({ enum: ApplicationStatus, default: ApplicationStatus.APPLIED })
-  public status!: ApplicationStatus;
 
-  @prop()
-  public coverLetter?: string;
-
-}
-
-@modelOptions({ schemaOptions: { timestamps: true } })
+@modelOptions({ schemaOptions: { timestamps: true} })
 @index({ title: 'text', description: 'text', location: 'text', company: 'text' })
 
 export class Job {
@@ -32,8 +16,19 @@ export class Job {
   @prop({ ref: 'Recruiter', required: true })
   public recruiterId!: ObjectId;
 
-  @prop({ ref: JobApplication, default:[] })
-  public applicants?: Ref<JobApplication>[];
+
+  @prop({  default:[] })
+  public applicants!: [
+    {
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      comment: {
+        type: String,
+      },
+    },
+  ]
 
   
   @prop({ required: true })

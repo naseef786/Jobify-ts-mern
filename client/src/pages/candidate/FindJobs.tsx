@@ -101,7 +101,7 @@ const FindJobs: React.FC = () => {
     if (res) {
       dispatch({ type: 'STORE_JOBS', payload: res.data });
       setLoading(false)
-      console.log(res);
+     
       setRecordCount(res.totalJobs)
       setNumPage(res?.numOfPage);
       // setRecordsCount(res?.data.total)
@@ -119,19 +119,23 @@ const FindJobs: React.FC = () => {
       setLoading(false)
       
     }, 1000);}
-  }, [page,sort,filterJobTypes,filterExp,searchQuery]);
+    else if(userInfo){
+      setTimeout(async() => {
+        setLoading(true)
+        await fetchJobss()
+        setLoading(false)
+      }, 1000);}
+    }
+  , [page,sort,filterJobTypes,filterExp,searchQuery]);
 
-
-  const Jobs=jobs?.filter(job => job?.recruiterId._id === hirerInfo?._id);
-  
-  useEffect(() => {
-    if(userInfo){
-    setTimeout(async() => {
-      setLoading(true)
-      await fetchJobss()
-      setLoading(false)
-    }, 1000);}
-  }, [page,sort,filterJobTypes,filterExp,searchQuery]);
+  // useEffect(() => {
+  //   if(userInfo){
+  //   setTimeout(async() => {
+  //     setLoading(true)
+  //     await fetchJobss()
+  //     setLoading(false)
+  //   }, 1000);}
+  // }, [page,sort,filterJobTypes,filterExp,searchQuery]);
   
 
 
@@ -154,6 +158,8 @@ const FindJobs: React.FC = () => {
     }
   }, [expValue]);
 
+  const Jobs=jobs?.filter(job => job?.recruiterId._id === hirerInfo?._id);
+
   const handleSearchSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     const token = userInfo?.token
@@ -167,6 +173,9 @@ const FindJobs: React.FC = () => {
       console.log(error);
       
     }}
+
+
+
   if (isLoading) {
     return <Loading />;
   }
@@ -183,6 +192,7 @@ const FindJobs: React.FC = () => {
     console.log(filterExp);
     
   };
+
   const handleShowMore  = async (e:React.SyntheticEvent)=>{
 e.preventDefault()
 setPage((prev)=>prev+1)
@@ -204,7 +214,7 @@ setPage((prev)=>prev+1)
       />
 
       <div className="container mx-auto items-center flex gap-6 2xl:gap-10 md:px-5 py-0 md:py-6 bg-[#f7fdfd]">
-        <div className="hidden md:flex flex-col w-1/6 h-fit bg-white shadow-sm" >
+        <div className="hidden md:flex flex-col w-1/6 h-fit bg-white shadow-sm  float-left" style={{alignItems:"center"}}>
           <p className="text-lg font-semibold text-slate-600">Filter Search...</p>
 
           <div className="py-2">

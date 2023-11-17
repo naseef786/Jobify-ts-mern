@@ -1,6 +1,9 @@
 import { modelOptions, prop, getModelForClass } from '@typegoose/typegoose';
 import mongoose, { Schema } from 'mongoose';
 
+
+
+
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class User {
 
@@ -25,9 +28,6 @@ export class User {
   @prop({ required: true, lowercase: true, unique: true, trim: true })
    email!: string;
 
-
-  @prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Job' })
-  public applicants?: mongoose.Types.ObjectId[];
 
   @prop({
     required: true,
@@ -54,6 +54,20 @@ export class User {
   about!:string; 
   @prop({ ref: 'Job' })
   appliedJobs?: Schema.Types.ObjectId[];
+
+  @prop({  default:[] })
+ public job: [
+    {
+      jobId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Job',
+      },
+      applied: {
+        type: Boolean,
+      },
+      comment: String,
+    },
+  ]
 
   @prop({ required: true, default: false })
   public isAdmin!: boolean;

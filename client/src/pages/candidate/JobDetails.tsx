@@ -25,17 +25,17 @@ const JobDetails: React.FC = () => {
   const { state, dispatch } = useContext(Store);
   const [isFetching, setFetching] = useState(false)
   const navigate = useNavigate()
-  const [jobId,setJobId]=useState('')
+  const [jobId, setJobId] = useState('')
 
 
 
   const { selectedJob, jobs, userInfo, hirerInfo } = state;
   useEffect(() => {
-    
+
     if (!selectedJob) {
-      if(userInfo)navigate('/jobs')
-      else if(hirerInfo.token)navigate('/hirer/jobposts')
-      
+      if (userInfo) navigate('/jobs')
+      else if (hirerInfo.token) navigate('/hirer/jobposts')
+
     }
   }, [])
   // const token = userInfo.token
@@ -55,27 +55,27 @@ const JobDetails: React.FC = () => {
 
   const job = selectedJob;
 
-    const {mutateAsync:applyJob} = useApplyJobMutation()
-  const handleApply = async (e:React.SyntheticEvent)=>{
+  const { mutateAsync: applyJob } = useApplyJobMutation()
+  const handleApply = async (e: React.SyntheticEvent) => {
 
-  e.preventDefault()
-  try {
+    e.preventDefault()
+    try {
 
-    const token = userInfo.token
-    if(selectedJob){
-      setJobId(selectedJob._id)
-      console.log(selectedJob,"kkkkkkkkkkkkkkkkkkkkk");
-  
-      const response = await applyJob({jobId,token})
-    console.log(response.message);
-    toast.success('applieded to the job successfully')
-    navigate('/jobs')
+      const token = userInfo.token
+      if (selectedJob) {
+        setJobId(selectedJob._id)
+        console.log(selectedJob, "kkkkkkkkkkkkkkkkkkkkk");
+
+        const response = await applyJob({ jobId:selectedJob._id, token })
+        console.log(response.message);
+        toast.success('applieded to the job successfully')
+        navigate('/jobs')
+      }
+
+
+    } catch (err) {
+      toast.error(getError(err as ApiError))
     }
-   
-    
-  } catch (err) {
-    toast.error(getError(err as ApiError))
-  }
 
 
   }
@@ -83,14 +83,14 @@ const JobDetails: React.FC = () => {
 
   const { mutateAsync: deletePost } = useDeleteJobMutation()
 
-//   useEffect(()=>{
-// navigate('/jobs')
-//   },[handleApply])
-const handleEditPost = (job:Job)=>{
-  dispatch({ type: 'SELECT_JOBS', payload: job })
-  navigate('/hirer/upload-job')
+  //   useEffect(()=>{
+  // navigate('/jobs')
+  //   },[handleApply])
+  const handleEditPost = (job: Job) => {
+    dispatch({ type: 'SELECT_JOBS', payload: job })
+    navigate('/hirer/upload-job')
 
-}
+  }
 
   const handleDeletePost = useMemo(() => async () => {
     const jobId = selectedJob?._id;
@@ -103,7 +103,9 @@ const handleEditPost = (job:Job)=>{
       }
     }
   }, [deletePost, job]);
+  console.log(selectedJob?.applicants);
   
+
   return (
     <div className='main-container  container mx-auto'>
       <div className='w-full flex flex-col md:flex-row gap-10'>
@@ -139,7 +141,7 @@ const handleEditPost = (job:Job)=>{
             </div>
 
             <div className=' flex flex-row'>
-            {hirerInfo &&<FaRegEdit className='text-3xl text-blue-500' />}
+              {hirerInfo && <FaRegEdit className='text-3xl text-blue-500' />}
               <AiOutlineSafetyCertificate className='text-3xl text-blue-500' />
             </div>
           </div>
@@ -179,8 +181,8 @@ const handleEditPost = (job:Job)=>{
               onClick={() => setSelected("0")}
               title='Job Description'
               containerStyles={`w-full flex items-center justify-center py-3 px-5 outline-none rounded-full text-sm ${selected === "0"
-                  ? "bg-black text-white"
-                  : "bg-white text-black border border-gray-300"
+                ? "bg-black text-white"
+                : "bg-white text-black border border-gray-300"
                 }`}
             />
 
@@ -188,8 +190,8 @@ const handleEditPost = (job:Job)=>{
               onClick={() => setSelected("1")}
               title='Company'
               containerStyles={`w-full flex items-center justify-center  py-3 px-5 outline-none rounded-full text-sm ${selected === "1"
-                  ? "bg-black text-white"
-                  : "bg-white text-black border border-gray-300"
+                ? "bg-black text-white"
+                : "bg-white text-black border border-gray-300"
                 }`}
             />
           </div>
@@ -228,38 +230,38 @@ const handleEditPost = (job:Job)=>{
 
           <div className='w-full '>
 
-          {hirerInfo ? (
-     <div className="flex justify-evenly items-center">
-    {/* <CustomButton
+            {hirerInfo ? (
+              <div className="flex justify-evenly items-center">
+                {/* <CustomButton
       title='Delete'
       onClick={handleDeletePost}
       containerStyles={`w-full flex items-center justify-center text-white bg-red-700 py-3 px-5 outline-none rounded-full text-base`}
     /> */}
-    <MdDeleteOutline  className='text-3xl text-blue-500 text-center'  onClick={handleDeletePost}/>
-    {/* <button
+                <MdDeleteOutline className='text-3xl text-blue-500 text-center' onClick={handleDeletePost} />
+                {/* <button
     
     onClick={() => job && handleEditPost(job)}
 
       className={`w-full flex items-center justify-center text-white bg-blue-700 py-3 px-5 outline-none`}
     >Edit Post</button> */}
-     {hirerInfo &&<FaRegEdit onClick={() => job && handleEditPost(job)} className='text-3xl text-blue-500 text-center' />}
+                {hirerInfo && <FaRegEdit onClick={() => job && handleEditPost(job)} className='text-3xl text-blue-500 text-center' />}
 
 
-  </div>
-) : (
-  job?.applicants.some(applicantId => applicantId === userInfo._id) ? (
-    <CustomButton
-      title='Applied'
-      containerStyles={`w-full flex items-center justify-center text-white bg-slate-600 py-3 px-5 outline-none rounded-full text-base`}
-    />
-  ) : (
-    <CustomButton
-      title='Apply Now'
-      onClick={handleApply}
-      containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
-    />
-  )
-)}
+              </div>
+            ) : (
+              job?.applicants.some(applicantId => applicantId.userId === userInfo._id) ? (
+                <CustomButton
+                  title='Applied'
+                  containerStyles={`w-full flex items-center justify-center text-white bg-slate-600 py-3 px-5 outline-none rounded-full text-base`}
+                />
+              ) : (
+                <CustomButton
+                  title='Apply Now'
+                  onClick={handleApply}
+                  containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
+                />
+              )
+            )}
 
 
 
@@ -272,20 +274,20 @@ const handleEditPost = (job:Job)=>{
 
 
         {userInfo && (
-  isFetching ? (
-    <Loading />
-  ) : (
-    <div className='w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0'>
-      <p className='text-gray-500 font-semibold'>Similar Job Post</p>
+          isFetching ? (
+            <Loading />
+          ) : (
+            <div className='w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0'>
+              <p className='text-gray-500 font-semibold'>Similar Job Post</p>
 
-      <div className='w-full flex flex-wrap gap-4'>
-        {jobs?.slice(0, 6).map((job, index) => (
-          <JobCard dispatch={dispatch} job={job} key={index} />
-        ))}
-      </div>
-    </div>
-  )
-)}
+              <div className='w-full flex flex-wrap gap-4'>
+                {jobs?.slice(0, 6).map((job, index) => (
+                  <JobCard dispatch={dispatch} job={job} key={index} />
+                ))}
+              </div>
+            </div>
+          )
+        )}
 
 
       </div>

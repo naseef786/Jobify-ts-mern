@@ -22,7 +22,9 @@ export type Jobs = {
     createdAt:string;
     vaccancy:string;
     profileUrl:string
-    applicants:[]
+    applicants:[{userId:string,
+    comment:string}]
+    
     countOfStaffNeeded: string;
 };
 
@@ -53,9 +55,8 @@ export type Job = {
     createdAt:string;
     profileUrl:string;
     jobType:string;
-    applicants:[
-      _id:string
-    ]
+    applicants:[{userId:string,
+      comment:string}]
 
 }
 

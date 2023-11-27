@@ -72,7 +72,7 @@ console.log(error);
   return (
     <>
       <Transition appear show={open ?? false} as={Fragment}>
-      <Dialog as='div' className='relative z-10' onClose={closeModal}>
+      <Dialog as='div' className='relative z-10  bg-teal-100' onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -85,8 +85,8 @@ console.log(error);
             <div className='fixed inset-0 bg-black bg-opacity-25' />
           </Transition.Child>
 
-          <div className='fixed inset-0 overflow-y-auto'>
-            <div className='flex min-h-full items-center justify-center p-4 text-center'>
+          <div className='fixed inset-0 overflow-y-auto '>
+            <div className='flex min-h-full items-center justify-center p-4 text-center  '>
               <Transition.Child
                 as={Fragment}
                 enter='ease-out duration-300'
@@ -96,7 +96,7 @@ console.log(error);
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl  bg-teal-100 p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
                     className='text-lg font-semibold leading-6 text-gray-900'
@@ -272,8 +272,8 @@ const UserProfile: React.FC = () => {
 
   return (
     <div className="container mx-auto flex items-center justify-center py-10">
-      <div className='w-full md:w-2/3 2xl:w-2/4 bg-white shadow-lg p-10 pb-20 rounded-lg'>
-        <div className='flex flex-col items-center justify-center mb-4'>
+      <div className='w-full md:w-2/3 2xl:w-2/4   bg-teal-100 shadow-lg p-10 pb-20 rounded-lg'>
+        <div className='flex flex-col items-center justify-center mb-4   bg-teal-50  rounded-lg'>
           <h1 className='text-4xl font-semibold text-slate-600'>
          
             {userInfo.firstName ? userInfo.firstName : 'add your firstname'  + "  " + userInfo.lastName ? userInfo.lastName : "last name"}
@@ -307,14 +307,14 @@ const UserProfile: React.FC = () => {
               </span>
             </div>
 
-            <div className='w-full md:w-1/3 h-44'>
+            <div className='w-full md:w-1/3 h-44 rounded-sm'>
               <img
                 src={userInfo?.profileUrl}
                 alt={userInfo?.firstName}
-                className='w-full h-48 object-contain rounded-lg'
+                className='w-full h-48 object-contain rounded-sm'
               />
               <button
-                className='w-full md:w-64 bg-blue-600 text-white mt-4 py-2 rounded'
+                className='w-full md:w-48  bg-teal-500 text-white mt-4 py-2 rounded'
                 onClick={() => setOpen(true)}
               >
                 Edit Profile

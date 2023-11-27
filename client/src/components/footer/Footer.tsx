@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
  const Footer = ()=> {
   return (
     <footer
-      className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 lg:text-left">
+      className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-600 bg-teal-50 bg-opacity-70  bg-blend-color-dodge dark:text-neutral-200 lg:text-left">
       <div
         className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
         <div className="mr-12 hidden lg:block">
@@ -125,7 +125,7 @@ import { Link } from 'react-router-dom';
           <div className="">
           <h6  
               className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-              <Link to='/about-us'>About-us</Link>
+              <Link className=' decoration-transparent  text-slate-600' to='/about-us'>About-us</Link>
             </h6>
         
             <p className="mb-4">
@@ -149,7 +149,7 @@ import { Link } from 'react-router-dom';
           <div>
             <h6  
               className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
-              <Link to='/contact-us'>Contact-us</Link>
+              <Link  className=' decoration-transparent  text-slate-600' to='/contact-us'>Contact-us</Link>
             </h6>
         
             <p className="mb-4 flex items-center justify-center md:justify-start">
@@ -176,7 +176,7 @@ import { Link } from 'react-router-dom';
                 <path
                   d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
               </svg>
-              info@example.com
+              jobyfy@gmail.com
             </p>
             <p className="mb-4 flex items-center justify-center md:justify-start">
               <svg
@@ -209,12 +209,12 @@ import { Link } from 'react-router-dom';
       </div>
 
       {/* <!--Copyright section--> */}
-      <div className="bg-neutral-200 p-6 text-center dark:bg-neutral-700">
+      <div className="  bg-teal-100 bg-opacity-70 p-6 text-center dark:bg-neutral-700">
         <span>© 2023 Copyright:</span>
         <a
           className="font-semibold text-neutral-600 dark:text-neutral-400"
-          href="https://tailwind-elements.com/"
-        >Tailwind Elements</a>
+          href="/"
+        >TEAM JOBIFY</a>
       </div>
     </footer>
   );

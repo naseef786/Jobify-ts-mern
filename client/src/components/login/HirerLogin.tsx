@@ -7,6 +7,7 @@ import { ApiError } from "../../types/ApiError";
 import { Store } from "../../store/Store";
 import { toast } from 'react-toastify'
 import { Helmet } from "react-helmet-async";
+import jobify from '../../assets/jobify.png'
 import LoadingBox from "../loadingBox/LoadingBox";
 export default function HirerSignIn(): JSX.Element {
 
@@ -66,7 +67,7 @@ export default function HirerSignIn(): JSX.Element {
                     <div className="text-center">
                       <img
                         className="mx-auto w-48"
-                        src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                        src={jobify}
                         alt="logo"
                       />
                       <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">

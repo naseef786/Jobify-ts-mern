@@ -25,7 +25,7 @@ function CandidteRouter() {
     const {userInfo} = state
     return(
         <main className='bg-[#f7fdfd]'>
-            <NewNav/>
+          <NewNav/>
         <Routes>
              <Route  path='/' element={<HomePage />}  />
              <Route  path="/signin" element={<Loginpage/>} />
